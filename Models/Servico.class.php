@@ -1,12 +1,12 @@
 <?php
-class Profissional
+class Servico
 {
     public function __construct(
         private int $id = 0,
         private string $nome = "",
-        private string $telefone = "",
-        private string $email = "",
-        private string $especialidade = "",
+        private string $descricao = "",
+        private float $preco = 0.0,
+        private int $duracao_minutos = 0,
         private int $barbearia_id = 0
     ) {}
 
@@ -18,17 +18,17 @@ class Profissional
     {
         return $this->nome;
     }
-    public function getTelefone()
+    public function getDescricao()
     {
-        return $this->telefone;
+        return $this->descricao;
     }
-    public function getEmail()
+    public function getPreco()
     {
-        return $this->email;
+        return $this->preco;
     }
-    public function getEspecialidade()
+    public function getDuracaoMinutos()
     {
-        return $this->especialidade;
+        return $this->duracao_minutos;
     }
     public function getBarbeariaId()
     {

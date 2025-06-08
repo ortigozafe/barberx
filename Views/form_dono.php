@@ -1,7 +1,7 @@
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Cadastro de cliente</h2>
+    <h2 class="text-center mb-4">Cadastro de dono</h2>
 
-    <form action="/barberx/salvar_cliente" method="post" class="mx-auto" style="max-width: 500px;">
+    <form action="/barberx/salvar_dono" method="post" class="mx-auto" style="max-width: 500px;">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome completo</label>
             <input type="text" class="form-control" id="nome" name="nome" required>
