@@ -1,7 +1,7 @@
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Login do dono</h2>
+    <h2 class="text-center mb-4">Login do Cliente</h2>
 
-    <form action="/barberx/login_dono" method="post" class="mx-auto" style="max-width: 500px;">
+    <form action="/barberx/login_cliente" method="post" class="mx-auto" style="max-width: 500px;">
         <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>
             <input
@@ -32,7 +32,7 @@
         <?php endif; ?>
 
         <div class="d-grid">
-            <button type="submit" class="btn btn-success text-white">Entrar</button>
+            <button type="submit" class="btn btn-primary text-white">Entrar</button>
         </div>
     </form>
 </div>

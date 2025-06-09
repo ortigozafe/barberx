@@ -10,7 +10,7 @@
                         <h5 class="card-title">Gerencie seus cursos</h5>
                         <p class="card-text">Cadastre, edite e visualize os cursos disponíveis.</p>
                     </div>
-                    <a href="/listar" class="btn btn-primary mt-3">Ver cursos</a>
+                    <a href="" class="btn btn-primary mt-3">Ver cursos</a>
                 </div>
             </div>
         </div>
@@ -23,8 +23,8 @@
                         <p class="card-text">Visualize dados dos cursos em gráficos ou gere PDFs.</p>
                     </div>
                     <div class="d-flex gap-2 mt-3">
-                        <a href="/grafico" class="btn btn-success w-100">Gráficos</a>
-                        <a href="/gerar_pdf" class="btn btn-secondary w-100">PDF</a>
+                        <a href="" class="btn btn-success w-100">Gráficos</a>
+                        <a href="" class="btn btn-secondary w-100">PDF</a>
                     </div>
                 </div>
             </div>

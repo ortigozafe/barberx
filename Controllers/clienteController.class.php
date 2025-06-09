@@ -14,11 +14,45 @@ class ClienteController
 
     public function cadastrar()
     {
-        $titulo = "Cadastro de Cliente";
+        $titulo = "Cadastro de cliente";
         require_once "Views/layout/header.php";
         require_once "Views/form_cliente.php";
         require_once "Views/layout/footer.php";
     }
+
+    public function logar()
+    {
+        $titulo = "Login de cliente";
+        require_once "Views/layout/header.php";
+        require_once "Views/login_cliente.php";
+        require_once "Views/layout/footer.php";
+    }
+
+    public function login()
+    {
+        $email = $_POST["email"] ?? '';
+        $senha = $_POST["senha"] ?? '';
+        $dao = new ClienteDAO($this->param);
+
+        $cliente = $dao->buscar_por_email($email);
+
+        if (!$cliente || !password_verify($senha, $cliente->senha)) {
+            $titulo = "Login de cliente";
+            $erro = "E-mail ou senha inválidos";
+            require_once "Views/layout/header.php";
+            require_once "Views/login_cliente.php";
+            require_once "Views/layout/footer.php";
+            return;
+        }
+
+        session_start();
+        $_SESSION["cliente_id"] = $cliente->id;
+        $_SESSION["cliente_nome"] = $cliente->nome;
+
+        header("Location: /barberx"); 
+        exit;
+    }
+
 
     public function salvar()
     {

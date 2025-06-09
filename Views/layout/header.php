@@ -16,16 +16,16 @@
         <nav class="navbar navbar-expand-lg p-3 navbar-primary bg-primary text-white">
             <div class="container d-flex  align-items-center">
 
-                <a class="navbar-brand d-flex align-items-center" href="#">
+                <a class="navbar-brand d-flex align-items-center" href="/barberx">
                     <img src="assets\img\logo.png" alt="Logo" width="40" height="40" class="me-2">
-                    <strong>BarberX</strong>
+                    <strong class="text-white">BarberX</strong>
                 </a>
 
                 <div class="d-flex gap-4">
-                    <a class="nav-link" href="/listar">Barbearias</a>
-                    <a class="nav-link" href="/grafico">Gráfico</a>
-                    <a class="nav-link" href="/gerar_pdf">PDF</a>
-                    <a class="nav-link" href="/alunos_mapa">Mapa</a>
+                    <a class="nav-link" href="">Barbearias</a>
+                    <a class="nav-link" href="">Contato</a>
+                    <a class="nav-link" href="">Localização</a>
+                    <a class="nav-link" href="">Agenda</a>
                 </div>
 
                 <div class="d-flex align-items-center">
@@ -33,8 +33,8 @@
                         <i class="bi bi-person-circle fs-4 me-2"></i>
                         <span>Olá, <?= htmlspecialchars($usuario['nome']) ?></span>
                     <?php else: ?>
-                        <a href="/login" class="btn btn-outline-light me-2">Login</a>
-                        <a href="/cadastro" class="btn btn-light">Cadastrar-se</a>
+                        <a href="/barberx/logar_cliente" class="btn btn-outline-light me-2">Login</a>
+                        <a href="/barberx/cadastrar_cliente" class="btn btn-light">Cadastrar-se</a>
                     <?php endif; ?>
                 </div>
             </div>

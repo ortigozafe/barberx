@@ -29,13 +29,17 @@ $route = new Rotas();
 // tela inicial
 $route->get("/", [homeController::class, "home"]); 
 
-// cadastro de dono
+// rotas do dono
 $route->get("/cadastrar_dono", [donoController::class, "cadastrar"]);
 $route->post("/salvar_dono", [donoController::class, "salvar"]);
+$route->get("/logar_dono", [donoController::class, "logar"]);
+$route->post("/login_dono", [donoController::class, "login"]);
 
-// cadastro de cliente
+// rotas do cliente
 $route->get("/cadastrar_cliente", [clienteController::class, "cadastrar"]);
 $route->post("/salvar_cliente", [clienteController::class, "salvar"]);
+$route->get("/logar_cliente", [clienteController::class, "logar"]);
+$route->post("/login_cliente", [clienteController::class, "login"]);
 
 /*
 $route->get("/inserir", [barberController::class, "cadastrar"]);
