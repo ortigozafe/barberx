@@ -34,12 +34,17 @@ $route->get("/cadastrar_dono", [donoController::class, "cadastrar"]);
 $route->post("/salvar_dono", [donoController::class, "salvar"]);
 $route->get("/logar_dono", [donoController::class, "logar"]);
 $route->post("/login_dono", [donoController::class, "login"]);
+$route->get("/barbearias", [barbeariaController::class, "listar"]);
+$route->get("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
+$route->post("/salvar_barbearia", [barbeariaController::class, "salvar"]);
 
 // rotas do cliente
 $route->get("/cadastrar_cliente", [clienteController::class, "cadastrar"]);
 $route->post("/salvar_cliente", [clienteController::class, "salvar"]);
 $route->get("/logar_cliente", [clienteController::class, "logar"]);
 $route->post("/login_cliente", [clienteController::class, "login"]);
+$route->get("/barbearias", [barbeariaController::class, "listar"]);
+$route->get("/barbearia", [barbeariaController::class, "detalhar"]);
 
 /*
 $route->get("/inserir", [barberController::class, "cadastrar"]);
