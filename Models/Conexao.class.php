@@ -11,7 +11,11 @@
 			$parametros = "mysql:host=localhost;dbname=barberx;charset=utf8mb4";
 			try
 			{
-				self::$conexao = new PDO($parametros, "root", "");
+				//self::$conexao = new PDO($parametros, "root", "");
+				self::$conexao = new PDO($parametros, "root", "", [
+					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+				]);
+
 			}
 			catch(PDOException $e)
 			{

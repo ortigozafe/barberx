@@ -24,9 +24,9 @@
                 <div class="d-flex gap-4">
                     <a class="nav-link" href="/barberx">Home</a>
                     <a class="nav-link" href="/barberx/barbearias">Barbearias</a>
+                    <a class="nav-link" href="/barberx/agenda">Agenda</a>
                     <a class="nav-link" href="">Contato</a>
                     <a class="nav-link" href="">Localização</a>
-                    <a class="nav-link" href="">Agenda</a>
                 </div>
 
                 <div class="d-flex align-items-center">

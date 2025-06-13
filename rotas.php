@@ -45,6 +45,11 @@ $route->get("/logar_cliente", [clienteController::class, "logar"]);
 $route->post("/login_cliente", [clienteController::class, "login"]);
 $route->get("/barbearias", [barbeariaController::class, "listar"]);
 $route->get("/barbearia", [barbeariaController::class, "detalhar"]);
+$route->get("/agendar", [agendamentoController::class, "agendar"]);
+$route->post("/salvar_agendamento", [agendamentoController::class, "salvar"]);
+$route->get("/agenda", [agendamentoController::class, "agenda"]);
+$route->get("/cancelar_agendamento", [agendamentoController::class, "cancelar"]);
+
 
 /*
 $route->get("/inserir", [barberController::class, "cadastrar"]);

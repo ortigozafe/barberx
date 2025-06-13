@@ -12,7 +12,7 @@
             <p><strong>Descrição:</strong> Cortes para todas as idades pelo melhor preço!</p>
             <p><strong>Instagram:</strong> @barbershop</p>
             <p><strong>Avaliação:</strong> ⭐ 4.9 (baseado em 631 avaliações)</p>
-            <a href="#" class="btn btn-warning">Agendar Agora</a>
+            <a href="/barberx/agendar?id=<?= $dadosBarbearia['id'] ?>" class="btn btn-warning">Agendar Agora</a>
         </div>
     </div>
 
