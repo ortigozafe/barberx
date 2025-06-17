@@ -55,8 +55,15 @@
             }
 
             $id = intval($_GET['id']);
+
             $barbeariaDAO = new BarbeariaDAO($this->param);
-            $dadosBarbearia = $barbeariaDAO->buscar_por_id($id);
+            $barbearia = $barbeariaDAO->buscar_por_id($id); 
+
+            if (!$barbearia) {
+                echo "Barbearia não encontrada.";
+                exit;
+            }
+
             $servicos = $barbeariaDAO->buscar_servicos($id);
             $profissionais = $barbeariaDAO->buscar_profissionais($id);
 
@@ -66,5 +73,6 @@
             require_once "Views/visualizar_barbearia.php";
             require_once "Views/layout/footer.php";
         }
+   
     }
 ?>

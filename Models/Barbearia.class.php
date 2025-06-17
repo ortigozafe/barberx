@@ -8,7 +8,7 @@ class Barbearia
         private string $telefone = "",
         private string $email = "",
         private string $endereco = "",
-        private int $dono_id = 0,
+        private Dono $dono,
         private string $data_cadastro = ""
     ) {}
 
@@ -36,12 +36,13 @@ class Barbearia
     {
         return $this->endereco;
     }
-    public function getDonoId()
+    public function getDono()
     {
-        return $this->dono_id;
+        return $this->dono;
     }
     public function getDataCadastro()
     {
         return $this->data_cadastro;
     }
+    
 }

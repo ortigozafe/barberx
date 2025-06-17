@@ -34,4 +34,5 @@ class Cliente
     {
         return $this->data_cadastro;
     }
+
 }
