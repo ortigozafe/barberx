@@ -34,4 +34,32 @@ class Dono
     {
         return $this->data_cadastro;
     }
+
+     // Método para buscar Dono pelo email no banco
+    public static function buscarPorEmail(string $email): ?Dono
+    {
+        // Ajuste a conexão PDO conforme sua config
+        $pdo = new PDO("mysql:host=localhost;dbname=seu_banco", "usuario", "senha");
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $pdo->prepare("SELECT * FROM donos WHERE email = :email LIMIT 1");
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return null;
+        }
+
+        // Retorna um objeto Dono preenchido
+        return new Dono(
+            (int)$row['id'],
+            $row['nome'],
+            $row['telefone'],
+            $row['email'],
+            $row['senha'],
+            $row['data_cadastro']
+        );
+    }
 }

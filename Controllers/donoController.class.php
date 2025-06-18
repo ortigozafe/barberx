@@ -56,4 +56,51 @@ class DonoController
 
         echo json_encode($dono);
     }
+
+    // Exibe o formulário de login
+    public function logar()
+    {
+        session_start();
+        $titulo = "Login Dono";
+        require_once "Views/layout/header.php";
+        require_once "Views/login_dono.php";
+        require_once "Views/layout/footer.php";
+    }
+
+    // Processa o login do dono
+    public function login()
+    {
+        session_start();
+        $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+        $senha = filter_input(INPUT_POST, "senha", FILTER_DEFAULT);
+
+        if (!$email || !$senha) {
+            $_SESSION['erro'] = "Email ou senha inválidos.";
+            header("Location: /logar_dono");
+            exit;
+        }
+
+        $dao = new DonoDAO($this->param);
+        $dono = $dao->buscar_por_email($email);
+
+        if (!$dono) {
+            $_SESSION['erro'] = "Usuário não encontrado.";
+            header("Location: /logar_dono");
+            exit;
+        }
+
+        // Verifica senha
+        if (!password_verify($senha, $dono->getSenha())) {
+            $_SESSION['erro'] = "Senha incorreta.";
+            header("Location: /logar_dono");
+            exit;
+        }
+
+        // Autenticação OK: grava dados do dono na sessão
+        $_SESSION['dono_id'] = $dono->getId();
+        $_SESSION['dono_nome'] = $dono->getNome();
+
+        header("Location: /barbearias");
+        exit;
+    }
 }
