@@ -25,8 +25,8 @@
                     <a class="nav-link" href="/barberx">Home</a>
                     <a class="nav-link" href="/barberx/barbearias">Barbearias</a>
                     <a class="nav-link" href="/barberx/agenda">Agenda</a>
-                    <a class="nav-link" href="">Contato</a>
-                    <a class="nav-link" href="">Localização</a>
+                    <a class="nav-link" href="/barberx/contato">Contato</a>
+                    <a class="nav-link" href="/barberx/empresas">Empresas</a>
                 </div>
 
                 <div class="d-flex align-items-center">

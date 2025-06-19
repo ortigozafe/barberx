@@ -58,8 +58,10 @@
             session_start();
 
             if ($_POST && isset($_SESSION["cliente_id"])) {
+                $id = isset($_POST["id"]) ? intval($_POST["id"]) : 0;
+
                 $ag = new Agendamento(
-                    0,
+                    $id,
                     $_SESSION["cliente_id"],
                     $_POST["profissional_id"],
                     $_POST["servico_id"],
@@ -69,18 +71,22 @@
                 );
 
                 $agendamentoDAO = new AgendamentoDAO($this->param);
-                $agendamentoDAO->inserir_agendamento($ag);
+
+                if ($id > 0) {
+                    // EDIÇÃO
+                    $agendamentoDAO->atualizar_agendamento($ag);
+                } else {
+                    // NOVO
+                    $agendamentoDAO->inserir_agendamento($ag);
+                }
 
                 header("Location: /barberx/agenda");
                 exit;
             } else {
-                //echo "Erro ao agendar. Verifique os dados.";
-                echo "<pre>";
-                print_r($_POST);
-                echo "</pre>";
-                echo "Cliente ID: " . $_SESSION['cliente_id'];
+                echo "Erro ao processar agendamento.";
             }
         }
+
 
         public function agenda()
         {

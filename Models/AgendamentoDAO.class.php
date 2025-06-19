@@ -73,5 +73,28 @@
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
+
+        public function atualizar_agendamento(Agendamento $ag)
+        {
+            $sql = "UPDATE agendamento SET 
+                        profissional_id = ?, 
+                        servico_id = ?, 
+                        data_hora = ?, 
+                        status = ?, 
+                        observacoes = ?
+                    WHERE id = ? AND cliente_id = ?";
+
+            $stmt = $this->conexao->prepare($sql);
+            return $stmt->execute([
+                $ag->getProfissionalId(),
+                $ag->getServicoId(),
+                $ag->getDataHora(),
+                $ag->getStatus(),
+                $ag->getObservacoes(),
+                $ag->getId(),
+                $ag->getClienteId()
+            ]);
+        }
+
     }
 ?>

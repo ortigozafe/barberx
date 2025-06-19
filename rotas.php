@@ -49,6 +49,9 @@ $route->get("/agendar", [agendamentoController::class, "agendar"]);
 $route->post("/salvar_agendamento", [agendamentoController::class, "salvar"]);
 $route->get("/agenda", [agendamentoController::class, "agenda"]);
 $route->get("/cancelar_agendamento", [agendamentoController::class, "cancelar"]);
+$route->get("/contato", [contatoController::class, "formulario"]);
+$route->post("/enviar_contato", [contatoController::class, "enviar"]);
+$route->get("/empresas", [empresaController::class, "index"]);
 
 
 /*

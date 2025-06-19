@@ -2,6 +2,10 @@
     <h2 class="text-center mb-4">Agendar um Serviço</h2>
 
     <form action="/barberx/salvar_agendamento" method="post" class="mx-auto" style="max-width: 600px;">
+        <?php
+        $id_agendamento = isset($agendamento) ? $agendamento['id'] : 0;
+        ?>
+        <input type="hidden" name="id" value="<?= $id_agendamento ?>">
         <div class="mb-3">
             <label for="profissional_id" class="form-label">Profissional</label>
             <select class="form-select" name="profissional_id" id="profissional_id" required>
