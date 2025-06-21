@@ -6,32 +6,36 @@ class Dono
         private string $nome = "",
         private string $telefone = "",
         private string $email = "",
-        private string $senha = "",
-        private string $data_cadastro = ""
+        private string $senha = ""
     ) {}
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
-    public function getNome()
+
+    public function getNome(): string
     {
         return $this->nome;
     }
-    public function getTelefone()
+
+    public function getTelefone(): string
     {
         return $this->telefone;
     }
-    public function getEmail()
+
+    public function getEmail(): string
     {
         return $this->email;
     }
-    public function getSenha()
+
+    public function getSenha(): string
     {
         return $this->senha;
     }
-    public function getDataCadastro()
+
+    public function setId(int $id)
     {
-        return $this->data_cadastro;
+        $this->id = $id;
     }
 }

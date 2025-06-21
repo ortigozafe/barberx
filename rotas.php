@@ -37,6 +37,8 @@ $route->post("/login_dono", [donoController::class, "login"]);
 $route->get("/barbearias", [barbeariaController::class, "listar"]);
 $route->get("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
 $route->post("/salvar_barbearia", [barbeariaController::class, "salvar"]);
+$route->get("/dashboard", [dashboardDonoController::class, "index"]);
+$route->get("/gerar_pdf_dia", [dashboardDonoController::class, "gerarPDF"]);
 
 // rotas do cliente
 $route->get("/cadastrar_cliente", [clienteController::class, "cadastrar"]);

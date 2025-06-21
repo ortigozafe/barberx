@@ -19,7 +19,7 @@ class DonoDAO
         }
     }
 
-    public function buscar_por_email(string $email)
+    public function buscar_por_email(string $email): ?object
     {
         $sql = "SELECT * FROM dono WHERE email = ?";
         try {
@@ -30,6 +30,7 @@ class DonoDAO
             die("Erro ao buscar dono");
         }
     }
+
 
     public function buscar_por_telefone(string $telefone)
     {
