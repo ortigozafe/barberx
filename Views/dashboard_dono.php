@@ -1,6 +1,4 @@
-<?php
-require_once "Views/layout/header_dono.php";
-?>
+
 
 <div class="container mt-5">
     <h2 class="text-center mb-4 fw-bold">Dashboard da Barbearia</h2>

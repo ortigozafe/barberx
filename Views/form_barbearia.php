@@ -16,7 +16,7 @@ $id_dono = $_SESSION["dono"]["id"];
 <div class="container mt-5">
     <h2 class="text-center mb-4">Cadastro de Barbearia</h2>
 
-    <form action="/barberx/salvar_barbearia" method="post" class="mx-auto" style="max-width: 600px;">
+    <form action="/barberx/cadastrar_barbearia" method="post" class="mx-auto" style="max-width: 600px;">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome da Barbearia</label>
             <input

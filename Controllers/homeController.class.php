@@ -16,4 +16,12 @@ class homeController
 		require_once "Views/home.php";
 		require_once "Views/layout/footer.php";
 	}
+
+	public function logout()
+	{
+		session_start();
+		session_destroy();
+		header("Location: /barberx");
+		exit;
+	}
 }

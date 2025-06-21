@@ -9,27 +9,27 @@ class Dono
         private string $senha = ""
     ) {}
 
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getNome(): string
+    public function getNome()
     {
         return $this->nome;
     }
 
-    public function getTelefone(): string
+    public function getTelefone()
     {
         return $this->telefone;
     }
 
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
 
-    public function getSenha(): string
+    public function getSenha()
     {
         return $this->senha;
     }

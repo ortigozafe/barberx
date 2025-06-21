@@ -1,5 +1,33 @@
 <?php
 
+
+
+// Arquivo errado!
+// usar somente para base de contrução do donoController e donoDAO ja existentes
+// após isso excluir este controller
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class dashboardDonoController
 {
     private $conexao;
@@ -137,3 +165,4 @@ class dashboardDonoController
         }
     }
 }
+

@@ -25,7 +25,8 @@ class DonoDAO
         try {
             $stm = $this->db->prepare($sql);
             $stm->execute([$email]);
-            return $stm->fetch(PDO::FETCH_OBJ);
+            $resultado = $stm->fetch(PDO::FETCH_OBJ);
+            return $resultado ?: null;
         } catch (PDOException $e) {
             die("Erro ao buscar dono");
         }

@@ -26,49 +26,55 @@ class rotas
 } //fim da classe
 $route = new Rotas();
 
-// tela inicial
-$route->get("/", [homeController::class, "home"]); 
+// ROTAS GERAIS
 
-// rotas do dono
+$route->get("/", [homeController::class, "home"]); 
+$route->get("/empresas", [empresaController::class, "index"]);
+$route->get("/contato", [contatoController::class, "formulario"]);
+$route->post("/contato", [contatoController::class, "formulario"]);
+
+// ROTAS DO DONO
+
+// auths
 $route->get("/cadastrar_dono", [donoController::class, "cadastrar"]);
-$route->post("/salvar_dono", [donoController::class, "salvar"]);
+$route->post("/cadastrar_dono", [donoController::class, "cadastrar"]);
+
 $route->get("/logar_dono", [donoController::class, "logar"]);
-$route->post("/login_dono", [donoController::class, "login"]);
+$route->post("/logar_dono", [donoController::class, "logar"]);
+
+// barbearias
 $route->get("/barbearias", [barbeariaController::class, "listar"]);
 $route->get("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
-$route->post("/salvar_barbearia", [barbeariaController::class, "salvar"]);
+$route->post("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
+
+// dashboard
 $route->get("/dashboard", [dashboardDonoController::class, "index"]);
+
+// pdf
 $route->get("/gerar_pdf_dia", [dashboardDonoController::class, "gerarPDF"]);
 
-// rotas do cliente
+
+
+// ROTAS DO CLIENTE
+
+// auths
 $route->get("/cadastrar_cliente", [clienteController::class, "cadastrar"]);
-$route->post("/salvar_cliente", [clienteController::class, "salvar"]);
+$route->post("/cadastrar_cliente", [clienteController::class, "cadastrar"]);
+
 $route->get("/logar_cliente", [clienteController::class, "logar"]);
-$route->post("/login_cliente", [clienteController::class, "login"]);
+$route->post("/logar_cliente", [clienteController::class, "logar"]);
+
+// barbearias
 $route->get("/barbearias", [barbeariaController::class, "listar"]);
 $route->get("/barbearia", [barbeariaController::class, "detalhar"]);
-$route->get("/agendar", [agendamentoController::class, "agendar"]);
-$route->post("/salvar_agendamento", [agendamentoController::class, "salvar"]);
+
+// angedamentos
 $route->get("/agenda", [agendamentoController::class, "agenda"]);
+$route->get("/agendar", [agendamentoController::class, "agendar"]);
+$route->post("/agendar", [agendamentoController::class, "agendar"]);
 $route->get("/cancelar_agendamento", [agendamentoController::class, "cancelar"]);
-$route->get("/contato", [contatoController::class, "formulario"]);
-$route->post("/enviar_contato", [contatoController::class, "enviar"]);
-$route->get("/empresas", [empresaController::class, "index"]);
 
 
-/*
-$route->get("/inserir", [barberController::class, "cadastrar"]);
-$route->post("/inserir", [barberController::class, "cadastrar"]);
-$route->get("/listar", [cursoController::class, "listar"]);
-$route->get("/alterar", [barberController::class, "alterar"]);
-$route->post("/alterar", [barberController::class, "alterar"]);
-$route->get("/excluir", [barberController::class, "excluir"]);
-//gráfico
-$route->get("/grafico", [barberController::class, "grafico"]);
-$route->get("/dadosgrafico", [barberController::class, "dadosgrafico"]);
-$route->get("/gerar_pdf", [barberController::class, "gerar_pdf"]);
-$route->post("/gerar_pdf", [barberController::class, "gerar_pdf"]);
-$route->get("/alunos_mapa", [alunoController::class, "alunos_mapa"]);
-$route->get("/buscar_dados_mapa", [alunoController::class, "buscar_dados_mapa"]);*/
 
-$route->get("/rota", [alunoController::class, "rota"]);
+// logout
+$route->get("/logout", [homeController::class, "logout"]);

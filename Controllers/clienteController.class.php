@@ -73,12 +73,4 @@ class ClienteController
         require_once "Views/layout/footer.php";
     }
 
-    public function buscar_por_email()
-    {
-        $dao = new ClienteDAO($this->param);
-        $email = $_POST["email"] ?? '';
-        $cliente = $dao->buscar_por_email($email);
-
-        echo json_encode($cliente);
-    }
 }

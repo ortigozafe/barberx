@@ -45,31 +45,30 @@ class DonoController
 
     public function logar()
     {
-        session_start();
         $titulo = "Login Dono";
         $erro = "";
 
+        if (!isset($_SESSION["dono_id"])) {
+            session_start();
+            session_destroy();
+        }
+
         if ($_POST) {
-            $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-            $senha = filter_input(INPUT_POST, "senha", FILTER_DEFAULT);
+            $email = $_POST["email"] ?? '';
+            $senha = $_POST["senha"] ?? '';
+            $dao = new DonoDAO($this->param);
 
-            if (!$email || !$senha) {
-                $erro = "Email ou senha inválidos.";
+            $dono = $dao->buscar_por_email($email);
+
+            if (!$dono || !password_verify($senha, $dono->senha)) {
+                $erro = "E-mail ou senha inválidos";
             } else {
-                $dao = new DonoDAO($this->param);
-                $dono = $dao->buscar_por_email($email);
+                session_start();
+                $_SESSION["dono_id"] = $dono->id;
+                $_SESSION["dono_nome"] = $dono->nome;
 
-                if (!$dono) {
-                    $erro = "Usuário não encontrado.";
-                } elseif (!password_verify($senha, $dono->getSenha())) {
-                    $erro = "Senha incorreta.";
-                } else {
-                    $_SESSION['dono_id'] = $dono->getId();
-                    $_SESSION['dono_nome'] = $dono->getNome();
-
-                    header("Location: /barbearias");
-                    exit;
-                }
+                header("Location: /barberx/dashboard");
+                exit;
             }
         }
 
@@ -78,12 +77,5 @@ class DonoController
         require_once "Views/layout/footer.php";
     }
 
-    public function buscar_por_email()
-    {
-        $email = $_POST["email"] ?? '';
-        $dao = new DonoDAO($this->param);
-        $dono = $dao->buscar_por_email($email);
-
-        echo json_encode($dono);
-    }
+    
 }
