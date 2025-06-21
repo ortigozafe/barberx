@@ -96,5 +96,48 @@
             ]);
         }
 
+        public function buscar_agendamentos_do_dia_por_dono($dono_id)
+        {
+            $sql = "SELECT a.*, c.nome AS cliente_nome, p.nome AS profissional_nome, s.nome AS servico_nome
+                    FROM agendamento a
+                    JOIN cliente c ON a.cliente_id = c.id
+                    JOIN profissional p ON a.profissional_id = p.id
+                    JOIN servico s ON a.servico_id = s.id
+                    JOIN barbearia b ON p.barbearia_id = b.id
+                    WHERE b.dono_id = ? AND DATE(a.data_hora) = CURDATE()
+                    ORDER BY a.data_hora ASC";
+
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->execute([$dono_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function contar_status_por_dono($dono_id)
+        {
+            $sql = "SELECT status, COUNT(*) as quantidade
+                    FROM agendamento a
+                    JOIN profissional p ON a.profissional_id = p.id
+                    JOIN barbearia b ON p.barbearia_id = b.id
+                    WHERE b.dono_id = ?
+                    GROUP BY status";
+
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->execute([$dono_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function agendamentos_por_dia_semana($dono_id)
+        {
+            $sql = "SELECT DAYNAME(a.data_hora) AS dia_semana, COUNT(*) AS total
+                    FROM agendamento a
+                    JOIN profissional p ON a.profissional_id = p.id
+                    JOIN barbearia b ON p.barbearia_id = b.id
+                    WHERE b.dono_id = ?
+                    GROUP BY dia_semana";
+
+            $stmt = $this->conexao->prepare($sql);
+            $stmt->execute([$dono_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 ?>
