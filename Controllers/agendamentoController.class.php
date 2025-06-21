@@ -73,10 +73,8 @@
                 $agendamentoDAO = new AgendamentoDAO($this->param);
 
                 if ($id > 0) {
-                    // EDIÇÃO
                     $agendamentoDAO->atualizar_agendamento($ag);
                 } else {
-                    // NOVO
                     $agendamentoDAO->inserir_agendamento($ag);
                 }
 
@@ -86,7 +84,6 @@
                 echo "Erro ao processar agendamento.";
             }
         }
-
 
         public function agenda()
         {
