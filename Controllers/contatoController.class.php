@@ -3,7 +3,6 @@ class contatoController
 {
     public function formulario()
     {
-        session_start();
         $titulo = "Fale Conosco";
         $mensagem = "";
 

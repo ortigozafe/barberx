@@ -10,7 +10,6 @@ class barbeariaController
 
     public function listar()
     {
-        session_start();
         $barbeariaDAO = new BarbeariaDAO($this->param);
         $retorno = $barbeariaDAO->buscar_todas_barbearias();
 

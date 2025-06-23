@@ -1,15 +1,279 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
+html,
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 main {
-    flex: 1;
+  flex: 1;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f0f2f5; /* Um cinza bem claro para o fundo */
+  color: #343a40; /* Cor de texto padrão, um cinza escuro */
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Um cinza bem claro para o fundo geral */
+    color: #212529; /* Cor de texto padrão, um cinza bem escuro para alto contraste */
+}
+
+/* Cores e Fundos */
+/* Paleta de Azuis Otimizada para Contraste: */
+/* Azul principal (primary) - mais escuro e vibrante */
+/* Azul claro para gradientes/seções claras */
+/* Azul muito escuro para textos sobre fundos claros */
+/* Azul para estrelas de avaliação (info) */
+
+.bg-primary-light {
+    background: linear-gradient(135deg, #e0f7fa, #a7e0f0); /* Gradiente de azul claro suave */
+}
+
+.bg-primary-dark {
+    background: linear-gradient(135deg, #0056b3, #003a70); /* Azul mais profundo e sóbrio para contraste */
+}
+
+.bg-light-section {
+    background-color: #ffffff; /* Fundo branco puro para as seções de conteúdo */
+    border-top: 1px solid #e9ecef; /* Borda sutil entre seções para definição */
+    border-bottom: 1px solid #e9ecef;
+}
+
+.bg-dark-transparent-light {
+    background-color: rgba(0, 30, 60, 0.8); /* Azul muito escuro e mais opaco para captions, garantindo texto branco visível */
+}
+
+/* Hero Section */
+.hero-section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.hero-section h2 {
+    color: #001a33; /* Título principal em azul bem escuro para forte contraste com o fundo claro do hero */
+    font-weight: 700;
+}
+
+.hero-section p.lead {
+    color: #343a40; /* Texto principal em cinza escuro para melhor legibilidade */
+}
+
+/* Carrossel de Imagens */
+#heroCarousel .carousel-item img {
+    height: 550px;
+    object-fit: cover;
+    filter: brightness(0.85); /* Levemente mais escuro para o caption se destacar */
+    transition: transform 0.5s ease-in-out;
+}
+
+#heroCarousel .carousel-item img:hover {
+    transform: scale(1.03);
+}
+
+.carousel-caption h5, .carousel-caption p {
+    color: #ffffff; /* Texto branco puro para garantir visibilidade no fundo escuro transparente */
+}
+
+/* Botões */
+.btn-primary {
+    background-color: #007bff; /* Azul primário padrão Bootstrap */
+    border-color: #007bff;
+    color: #ffffff; /* Texto branco */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Azul mais escuro no hover */
+    border-color: #0056b3;
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-outline-primary {
+    color: #007bff; /* Texto azul */
+    border-color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #ffffff; /* Texto branco no hover */
+}
+
+.btn-light {
+    background-color: #ffffff;
+    color: #0056b3; /* Texto azul mais escuro no botão claro */
+    border-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: #e9ecef; /* Um cinza claro no hover */
+    border-color: #e9ecef;
+    color: #003a70; /* Texto azul ainda mais escuro no hover */
+}
+
+/* Seção de Unidades */
+.unidades-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.unidades-section h2 {
+    color: #0056b3; /* Título da seção em azul vibrante */
+    font-weight: 700;
+}
+
+.unidades-section .card {
+    background-color: #ffffff; /* Fundo do card branco */
+    border: 1px solid #f8f9fa; /* Borda bem clara para um visual limpo */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.unidades-section .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0.8rem 1.5rem rgba(0,0,0,.15) !important;
+}
+
+.unidades-section .card-img-top {
+    height: 280px;
+    object-fit: cover;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.unidades-section .card-title {
+    color: #003a70; /* Título do card em azul escuro para contraste */
+}
+
+.unidades-section .card-text {
+    color: #495057; /* Texto dos cards em cinza escuro para leitura clara */
+}
+
+/* Promo Section */
+.promo-section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    color: #ffffff; /* Texto branco nesta seção para alto contraste com o fundo azul escuro */
+    box-shadow: inset 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.promo-section h2 {
+    font-weight: 700;
+    color: #ffffff; /* Garante que o H2 seja branco */
+}
+
+.promo-section p.lead {
+    color: #e9ecef; /* Um tom de branco mais suave para o texto de lead */
+}
+
+.promo-image-content img {
+    max-width: 100%;
+    height: auto;
+    border: 5px solid rgba(255,255,255,0.2);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.promo-image-content img.hover-scale:hover {
+    transform: scale(1.08);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.4);
+}
+
+/* Reviews Section */
+.reviews-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.reviews-section h2 {
+    color: #0056b3; /* Título da seção de avaliações em azul vibrante */
+    font-weight: 700;
+}
+
+.review-card {
+    min-width: 320px;
+    max-width: 550px;
+    margin: 0 auto;
+    background-color: #ffffff; /* Fundo branco para cards de avaliação */
+    border: 1px solid #e9ecef; /* Borda bem clara */
+    border-top: 5px solid #007bff; /* Borda superior azul forte */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.review-card .card-title {
+    color: #003a70; /* Título do avaliador em azul escuro */
+}
+
+.review-card .card-subtitle {
+    color: #6c757d; /* Data em cinza médio */
+}
+
+.review-card .card-text {
+    font-style: italic;
+    color: #343a40; /* Texto da avaliação em cinza escuro para melhor leitura */
+}
+
+.review-card .text-info {
+    color: #17a2b8 !important; /* Azul turquesa para as estrelas, com `!important` para garantir prioridade */
+}
+
+/* Botões de navegação do carrossel de avaliações */
+#reviewsCarousel .carousel-control-prev-icon,
+#reviewsCarousel .carousel-control-next-icon {
+    background-color: rgba(0, 123, 255, 0.7);
+    border-radius: 50%;
+    padding: 15px;
+}
+
+/* Responsividade geral */
+@media (max-width: 768px) {
+    .hero-section h2 {
+        font-size: 2.5rem;
+    }
+    .hero-section p.lead {
+        font-size: 1rem;
+    }
+    #heroCarousel .carousel-item img {
+        height: 350px;
+    }
+    .unidades-section .card-img-top {
+        height: 200px;
+    }
+    .promo-section .promo-text-content {
+        margin-right: 0 !important;
+        margin-bottom: 2rem !important;
+    }
+    .promo-section .promo-image-content {
+        text-align: center;
+    }
+    .promo-section .container {
+        flex-direction: column;
+    }
+}
+
+/* Adicione estas novas classes ao seu style-light-home.css */
+
+.text-dark-blue {
+    color: #003a70 !important; /* Azul escuro, quase preto, para alto contraste em fundos claros */
+}
+
+.text-dark-gray {
+    color: #343a40 !important; /* Cinza bem escuro para texto principal */
 }

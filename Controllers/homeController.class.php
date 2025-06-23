@@ -4,7 +4,6 @@ class homeController
 {
 	public function home()
 	{
-		session_start();
 		$titulo = "Bem-vindo à BarberX";
 
 		$usuario = null;

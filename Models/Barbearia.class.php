@@ -9,7 +9,8 @@ class Barbearia
         private string $email = "",
         private string $endereco = "",
         private Dono $dono,
-        private string $data_cadastro = ""
+        private string $data_cadastro = "",
+        private string $imagem = ""
     ) {}
 
     public function getId()
@@ -43,6 +44,10 @@ class Barbearia
     public function getDataCadastro()
     {
         return $this->data_cadastro;
+    }
+    public function getImagem()
+    {
+        return $this->imagem;
     }
     
 }

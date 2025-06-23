@@ -22,6 +22,7 @@ CREATE TABLE barbearia (
     endereco TEXT,
     dono_id INT,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    imagem VARCHAR(255),
     FOREIGN KEY (dono_id) REFERENCES dono(id) ON DELETE CASCADE
 );
 

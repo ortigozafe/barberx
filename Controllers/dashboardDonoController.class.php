@@ -39,7 +39,6 @@ class dashboardDonoController
 
     public function index()
     {
-        session_start();
 
         if (!isset($_SESSION["dono_id"])) {
             header("Location: /login_dono");
@@ -126,7 +125,6 @@ class dashboardDonoController
 
     public function gerarPDF()
     {
-        session_start();
 
         if (!isset($_SESSION["dono_id"])) {
             header("Location: /login_dono");

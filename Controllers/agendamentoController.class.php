@@ -10,7 +10,6 @@ class agendamentoController
 
     public function agendar()
     {
-        session_start();
         $titulo = "Novo Agendamento";
         $erro = "";
         $editar = false;
@@ -78,8 +77,6 @@ class agendamentoController
 
     public function agenda()
     {
-        session_start();
-
         if (!isset($_SESSION["cliente_id"])) {
             header("Location: /barberx/logar_cliente");
             exit;
