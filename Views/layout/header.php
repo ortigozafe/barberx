@@ -19,24 +19,24 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg p-3 navbar-primary bg-primary text-white">
+        <nav class="navbar navbar-expand-lg p-3 navbar-primary bg-primary text-white fixed-top shadow">
             <div class="container d-flex align-items-center justify-content-between">
 
                 <?php if (isset($_SESSION['dono_id'])): ?>
                     <!-- Header do dono -->
                     <a class="navbar-brand d-flex align-items-center" href="/barberx/dashboard">
-                        <img src="/barberx/assets/img/logo.png" alt="Logo" width="40" height="40" class="me-2">
-                        <strong class="text-white">BarberX Dono</strong>
+                        <img src="/barberx/assets/img/logo.png" alt="Logo BarberX" width="40" height="40" class="me-2">
+                        <span class="text-white fw-bold">BarberX Dono</span>
                     </a>
 
                     <div class="d-flex gap-4">
-                        <a class="nav-link text-white" href="/barberx/dashboard">Dashboard</a>
-                        <a class="nav-link text-white" href="/barberx/agenda_dono">Agendamentos</a>
-                        <a class="nav-link text-white" href="/barberx/barbearias_dono">Minhas Barbearias</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/dashboard' ? 'fw-bold' : '' ?>" href="/barberx/dashboard">Dashboard</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/agenda_dono' ? 'fw-bold' : '' ?>" href="/barberx/agenda_dono">Agendamentos</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/barbearias_dono' ? 'fw-bold' : '' ?>" href="/barberx/barbearias_dono">Minhas Barbearias</a>
                     </div>
 
                     <div class="dropdown">
-                        <button class="btn btn-transparent text-white dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuDono" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn text-white dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuDono" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                             <span>Olá, <?= htmlspecialchars($_SESSION['dono_nome']) ?></span>
                             <i class="bi bi-person-circle fs-4 ms-2 me-1"></i>
                         </button>
@@ -49,21 +49,21 @@
                 <?php else: ?>
                     <!-- Header do cliente -->
                     <a class="navbar-brand d-flex align-items-center" href="/barberx">
-                        <img src="/barberx/assets/img/logo.png" alt="Logo" width="40" height="40" class="me-2">
-                        <strong class="text-white">BarberX</strong>
+                        <img src="/barberx/assets/img/logo.png" alt="Logo BarberX" width="40" height="40" class="me-2">
+                        <span class="text-white fw-bold">BarberX</span>
                     </a>
 
                     <div class="d-flex gap-4">
-                        <a class="nav-link text-white" href="/barberx/barbearias">Barbearias</a>
-                        <a class="nav-link text-white" href="/barberx/agenda">Agenda</a>
-                        <a class="nav-link text-white" href="/barberx/contato">Contato</a>
-                        <a class="nav-link text-white" href="/barberx/empresas">Empresas</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/barbearias' ? 'fw-bold' : '' ?>" href="/barberx/barbearias">Barbearias</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/agenda' ? 'fw-bold' : '' ?>" href="/barberx/agenda">Agenda</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/contato' ? 'fw-bold' : '' ?>" href="/barberx/contato">Contato</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/empresas' ? 'fw-bold' : '' ?>" href="/barberx/empresas">Empresas</a>
                     </div>
 
                     <div class="d-flex align-items-center">
                         <?php if (isset($_SESSION['cliente_id'])): ?>
                             <div class="dropdown">
-                                <button class="btn btn-transparent text-white dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuCliente" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn text-white dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuCliente" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                                     <span>Olá, <?= htmlspecialchars($_SESSION['cliente_nome']) ?></span>
                                     <i class="bi bi-person-circle fs-4 ms-2 me-1"></i>
                                 </button>
