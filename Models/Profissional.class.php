@@ -7,7 +7,7 @@ class Profissional
         private string $telefone = "",
         private string $email = "",
         private string $especialidade = "",
-        private int $barbearia_id = 0
+        private $barbearia = null
     ) {}
 
     public function getId()
@@ -30,8 +30,8 @@ class Profissional
     {
         return $this->especialidade;
     }
-    public function getBarbeariaId()
+    public function getBarbearia()
     {
-        return $this->barbearia_id;
+        return $this->barbearia;
     }
 }

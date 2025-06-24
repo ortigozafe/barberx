@@ -25,7 +25,11 @@ class barbeariaController
         $titulo = "Cadastro de Barbearia";
         $msg = "";
 
+        // instanciar o dono
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $dono = new Dono($_POST['dono_id']);
+
             $barbearia = new Barbearia(
                 0,
                 $_POST["nome"],
@@ -33,7 +37,7 @@ class barbeariaController
                 $_POST["telefone"],
                 $_POST["email"],
                 $_POST["endereco"],
-                $_POST["dono_id"] 
+                $dono
             );
 
             $barbeariaDAO = new BarbeariaDAO($this->param);
@@ -43,7 +47,9 @@ class barbeariaController
             exit;
         }
 
+        require_once "Views/layout/header.php";
         require_once "Views/form_barbearia.php";
+        require_once "Views/layout/footer.php";
     }
 
     public function detalhar()

@@ -1,17 +1,3 @@
-<?php
-// Inicia sessão se ainda não estiver iniciada
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
-// Verifica se o dono está logado
-if (!isset($_SESSION["dono"])) {
-    header("Location: /barberx/logar_dono");
-    exit;
-}
-
-$id_dono = $_SESSION["dono"]["id"];
-?>
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Cadastro de Barbearia</h2>
@@ -73,8 +59,7 @@ $id_dono = $_SESSION["dono"]["id"];
             >
         </div>
 
-        <!-- Campo oculto com ID do dono -->
-        <input type="hidden" name="dono_id" value="<?= $id_dono ?>">
+        <input type="hidden" name="dono_id" value="<?= $_SESSION['dono_id'] ?>">
 
         <?php if (!empty($erro)): ?>
             <div class="my-4 text-danger fw-bold text-center">

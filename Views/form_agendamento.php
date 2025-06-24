@@ -1,7 +1,7 @@
 <div class="container mt-5 text-white">
     <h2 class="text-center mb-4">Agendar um Serviço</h2>
 
-    <form action="/barberx/salvar_agendamento" method="post" class="mx-auto" style="max-width: 600px;">
+    <form action="/barberx/agendar" method="post" class="mx-auto" style="max-width: 600px;">
         <?php
         $id_agendamento = isset($agendamento) ? $agendamento['id'] : 0;
         ?>

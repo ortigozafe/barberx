@@ -45,13 +45,9 @@ class DonoController
 
     public function logar()
     {
+        var_dump($_SESSION);
         $titulo = "Login Dono";
         $erro = "";
-
-        if (!isset($_SESSION["dono_id"])) {
-            session_start();
-            session_destroy();
-        }
 
         if ($_POST) {
             $email = $_POST["email"] ?? '';

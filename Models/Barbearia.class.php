@@ -8,7 +8,7 @@ class Barbearia
         private string $telefone = "",
         private string $email = "",
         private string $endereco = "",
-        private Dono $dono,
+        private $dono = null,
         private string $data_cadastro = "",
         private string $imagem = ""
     ) {}

@@ -16,35 +16,8 @@ class BarbeariaDAO
 
         $stmt = $this->conexao->prepare($sql);
         $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
 
-        $barbearias = [];
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // Criar o objeto Dono
-            $dono = new Dono(
-                $row['dono_id'],
-                $row['nome_dono'],
-                $row['telefone_dono'],
-                $row['email_dono']
-            );
-
-            // Criar o objeto Barbearia com o objeto Dono
-            $barbearia = new Barbearia(
-                $row['id'],
-                $row['nome'],
-                $row['cnpj'],
-                $row['telefone'],
-                $row['email'],
-                $row['endereco'],
-                $dono,
-                $row['data_cadastro'] ?? '',
-                $row['imagem'] ?? ''
-            );
-
-            $barbearias[] = $barbearia;
-        }
-
-        return $barbearias;
     }
 
 
@@ -81,7 +54,6 @@ class BarbeariaDAO
             return null;
         }
 
-        // Criar o objeto Dono
         $dono = new Dono(
             $row['dono_id'],
             $row['nome_dono'],
@@ -89,7 +61,6 @@ class BarbeariaDAO
             $row['email_dono']
         );
 
-        // Criar o objeto Barbearia com o objeto Dono
         return new Barbearia(
             $row['id'],
             $row['nome'],

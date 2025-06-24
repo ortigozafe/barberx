@@ -7,7 +7,7 @@ class Servico
         private string $descricao = "",
         private float $preco = 0.0,
         private int $duracao_minutos = 0,
-        private int $barbearia_id = 0
+        private $barbearia = null
     ) {}
 
     public function getId()
@@ -30,8 +30,8 @@ class Servico
     {
         return $this->duracao_minutos;
     }
-    public function getBarbeariaId()
+    public function getBarbearia()
     {
-        return $this->barbearia_id;
+        return $this->barbearia;
     }
 }

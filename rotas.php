@@ -69,7 +69,7 @@ $route->post("/logar_cliente", [clienteController::class, "logar"]);
 $route->get("/barbearias", [barbeariaController::class, "listar"]);
 $route->get("/barbearia", [barbeariaController::class, "detalhar"]);
 
-// angedamentos
+// agendamentos
 $route->get("/agenda", [agendamentoController::class, "agenda"]);
 $route->get("/agendar", [agendamentoController::class, "agendar"]);
 $route->post("/agendar", [agendamentoController::class, "agendar"]);

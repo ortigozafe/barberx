@@ -3,11 +3,11 @@ class Agendamento
 {
     public function __construct(
         private int $id = 0,
-        private int $cliente_id = 0,
-        private int $profissional_id = 0,
-        private int $servico_id = 0,
+        private $cliente = null,
+        private $profissional = null,
+        private $servico = null,
         private string $data_hora = "",
-        private string $status = "agendado",
+        private string $status = "",
         private string $observacoes = ""
     ) {}
 
@@ -15,17 +15,17 @@ class Agendamento
     {
         return $this->id;
     }
-    public function getClienteId()
+    public function getCliente()
     {
-        return $this->cliente_id;
+        return $this->cliente;
     }
-    public function getProfissionalId()
+    public function getProfissional()
     {
-        return $this->profissional_id;
+        return $this->profissional;
     }
-    public function getServicoId()
+    public function getServico()
     {
-        return $this->servico_id;
+        return $this->servico;
     }
     public function getDataHora()
     {

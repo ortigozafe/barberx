@@ -41,7 +41,7 @@
                     </button>
                 </div>
 
-                <a href='../views/barbearia.php' style='--animate-duration: 1.6s;' class='btn btn-primary btn-lg fw-bold px-5 py-3 animate__animated animate__pulse animate__infinite'>Agendar já!</a>";
+                <a href='../views/barbearia.php' style='--animate-duration: 1.6s;' class='btn btn-primary btn-lg fw-bold px-5 py-3 animate__animated animate__pulse animate__infinite'>Agendar já!</a>
             </div>
         </section>
 

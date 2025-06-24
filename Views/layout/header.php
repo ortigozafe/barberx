@@ -35,9 +35,15 @@
                         <a class="nav-link text-white" href="/barberx/barbearias_dono">Minhas Barbearias</a>
                     </div>
 
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-person-circle fs-4"></i>
-                        <span class="text-white">Olá, <?= htmlspecialchars($_SESSION['dono_nome']) ?></span>
+                    <div class="dropdown">
+                        <button class="btn btn-transparent text-white dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuDono" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Olá, <?= htmlspecialchars($_SESSION['dono_nome']) ?></span>
+                            <i class="bi bi-person-circle fs-4 ms-2 me-1"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuDono">
+                            <li><a class="dropdown-item" href="/barberx/perfil_dono">Perfil</a></li>
+                            <li><a class="dropdown-item" href="/barberx/logout">Sair</a></li>
+                        </ul>
                     </div>
 
                 <?php else: ?>
@@ -56,8 +62,16 @@
 
                     <div class="d-flex align-items-center">
                         <?php if (isset($_SESSION['cliente_id'])): ?>
-                            <i class="bi bi-person-circle fs-4 me-2"></i>
-                            <span class="text-white">Olá, <?= htmlspecialchars($_SESSION['cliente_nome']) ?></span>
+                            <div class="dropdown">
+                                <button class="btn btn-transparent text-white dropdown-toggle d-flex align-items-center" type="button" id="dropdownMenuCliente" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span>Olá, <?= htmlspecialchars($_SESSION['cliente_nome']) ?></span>
+                                    <i class="bi bi-person-circle fs-4 ms-2 me-1"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuCliente">
+                                    <li><a class="dropdown-item" href="/barberx/perfil_cliente">Perfil</a></li>
+                                    <li><a class="dropdown-item" href="/barberx/logout">Sair</a></li>
+                                </ul>
+                            </div>
                         <?php else: ?>
                             <a href="/barberx/logar_cliente" class="btn btn-outline-light me-2">Login</a>
                             <a href="/barberx/cadastrar_cliente" class="btn btn-light">Cadastrar-se</a>
