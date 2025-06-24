@@ -1,42 +1,37 @@
 <?php
     class AgendamentoDAO
     {
-        private $conexao;
-
-        public function __construct($conexao)
-        {
-            $this->conexao = $conexao;
-        }
+        public function __construct(private $db = null){}
 
         public function buscar_profissionais_por_barbearia($barbearia_id)
         {
             $sql = "SELECT id, nome FROM profissional WHERE barbearia_id = ?";
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->execute([$barbearia_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$barbearia_id]);
+            return $stm->fetchAll(PDO::FETCH_OBJ);
         }
 
         public function buscar_servicos_por_barbearia($barbearia_id)
         {
             $sql = "SELECT id, nome FROM servico WHERE barbearia_id = ?";
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->execute([$barbearia_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$barbearia_id]);
+            return $stm->fetchAll(PDO::FETCH_OBJ);
         }
 
-        public function inserir_agendamento(Agendamento $ag)
+        public function inserir_agendamento(Agendamento $agendamento)
         {
             $sql = "INSERT INTO agendamento (cliente_id, profissional_id, servico_id, data_hora, status, observacoes)
                     VALUES (?, ?, ?, ?, ?, ?)";
 
-            $stmt = $this->conexao->prepare($sql);
-            return $stmt->execute([
-                $ag->getClienteId(),
-                $ag->getProfissionalId(),
-                $ag->getServicoId(),
-                $ag->getDataHora(),
-                $ag->getStatus(),
-                $ag->getObservacoes()
+            $stm = $this->db->prepare($sql);
+            $stm->execute([
+                $agendamento->getCliente()->getId(),
+                $agendamento->getProfissional()->getId(),
+                $agendamento->getServico()->getId(),
+                $agendamento->getDataHora(),
+                $agendamento->getStatus(),
+                $agendamento->getObservacoes()
             ]);
         }
 
@@ -50,16 +45,16 @@
                     WHERE a.cliente_id = ?
                     ORDER BY a.data_hora DESC";
 
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->execute([$cliente_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$cliente_id]);
+            return $stm->fetchAll(PDO::FETCH_ASSOC);
         }
 
         public function cancelar_agendamento($id)
         {
             $sql = "UPDATE agendamento SET status = 'cancelado' WHERE id = ?";
-            $stmt = $this->conexao->prepare($sql);
-            return $stmt->execute([$id]);
+            $stm = $this->db->prepare($sql);
+            return $stm->execute([$id]);
         }
 
         public function buscar_por_id($id)
@@ -69,9 +64,9 @@
                     JOIN profissional p ON a.profissional_id = p.id
                     WHERE a.id = ?";
 
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->execute([$id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$id]);
+            return $stm->fetch(PDO::FETCH_ASSOC);
         }
 
         public function atualizar_agendamento(Agendamento $ag)
@@ -84,8 +79,8 @@
                         observacoes = ?
                     WHERE id = ? AND cliente_id = ?";
 
-            $stmt = $this->conexao->prepare($sql);
-            return $stmt->execute([
+            $stm = $this->db->prepare($sql);
+            return $stm->execute([
                 $ag->getProfissionalId(),
                 $ag->getServicoId(),
                 $ag->getDataHora(),
@@ -107,9 +102,9 @@
                     WHERE b.dono_id = ? AND DATE(a.data_hora) = CURDATE()
                     ORDER BY a.data_hora ASC";
 
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->execute([$dono_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$dono_id]);
+            return $stm->fetchAll(PDO::FETCH_ASSOC);
         }
 
         public function contar_status_por_dono($dono_id)
@@ -121,9 +116,9 @@
                     WHERE b.dono_id = ?
                     GROUP BY status";
 
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->execute([$dono_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$dono_id]);
+            return $stm->fetchAll(PDO::FETCH_ASSOC);
         }
 
         public function agendamentos_por_dia_semana($dono_id)
@@ -135,9 +130,9 @@
                     WHERE b.dono_id = ?
                     GROUP BY dia_semana";
 
-            $stmt = $this->conexao->prepare($sql);
-            $stmt->execute([$dono_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$dono_id]);
+            return $stm->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 ?>

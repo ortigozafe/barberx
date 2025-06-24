@@ -59,20 +59,20 @@ class barbeariaController
             exit;
         }
 
-        $id = intval($_GET['id']);
-
+        $barbearia_id = new Barbearia($_GET['id']);
         $barbeariaDAO = new BarbeariaDAO($this->param);
-        $barbearia = $barbeariaDAO->buscar_por_id($id);
+        $retornoBarbearia = $barbeariaDAO->buscar_uma_barbearia($barbearia_id);
 
-        if (!$barbearia) {
-            echo "Barbearia não encontrada.";
-            exit;
-        }
+        $servicoDAO = new ServicoDAO($this->param);
+        $retornoServico = $servicoDAO->buscar_um_servico($barbearia_id);
 
-        $servicos = $barbeariaDAO->buscar_servicos($id);
-        $profissionais = $barbeariaDAO->buscar_profissionais($id);
+        $profissionalDAO = new ProfissionalDAO($this->param);
+        $retornoProfissional = $profissionalDAO->buscar_profissionais_por_barbearia($barbearia_id);
+        
+var_dump($retornoProfissional);
+die();
 
-        $titulo = "Visualizar Barbearia";
+        $titulo = "BarberX - {$retornoBarbearia->nome}";
 
         require_once "Views/layout/header.php";
         require_once "Views/visualizar_barbearia.php";

@@ -1,92 +1,60 @@
 <?php
 class BarbeariaDAO
 {
-    private $conexao;
+    public function __construct(private $db = null) {}
 
-    public function __construct($conexao)
-    {
-        $this->conexao = $conexao;
-    }
-
-    public function buscar_todas_barbearias(): array
+    public function buscar_todas_barbearias()
     {
         $sql = "SELECT b.*, d.id AS dono_id, d.nome AS nome_dono, d.telefone AS telefone_dono, d.email AS email_dono
                     FROM barbearia b
                     JOIN dono d ON b.dono_id = d.id";
 
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-
+        $stm = $this->db->prepare($sql);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
     }
 
 
-    public function inserir_barbearia(Barbearia $barbearia)
+    public function inserir_barbearia($barbearia)
     {
         $sql = "INSERT INTO barbearia (nome, cnpj, telefone, email, endereco, dono_id, imagem)
-            VALUES (?, ?, ?, ?, ?, ?, ?)"; 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->execute([
+        $stm = $this->db->prepare($sql);
+        $stm->execute([
             $barbearia->getNome(),
             $barbearia->getCnpj(),
             $barbearia->getTelefone(),
             $barbearia->getEmail(),
             $barbearia->getEndereco(),
             $barbearia->getDono()->getId(),
-            $barbearia->getImagem() 
+            $barbearia->getImagem()
         ]);
     }
 
-    public function buscar_por_id(int $id): ?Barbearia
+    public function buscar_uma_barbearia($barbearia)
     {
-        $sql = "SELECT b.*, d.id AS dono_id, d.nome AS nome_dono, d.telefone AS telefone_dono, d.email AS email_dono
-                    FROM barbearia b
-                    JOIN dono d ON b.dono_id = d.id
-                    WHERE b.id = :id";
+        $sql = "SELECT
+        b.*,
+        b.nome as nome_barbearia,
+        d.id AS dono_id,
+        d.nome AS nome_dono,
+        d.telefone AS telefone_dono,
+        d.email AS email_dono
+        FROM barbearia b
+        JOIN dono d ON b.dono_id = d.id
+        WHERE b.id = ?";
 
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$row) {
-            return null;
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->bindValue(1, $barbearia->getId());
+            $stm->execute();
+            return $stm->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            $this->db = null;
+            die("Erro ao buscar barbearia: " . $e->getMessage());
         }
-
-        $dono = new Dono(
-            $row['dono_id'],
-            $row['nome_dono'],
-            $row['telefone_dono'],
-            $row['email_dono']
-        );
-
-        return new Barbearia(
-            $row['id'],
-            $row['nome'],
-            $row['cnpj'],
-            $row['telefone'],
-            $row['email'],
-            $row['endereco'],
-            $dono,  // dono é objeto
-            $row['data_cadastro'] ?? '',
-            $row['imagem'] ?? ''
-        );
     }
 
-    public function buscar_servicos($barbearia_id)
-    {
-        $sql = "SELECT * FROM servico WHERE barbearia_id = ?";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->execute([$barbearia_id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
-    public function buscar_profissionais($barbearia_id)
-    {
-        $sql = "SELECT * FROM profissional WHERE barbearia_id = ?";
-        $stmt = $this->conexao->prepare($sql);
-        $stmt->execute([$barbearia_id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 }
