@@ -32,7 +32,7 @@ class BarbeariaDAO
         ]);
     }
 
-    public function buscar_uma_barbearia($barbearia)
+    public function buscar_uma_barbearia($barbearia_id)
     {
         $sql = "SELECT
         b.*,
@@ -45,16 +45,9 @@ class BarbeariaDAO
         JOIN dono d ON b.dono_id = d.id
         WHERE b.id = ?";
 
-        try {
-            $stm = $this->db->prepare($sql);
-            $stm->bindValue(1, $barbearia->getId());
-            $stm->execute();
-            return $stm->fetch(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            $this->db = null;
-            die("Erro ao buscar barbearia: " . $e->getMessage());
-        }
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $barbearia_id);
+        $stm->execute();
+        return $stm->fetch(PDO::FETCH_OBJ);
     }
-
-
 }

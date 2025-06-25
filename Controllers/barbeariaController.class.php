@@ -59,18 +59,18 @@ class barbeariaController
             exit;
         }
 
-        $barbearia_id = new Barbearia($_GET['id']);
+        $barbearia_id = $_GET['id'];
         $barbeariaDAO = new BarbeariaDAO($this->param);
         $retornoBarbearia = $barbeariaDAO->buscar_uma_barbearia($barbearia_id);
 
+        /*var_dump($retornoBarbearia);
+        die();*/
+
         $servicoDAO = new ServicoDAO($this->param);
-        $retornoServico = $servicoDAO->buscar_um_servico($barbearia_id);
+        $retornoServico = $servicoDAO->buscar_servicos_por_barbearia($barbearia_id);
 
         $profissionalDAO = new ProfissionalDAO($this->param);
         $retornoProfissional = $profissionalDAO->buscar_profissionais_por_barbearia($barbearia_id);
-        
-var_dump($retornoProfissional);
-die();
 
         $titulo = "BarberX - {$retornoBarbearia->nome}";
 

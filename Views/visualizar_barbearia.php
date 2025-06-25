@@ -34,8 +34,8 @@
         <section class="profissionais-section py-5">
             <h3 class="text-center display-6 fw-bold mb-5 text-primary">Nossos Profissionais</h3>
             <div class="row justify-content-center g-4">
-                <?php if (!empty($retornoProfissionais)): ?>
-                    <?php foreach ($retornoProfissionais as $rp): ?>
+                <?php if (!empty($retornoProfissional)): ?>
+                    <?php foreach ($retornoProfissional as $rp): ?>
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="card h-100 bg-white shadow-sm border rounded-3 p-3 text-center animate__animated animate__fadeInUp">
                                 <i class="fas fa-cut fa-3x text-primary mb-3"></i>
@@ -54,8 +54,8 @@
         <section class="servicos-section py-5">
             <h3 class="text-center display-6 fw-bold mb-5 text-primary">Nossos Serviços</h3>
             <div class="row justify-content-center g-4">
-                <?php if (!empty($servicos)): ?>
-                    <?php foreach ($servicos as $s): ?>
+                <?php if (!empty($retornoServico)): ?>
+                    <?php foreach ($retornoServico as $s): ?>
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="card h-100 bg-white shadow-sm border rounded-3 p-3 animate__animated animate__fadeInUp">
                                 <h4 class="card-title text-dark-blue mb-2"><i class="fas fa-scissors me-2"></i><?= htmlspecialchars($s->nome) ?></h4>

@@ -90,19 +90,13 @@ class ProfissionalDAO
 
     public function buscar_profissionais_por_barbearia($barbearia_id)
     {
-        $sql = "SELECT
-            p.id,
-            p.nome,
-            p.especialidade,
-            p.barbearia_id
-        FROM profissional p
-        WHERE p.barbearia_id = ?";
+        $sql = "SELECT *FROM profissional p WHERE p.barbearia_id = ?";
 
         try {
             $stm = $this->db->prepare($sql);
-            $stm->bindValue(1, $barbearia_id->getId());
+            $stm->bindValue(1, $barbearia_id);
             $stm->execute();
-            return $stm->fetch(PDO::FETCH_OBJ);
+            return $stm->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             $this->db = null;
             die("Erro ao buscar profissionais por barbearia: " . $e->getMessage());
