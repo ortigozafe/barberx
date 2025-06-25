@@ -14,7 +14,7 @@ main {
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: auto;
   background-color: #f0f2f5; /* Um cinza bem claro para o fundo */
   color: #343a40; /* Cor de texto padrão, um cinza escuro */
 }

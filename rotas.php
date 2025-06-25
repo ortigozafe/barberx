@@ -73,6 +73,8 @@ $route->get("/barbearia", [barbeariaController::class, "detalhar"]);
 $route->get("/agenda", [agendamentoController::class, "agenda"]);
 $route->get("/agendar", [agendamentoController::class, "agendar"]);
 $route->post("/agendar", [agendamentoController::class, "agendar"]);
+$route->get("/alterarAgendamento", [agendamentoController::class, "alterarAgendamento"]);
+$route->post("/alterarAgendamento", [agendamentoController::class, "alterarAgendamento"]);
 $route->get("/cancelar_agendamento", [agendamentoController::class, "cancelar"]);
 
 

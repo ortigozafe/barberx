@@ -3,34 +3,19 @@
     {
         public function __construct(private $db = null){}
 
-        public function buscar_profissionais_por_barbearia($barbearia_id)
+        public function inserir_agendamento($agendamento)
         {
-            $sql = "SELECT id, nome FROM profissional WHERE barbearia_id = ?";
-            $stm = $this->db->prepare($sql);
-            $stm->execute([$barbearia_id]);
-            return $stm->fetchAll(PDO::FETCH_OBJ);
-        }
-
-        public function buscar_servicos_por_barbearia($barbearia_id)
-        {
-            $sql = "SELECT id, nome FROM servico WHERE barbearia_id = ?";
-            $stm = $this->db->prepare($sql);
-            $stm->execute([$barbearia_id]);
-            return $stm->fetchAll(PDO::FETCH_OBJ);
-        }
-
-        public function inserir_agendamento(Agendamento $agendamento)
-        {
-            $sql = "INSERT INTO agendamento (cliente_id, profissional_id, servico_id, data_hora, status, observacoes)
-                    VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO agendamento (cliente_id, profissional_id, servico_id, barbearia_id, data_hora, status, observacoes)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             $stm = $this->db->prepare($sql);
             $stm->execute([
                 $agendamento->getCliente()->getId(),
                 $agendamento->getProfissional()->getId(),
                 $agendamento->getServico()->getId(),
+                $agendamento->getBarbearia()->getId(),
                 $agendamento->getDataHora(),
-                $agendamento->getStatus(),
+                $agendamento->getStatus(), 
                 $agendamento->getObservacoes()
             ]);
         }

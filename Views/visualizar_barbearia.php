@@ -6,7 +6,7 @@
                     <?php
                     $barberImageUrl = isset($retornoBarbearia->imagem) ? $retornoBarbearia->imagem : '';
                     if (empty($barberImageUrl) || !is_string($barberImageUrl) || (!str_contains($barberImageUrl, '.png') && !str_contains($barberImageUrl, '.jpg') && !str_contains($barberImageUrl, '.jpeg') && !str_contains($barberImageUrl, '.gif') && !str_contains($barberImageUrl, 'assets/'))) {
-                        $barberImageUrl = 'assets/img/noimage.png'; 
+                        $barberImageUrl = 'assets/img/noimage.png';
                     }
                     ?>
                     <img src="<?= htmlspecialchars($barberImageUrl) ?>"
@@ -23,14 +23,34 @@
                     <p class="text-dark-gray"><strong class="text-dark"><i class="fas fa-info-circle me-2"></i>Descrição:</strong> Cortes para todas as idades pelo melhor preço! </p>
                     <p class="text-dark-gray"><strong class="text-dark"><i class="fab fa-instagram me-2"></i>Instagram:</strong> @barbershop </p>
                     <p class="text-dark-gray"><strong class="text-dark"><i class="fas fa-star me-2"></i>Avaliação:</strong> 4.9 (baseado em 631 avaliações) </p>
-                    <a href="/barberx/agendar?id=<?= htmlspecialchars($retornoBarbearia->id) ?>" class="btn btn-primary btn-lg mt-3 fw-bold">
+                    <a href="/barberx/agendar?id=<?= $retornoBarbearia->id ?>" class="btn btn-primary btn-lg mt-3 fw-bold">
                         <i class="fas fa-calendar-check me-2"></i>Agendar Agora
                     </a>
                 </div>
             </div>
-        </section
+        </section>
+
+        <section class="servicos-section py-5">
+            <h3 class="text-center display-6 fw-bold mb-5 text-primary">Nossos Serviços</h3>
+            <div class="row justify-content-center g-4">
+                <?php if (!empty($retornoServico)): ?>
+                    <?php foreach ($retornoServico as $rs): ?>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 bg-white shadow-sm border rounded-3 p-3 animate__animated animate__fadeInUp">
+                                <h4 class="card-title text-dark-blue mb-2"><i class="fas fa-scissors me-2"></i><?= htmlspecialchars($rs->nome) ?></h4>
+                                <p class="card-text text-dark-gray"><small><?= htmlspecialchars($rs->descricao) ?></small></p>
+                                <p class="card-text text-dark-blue fs-5 mt-auto"><strong>Preço:</strong> R$ <?= number_format($rs->preco, 2, ',', '.') ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-center text-dark-gray">Nenhum serviço cadastrado para esta barbearia ainda.</p>
+                <?php endif; ?>
+            </div>
+        </section>
 
         <hr class="my-5 text-dark-gray opacity-25">
+
         <section class="profissionais-section py-5">
             <h3 class="text-center display-6 fw-bold mb-5 text-primary">Nossos Profissionais</h3>
             <div class="row justify-content-center g-4">
@@ -46,26 +66,6 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p class="text-center text-dark-gray">Nenhum profissional cadastrado para esta barbearia ainda.</p>
-                <?php endif; ?>
-            </div>
-        </section>
-
-        <hr class="my-5 text-dark-gray opacity-25">
-        <section class="servicos-section py-5">
-            <h3 class="text-center display-6 fw-bold mb-5 text-primary">Nossos Serviços</h3>
-            <div class="row justify-content-center g-4">
-                <?php if (!empty($retornoServico)): ?>
-                    <?php foreach ($retornoServico as $s): ?>
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="card h-100 bg-white shadow-sm border rounded-3 p-3 animate__animated animate__fadeInUp">
-                                <h4 class="card-title text-dark-blue mb-2"><i class="fas fa-scissors me-2"></i><?= htmlspecialchars($s->nome) ?></h4>
-                                <p class="card-text text-dark-gray"><small><?= htmlspecialchars($s->descricao) ?></small></p>
-                                <p class="card-text text-dark-blue fs-5 mt-auto"><strong>Preço:</strong> R$ <?= number_format($s->preco, 2, ',', '.') ?></p>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-center text-dark-gray">Nenhum serviço cadastrado para esta barbearia ainda.</p>
                 <?php endif; ?>
             </div>
         </section>

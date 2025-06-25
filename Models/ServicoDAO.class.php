@@ -5,7 +5,7 @@ class ServicoDAO
 
     public function buscar_servicos_por_barbearia($barbearia_id)
     {
-        $sql = "SELECT * FROM servico WHERE id = ?";
+        $sql = "SELECT * FROM servico s WHERE s.barbearia_id = ?";
         try {
             $stm = $this->db->prepare($sql);
             $stm->bindValue(1, $barbearia_id);

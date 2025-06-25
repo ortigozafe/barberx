@@ -6,6 +6,7 @@ class Agendamento
         private $cliente = null,
         private $profissional = null,
         private $servico = null,
+        private $barbearia = null,
         private string $data_hora = "",
         private string $status = "",
         private string $observacoes = ""
@@ -26,6 +27,10 @@ class Agendamento
     public function getServico()
     {
         return $this->servico;
+    }
+    public function getBarbearia()
+    {
+        return $this->barbearia;
     }
     public function getDataHora()
     {

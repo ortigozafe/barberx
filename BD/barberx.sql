@@ -64,12 +64,14 @@ CREATE TABLE agendamento (
     cliente_id INT,
     profissional_id INT,
     servico_id INT,
+    barbearia_id INT,
     data_hora DATETIME NOT NULL,
     status ENUM('agendado', 'concluido', 'cancelado') DEFAULT 'agendado',
     observacoes TEXT,
     FOREIGN KEY (cliente_id) REFERENCES cliente(id),
     FOREIGN KEY (profissional_id) REFERENCES profissional(id),
-    FOREIGN KEY (servico_id) REFERENCES servico(id)
+    FOREIGN KEY (servico_id) REFERENCES servico(id),
+    FOREIGN KEY (barbearia_id) REFERENCES barbearia(id)
 );
 
 -- ======================
