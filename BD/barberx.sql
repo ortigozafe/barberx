@@ -6,7 +6,7 @@ USE barberx;
 CREATE TABLE dono (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    telefone VARCHAR(20),
+    telefone VARCHAR(20) UNIQUE,
     email VARCHAR(100) UNIQUE,
     senha VARCHAR(255) NOT NULL,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -17,8 +17,8 @@ CREATE TABLE barbearia (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     cnpj VARCHAR(18) UNIQUE,
-    telefone VARCHAR(20),
-    email VARCHAR(100),
+    telefone VARCHAR(20) UNIQUE,
+    email VARCHAR(100) UNIQUE,
     endereco TEXT,
     dono_id INT,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -30,8 +30,8 @@ CREATE TABLE barbearia (
 CREATE TABLE profissional (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    telefone VARCHAR(20),
-    email VARCHAR(100),
+    telefone VARCHAR(20) UNIQUE,
+    email VARCHAR(100) UNIQUE,
     especialidade VARCHAR(100),
     barbearia_id INT NOT NULL,
     FOREIGN KEY (barbearia_id) REFERENCES barbearia(id) ON DELETE CASCADE
@@ -41,9 +41,9 @@ CREATE TABLE profissional (
 CREATE TABLE cliente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    telefone VARCHAR(20),
-    email VARCHAR(100),
-    senha VARCHAR(100),
+    telefone VARCHAR(20) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    senha VARCHAR(255),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -80,7 +80,7 @@ CREATE TABLE agendamento (
 
 -- Inserir dono
 INSERT INTO dono (nome, telefone, email, senha)
-VALUES ('Lucas Nogueira', '(11) 91111-2222', 'lucas@donos.com', 'senha123');
+VALUES ('Lucas Nogueira', '(11) 91111-2222', 'lucas@donos.com', '$2y$10$DIBnxkjmBrk9YAv9Coc9w.oah8RIGJ6Oq9bDs457QTqIx2WjChmJO');
 
 -- Inserir barbearia associada
 INSERT INTO barbearia (nome, cnpj, telefone, email, endereco, dono_id)

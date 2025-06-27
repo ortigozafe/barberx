@@ -37,7 +37,7 @@
             >
         </div>
 
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="senha" class="form-label">Senha</label>
             <input
                 type="password"
@@ -48,14 +48,14 @@
             >
         </div>
 
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary text-white">Cadastrar</button>
+        </div>
+
         <?php if (!empty($erro)): ?>
-            <div class="my-4 text-danger fw-bold text-center">
+            <div class="my-4 text-center alert alert-danger animate__animated animate__shakeX">
                 <?= $erro ?>
             </div>
         <?php endif; ?>
-
-        <div class="d-grid">
-            <button type="submit" class="btn btn-success text-white">Cadastrar</button>
-        </div>
     </form>
 </div>

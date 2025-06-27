@@ -49,10 +49,17 @@ $route->get("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
 $route->post("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
 
 // dashboard
-$route->get("/dashboard", [dashboardDonoController::class, "index"]);
+$route->get("/dashboard", [donoController::class, "dashboard"]);
+// --- NOVAS ROTAS PARA OS DADOS DOS GRÁFICOS ---
+
+// Rota para os dados do gráfico de barras
+$route->get("/dadosgraficobarras", [donoController::class, "dadosgraficobarras"]);
+
+// Rota para os dados do gráfico de pizza
+$route->get("/dadosgraficopizza", [donoController::class, "dadosgraficopizza"]);
 
 // pdf
-$route->get("/gerar_pdf_dia", [dashboardDonoController::class, "gerarPDF"]);
+$route->get("/pdf_dia", [donoController::class, "pdf_dia"]);
 
 
 
@@ -64,6 +71,10 @@ $route->post("/cadastrar_cliente", [clienteController::class, "cadastrar"]);
 
 $route->get("/logar_cliente", [clienteController::class, "logar"]);
 $route->post("/logar_cliente", [clienteController::class, "logar"]);
+
+// perfil
+$route->get("/perfil_cliente", [clienteController::class, "perfil"]);
+$route->post("/perfil_cliente", [clienteController::class, "perfil"]);
 
 // barbearias
 $route->get("/barbearias", [barbeariaController::class, "listar"]);

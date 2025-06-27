@@ -19,17 +19,20 @@ class BarbeariaDAO
     {
         $sql = "INSERT INTO barbearia (nome, cnpj, telefone, email, endereco, dono_id, imagem)
             VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        $stm = $this->db->prepare($sql);
-        $stm->execute([
-            $barbearia->getNome(),
-            $barbearia->getCnpj(),
-            $barbearia->getTelefone(),
-            $barbearia->getEmail(),
-            $barbearia->getEndereco(),
-            $barbearia->getDono()->getId(),
-            $barbearia->getImagem()
-        ]);
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->execute([
+                $barbearia->getNome(),
+                $barbearia->getCnpj(),
+                $barbearia->getTelefone(),
+                $barbearia->getEmail(),
+                $barbearia->getEndereco(),
+                $barbearia->getDono()->getId(),
+                $barbearia->getImagem()
+            ]);
+        } catch (PDOException $e) {
+            die("Erro ao inserir barbearia: " . $e->getMessage());
+        }
     }
 
     public function buscar_uma_barbearia($barbearia_id)

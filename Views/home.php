@@ -141,7 +141,7 @@
                                 <div class="card bg-white shadow-lg border rounded-3 p-4 mx-2 review-card animate__animated animate__flipInY">
                                     <h3 class="card-title text-dark-blue mb-2">Evandro Gonçalves</h3>
                                     <p class="card-subtitle text-muted mb-2">08/09/2024</p>
-                                    <p class="card-text fs-5 text-dark-gray">"Chega de esperar! Com o Barbearia Connect, consigo agendar no horário que preciso e sou atendido na hora. Recomendo!"</p>
+                                    <p class="card-text fs-5 text-dark-gray">"Chega de esperar! Com o BarberX, consigo agendar no horário que preciso e sou atendido na hora. Recomendo!"</p>
                                     <div class="text-info fs-4">
                                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                                     </div>

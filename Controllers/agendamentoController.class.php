@@ -21,7 +21,7 @@ class agendamentoController
         $barbeariaDAO = new BarbeariaDAO($this->param);
         $retornoBarbearia = $barbeariaDAO->buscar_uma_barbearia($barbearia_id);
 
-        var_dump($barbearia_id);
+        //var_dump($barbearia_id);
   
 
         $servicoDAO = new ServicoDAO($this->param);

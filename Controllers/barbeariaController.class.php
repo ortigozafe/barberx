@@ -13,7 +13,7 @@ class barbeariaController
         $barbeariaDAO = new BarbeariaDAO($this->param);
         $retorno = $barbeariaDAO->buscar_todas_barbearias();
 
-        $titulo = "Barbearias";
+        $titulo = "BarberX - Barbearias";
 
         require_once "Views/layout/header.php";
         require_once "Views/barbearias.php";
@@ -22,7 +22,7 @@ class barbeariaController
 
     public function cadastrar()
     {
-        $titulo = "Cadastro de Barbearia";
+        $titulo = "BarberX - Cadastro de barbearia";
         $msg = "";
 
         // instanciar o dono
