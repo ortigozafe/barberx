@@ -59,8 +59,7 @@ $route->get("/dadosgraficobarras", [donoController::class, "dadosgraficobarras"]
 $route->get("/dadosgraficopizza", [donoController::class, "dadosgraficopizza"]);
 
 // pdf
-$route->get("/pdf_dia", [donoController::class, "pdf_dia"]);
-
+$route->post("/pdf_dia", [donoController::class, "pdf_dia"]);
 
 
 // ROTAS DO CLIENTE

@@ -124,7 +124,6 @@ class DonoController
     public function dashboard()
     {
         $titulo = "BarberX - Dashboard";
-        $erro = "";
 
         if (!isset($_SESSION["dono_id"])) {
             header("Location: /barberx/logar_dono");
@@ -132,16 +131,24 @@ class DonoController
         }
 
         $dono_id = $_SESSION["dono_id"];
-
         $dao = new DonoDAO($this->param);
-        $dados = $dao->dadosDashboard($dono_id);
-        $dados = json_encode($dados);
-        //echo $dados;
+
+        $barbearias = $dao->buscarBarbeariasPorDono($dono_id);
+
+        $barbearia_id = $barbearias[0]->id ?? null;
+
+        if (!$barbearia_id) {
+            die("Nenhuma barbearia cadastrada.");
+        }
+
+        $dadosDashboard = $dao->dadosDashboard($barbearia_id);
+        $dadosDashboard->barbearias = $barbearias;
 
         require_once "Views/layout/header.php";
         require_once "Views/dashboard.php";
         require_once "Views/layout/footer.php";
     }
+
 
     public function dadosgraficobarras()
     {
@@ -150,10 +157,16 @@ class DonoController
             exit;
         }
 
-        $dono_id = $_SESSION["dono_id"];
-        $dao = new DonoDAO($this->param);
+        $barbearia_id = $_GET["barbearia_id"] ?? null;
 
-        $dados = $dao->buscarDadosGraficoBarras($dono_id);
+        if (!$barbearia_id) {
+            header('Content-Type: application/json');
+            echo json_encode([]);
+            return;
+        }
+
+        $dao = new DonoDAO($this->param);
+        $dados = $dao->buscarDadosGraficoBarras($barbearia_id);
 
         header('Content-Type: application/json');
         echo json_encode($dados);
@@ -166,14 +179,20 @@ class DonoController
             exit;
         }
 
-        $dono_id = $_SESSION["dono_id"];
+        $barbearia_id = $_GET['barbearia_id'] ?? null;
+
+        if (!$barbearia_id) {
+            echo json_encode([]);
+            return;
+        }
+
         $dao = new DonoDAO($this->param);
+        $dados = $dao->buscarDadosGraficoPizza($barbearia_id);
 
-        $dados = $dao->buscarDadosGraficoPizza($dono_id);
-
-        header('Content-Type: application/json'); 
+        header('Content-Type: application/json');
         echo json_encode($dados);
     }
+
 
     public function pdf_dia()
     {
@@ -182,15 +201,20 @@ class DonoController
             exit;
         }
 
-        $dono_id = $_SESSION["dono_id"];
+        $barbearia_id = $_POST["barbearia_id"] ?? null;
+
+        if (!$barbearia_id) {
+            echo "<script>alert('Selecione a barbearia'); history.back();</script>";
+            exit;
+        }
+
         $dao = new DonoDAO($this->param);
+        $dadosPDF = $dao->dadosPDF($barbearia_id);
 
-        $dadosPDF = $dao->dadosPDF($dono_id);
-
-        if (count($dadosPDF) > 0) {
+        if ($dadosPDF) {
             require_once "Views/pdf_dia.php";
         } else {
-            echo "<script>alert('Nenhum serviço agendado para hoje.'); location.href='/barberx/dashboard';</script>";
+            echo "<script>alert('Nenhum serviço hoje.'); location.href='/barberx/dashboard';</script>";
         }
     }
 }

@@ -75,100 +75,74 @@ class DonoDAO
         }
     }
 
-    public function dadosDashboard($dono_id)
+    public function buscarBarbeariasPorDono($dono_id)
     {
-        $dados = [];
+        $sql = "SELECT * FROM barbearia WHERE dono_id = ?";
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $dono_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+    }
 
+    public function dadosDashboard($barbearia_id)
+    {
         try {
-            // selecionar a barbearia com id do dono
-            $sql = "SELECT id FROM barbearia WHERE dono_id = ?";
-            $stm = $this->db->prepare($sql);
-            $stm->bindValue(1, $dono_id);
-            $stm->execute();
-            $barbearia = $stm->fetch(PDO::FETCH_OBJ);
-
-            if (!$barbearia) {
-                $dados["erro"] = "Nenhuma barbearia cadastrada.";
-                return $dados;
-            }
-
-            $barbearia_id = $barbearia->id;
-
             // total agendamentos do dia
             $sql = "SELECT COUNT(*) FROM agendamento WHERE DATE(data_hora) = CURDATE() AND barbearia_id = ?";
             $stm = $this->db->prepare($sql);
             $stm->bindValue(1, $barbearia_id);
             $stm->execute();
-            $dados["agendamentos_dia"] = $stm->fetchColumn();
+            $agendamentos_dia = $stm->fetchColumn();
 
             // total clientes no mês
             $sql = "SELECT COUNT(DISTINCT cliente_id) FROM agendamento WHERE MONTH(data_hora) = MONTH(CURRENT_DATE()) AND barbearia_id = ?";
             $stm = $this->db->prepare($sql);
             $stm->bindValue(1, $barbearia_id);
             $stm->execute();
-            $dados["clientes_mes"] = $stm->fetchColumn();
+            $clientes_mes = $stm->fetchColumn();
 
             // serviços realizados
             $sql = "SELECT COUNT(*) FROM agendamento WHERE status = 'concluido' AND barbearia_id = ?";
             $stm = $this->db->prepare($sql);
             $stm->bindValue(1, $barbearia_id);
             $stm->execute();
-            $dados["servicos_realizados"] = $stm->fetchColumn();
+            $servicos_realizados = $stm->fetchColumn();
+
+            return (object) [
+                'agendamentos_dia' => $agendamentos_dia,
+                'clientes_mes' => $clientes_mes,
+                'servicos_realizados' => $servicos_realizados
+            ];
         } catch (PDOException $e) {
             die("Erro ao carregar dashboard: " . $e->getMessage());
         }
-
-        return $dados;
     }
 
-    public function buscarDadosGraficoBarras($dono_id)
+
+    public function buscarDadosGraficoBarras($barbearia_id)
     {
         try {
-            $sqlBarbearia = "SELECT id FROM barbearia WHERE dono_id = ?";
-            $stmBarbearia = $this->db->prepare($sqlBarbearia);
-            $stmBarbearia->bindValue(1, $dono_id);
-            $stmBarbearia->execute();
-            $barbearia = $stmBarbearia->fetch(PDO::FETCH_OBJ);
-
-            if (!$barbearia) {
-                return [];
-            }
-
-            $barbearia_id = $barbearia->id;
-
             $sql = "SELECT DAYNAME(data_hora) AS dia, COUNT(*) AS total
-            FROM agendamento
-            WHERE barbearia_id = ?
-            GROUP BY dia
-            ORDER BY WEEKDAY(data_hora);";
+                FROM agendamento
+                WHERE barbearia_id = ?
+                GROUP BY dia
+                ORDER BY WEEKDAY(data_hora)";
             $stm = $this->db->prepare($sql);
             $stm->bindValue(1, $barbearia_id);
             $stm->execute();
             return $stm->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
-            return [];
+            die("Erro ao carregar gráfico de barras: " . $e->getMessage());
         }
     }
 
-    public function buscarDadosGraficoPizza($dono_id)
+    public function buscarDadosGraficoPizza($barbearia_id)
     {
         try {
-            $sqlBarbearia = "SELECT id FROM barbearia WHERE dono_id = ?";
-            $stmBarbearia = $this->db->prepare($sqlBarbearia);
-            $stmBarbearia->bindValue(1, $dono_id);
-            $stmBarbearia->execute();
-            $barbearia = $stmBarbearia->fetch(PDO::FETCH_OBJ);
-
-            if (!$barbearia) {
-                return [];
-            }
-
-            $barbearia_id = $barbearia->id;
-
             $sql = "SELECT status, COUNT(*) AS total
-                    FROM agendamento
-                    WHERE barbearia_id = ?
-                    GROUP BY status";
+                FROM agendamento
+                WHERE barbearia_id = ?
+                GROUP BY status";
             $stm = $this->db->prepare($sql);
             $stm->bindValue(1, $barbearia_id);
             $stm->execute();
@@ -178,28 +152,18 @@ class DonoDAO
         }
     }
 
-    public function dadosPDF($dono_id)
+    public function dadosPDF($barbearia_id)
     {
         try {
-            $sql = "SELECT id FROM barbearia WHERE dono_id = ?";
-            $stm = $this->db->prepare($sql);
-            $stm->bindValue(1, $dono_id);
-            $stm->execute();
-            $barbearia = $stm->fetch(PDO::FETCH_OBJ);
-
-            if (!$barbearia) {
-                return [];
-            }
-
-            $barbearia_id = $barbearia["id"];
-
-            $sql = "SELECT a.data_hora, c.nome AS cliente, s.nome AS servico, p.nome AS profissional
-                FROM agendamento a
-                JOIN cliente c ON a.cliente_id = c.id
-                JOIN servico s ON a.servico_id = s.id
-                JOIN profissional p ON a.profissional_id = p.id
-                WHERE DATE(a.data_hora) = CURDATE() AND p.barbearia_id = ?
-                ORDER BY a.data_hora";
+            $sql = "SELECT a.data_hora, a.status, a.observacoes, c.nome AS cliente, b.nome AS barbearia, s.nome AS servico, p.nome AS profissional
+            FROM agendamento a
+            JOIN cliente c ON a.cliente_id = c.id
+            JOIN servico s ON a.servico_id = s.id
+            JOIN barbearia b ON a.barbearia_id = b.id
+            JOIN profissional p ON a.profissional_id = p.id
+            WHERE DATE(a.data_hora) = CURDATE()
+              AND a.barbearia_id = ?
+            ORDER BY a.data_hora";
             $stm = $this->db->prepare($sql);
             $stm->bindValue(1, $barbearia_id);
             $stm->execute();
