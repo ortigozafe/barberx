@@ -43,6 +43,10 @@ $route->post("/cadastrar_dono", [donoController::class, "cadastrar"]);
 $route->get("/logar_dono", [donoController::class, "logar"]);
 $route->post("/logar_dono", [donoController::class, "logar"]);
 
+// perfil
+$route->get("/perfil_dono", [donoController::class, "perfil"]);
+$route->post("/perfil_dono", [donoController::class, "perfil"]);
+
 // barbearias
 $route->get("/barbearias", [barbeariaController::class, "listar"]);
 $route->get("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);

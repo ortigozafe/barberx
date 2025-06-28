@@ -84,9 +84,9 @@ class DonoController
         $dono_id = $_SESSION["dono_id"];
 
         $donoDAO = new donoDAO($this->param);
-        $retornodono = $donoDAO->buscar_dono_por_id($dono_id);
+        $retornoDono = $donoDAO->buscar_dono_por_id($dono_id);
 
-        if (!$retornodono) {
+        if (!$retornoDono) {
             $erro = "dono não encontrado";
         }
 
@@ -171,7 +171,7 @@ class DonoController
             header("Location: /barberx/logar_dono");
             exit;
         }
-        
+
         $barbearia_id = $_GET['barbearia_id'] ?? null;
 
         $dao = new DonoDAO($this->param);
