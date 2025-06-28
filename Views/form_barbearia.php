@@ -1,4 +1,3 @@
-
 <div class="container mt-5">
     <h2 class="text-center mb-4">Cadastro de Barbearia</h2>
 
@@ -11,8 +10,7 @@
                 id="nome"
                 name="nome"
                 required
-                value="<?= $_POST['nome'] ?? '' ?>"
-            >
+                value="<?= $_POST['nome'] ?? '' ?>">
         </div>
 
         <div class="mb-3">
@@ -22,8 +20,7 @@
                 class="form-control"
                 id="cnpj"
                 name="cnpj"
-                value="<?= $_POST['cnpj'] ?? '' ?>"
-            >
+                value="<?= $_POST['cnpj'] ?? '' ?>">
         </div>
 
         <div class="mb-3">
@@ -33,8 +30,7 @@
                 class="form-control"
                 id="telefone"
                 name="telefone"
-                value="<?= $_POST['telefone'] ?? '' ?>"
-            >
+                value="<?= $_POST['telefone'] ?? '' ?>">
         </div>
 
         <div class="mb-3">
@@ -44,8 +40,7 @@
                 class="form-control"
                 id="email"
                 name="email"
-                value="<?= $_POST['email'] ?? '' ?>"
-            >
+                value="<?= $_POST['email'] ?? '' ?>">
         </div>
 
         <div class="mb-3">
@@ -55,14 +50,13 @@
                 class="form-control"
                 id="endereco"
                 name="endereco"
-                value="<?= $_POST['endereco'] ?? '' ?>"
-            >
+                value="<?= $_POST['endereco'] ?? '' ?>">
         </div>
 
         <input type="hidden" name="dono_id" value="<?= $_SESSION['dono_id'] ?>">
 
         <?php if (!empty($erro)): ?>
-            <div class="my-4 text-danger fw-bold text-center">
+            <div class="alert text-danger text-center fw-bold alert-danger animate__animated animate__shakeX">
                 <?= $erro ?>
             </div>
         <?php endif; ?>

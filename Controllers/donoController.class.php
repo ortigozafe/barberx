@@ -76,6 +76,10 @@ class DonoController
         $titulo = "BarberX - Meu Perfil";
         $erro = "";
 
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!isset($_SESSION["dono_id"])) {
             header("Location: /barberx/logar_dono");
             exit;
@@ -83,36 +87,51 @@ class DonoController
 
         $dono_id = $_SESSION["dono_id"];
 
-        $donoDAO = new donoDAO($this->param);
+        $donoDAO = new DonoDAO($this->param);
         $retornoDono = $donoDAO->buscar_dono_por_id($dono_id);
 
         if (!$retornoDono) {
-            $erro = "dono não encontrado";
+            $erro = "Dono não encontrado"; 
         }
 
         if ($_POST) {
             $donoAtual = $donoDAO->buscar_dono_por_id($dono_id);
 
             if (!$donoAtual) {
-                $erro = "dono não encontrado.";
+                $erro = "Dono não encontrado."; 
             } else {
                 $nome = $_POST["nome"];
-                $senha = trim($_POST["senha"] ?? "");
-                $senhaHash = $senha ? password_hash($senha, PASSWORD_DEFAULT) : $donoAtual->senha;
+                $email = $_POST["email"];
+                $telefone = $_POST["telefone"];
+                $novaSenha = trim($_POST["senha"] ?? "");
+                $senhaHashParaAtualizar = $donoAtual->senha;
 
-                $dono = new dono(
-                    $dono_id,
-                    $nome,
-                    $_POST["email"],
-                    $_POST["telefone"],
-                    $senhaHash,
-                );
+                if (!empty($novaSenha)) {
+                    $senhaHashParaAtualizar = password_hash($novaSenha, PASSWORD_DEFAULT);
+                }
 
-                $donoDAO->atualizar($dono);
-                $_SESSION["dono_nome"] = $nome;
+                $donoComEmailExistente = $donoDAO->buscar_por_email($email);
+                $donoComTelefoneExistente = $donoDAO->buscar_por_telefone($telefone);
 
-                header("Location: /barberx/perfil_dono");
-                exit;
+                if ($donoComEmailExistente && $donoComEmailExistente->id != $dono_id) {
+                    $erro = "Este e-mail já está cadastrado para outro empresário.";
+                } elseif ($donoComTelefoneExistente && $donoComTelefoneExistente->id != $dono_id) {
+                    $erro = "Este telefone já está cadastrado para outro empresário.";
+                } else {
+                    $dono = new Dono(
+                        id: $dono_id,
+                        nome: $nome,
+                        email: $email,
+                        telefone: $telefone,
+                        senha: $senhaHashParaAtualizar
+                    );
+
+                    $donoDAO->atualizar($dono);
+                    $_SESSION["dono_nome"] = $nome;
+
+                    header("Location: /barberx/perfil_dono");
+                    exit;
+                }
             }
         }
 
@@ -120,6 +139,7 @@ class DonoController
         require_once "Views/perfil_dono.php";
         require_once "Views/layout/footer.php";
     }
+
 
     public function dashboard()
     {

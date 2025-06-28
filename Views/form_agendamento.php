@@ -59,6 +59,12 @@
             </button>
             <a href="/barberx/agenda" class="btn btn-outline-secondary btn-lg fw-bold">Cancelar</a>
         </div>
+
+        <?php if (!empty($erro)): ?>
+            <div class="alert text-danger text-center fw-bold alert-danger animate__animated animate__shakeX">
+                <?= $erro ?>
+            </div>
+        <?php endif; ?>
     </form>
 </div>
 </div>

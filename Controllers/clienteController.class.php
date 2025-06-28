@@ -76,6 +76,10 @@ class ClienteController
         $titulo = "BarberX - Meu Perfil";
         $erro = "";
 
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!isset($_SESSION["cliente_id"])) {
             header("Location: /barberx/logar_cliente");
             exit;
@@ -97,22 +101,37 @@ class ClienteController
                 $erro = "Cliente não encontrado.";
             } else {
                 $nome = $_POST["nome"];
-                $senha = trim($_POST["senha"] ?? "");
-                $senhaHash = $senha ? password_hash($senha, PASSWORD_DEFAULT) : $clienteAtual->senha;
+                $email = $_POST["email"];
+                $telefone = $_POST["telefone"];
+                $novaSenha = trim($_POST["senha"] ?? "");
+                $senhaHashNova = $clienteAtual->senha;
 
-                $cliente = new Cliente(
-                    $cliente_id,
-                    $nome,
-                    $_POST["email"],
-                    $_POST["telefone"],
-                    $senhaHash,
-                );
+                if (!empty($novaSenha)) {
+                    $senhaHashNova = password_hash($novaSenha, PASSWORD_DEFAULT);
+                }
+                
+                $clienteComEmailExistente = $clienteDAO->buscar_por_email($email);
+                $clienteComTelefoneExistente = $clienteDAO->buscar_por_telefone($telefone);
 
-                $clienteDAO->atualizar($cliente);
-                $_SESSION["cliente_nome"] = $nome;
+                if ($clienteComEmailExistente && $clienteComEmailExistente->id != $cliente_id) {
+                    $erro = "Este e-mail já está cadastrado para outro cliente.";
+                } elseif ($clienteComTelefoneExistente && $clienteComTelefoneExistente->id != $cliente_id) {
+                    $erro = "Este telefone já está cadastrado para outro cliente.";
+                } else {
+                    $cliente = new Cliente(
+                        id: $cliente_id,
+                        nome: $nome,
+                        email: $email,
+                        telefone: $telefone,
+                        senha: $senhaHashNova
+                    );
 
-                header("Location: /barberx/perfil_cliente");
-                exit;
+                    $clienteDAO->atualizar($cliente);
+                    $_SESSION["cliente_nome"] = $nome;
+
+                    header("Location: /barberx/perfil_cliente");
+                    exit;
+                }
             }
         }
 
@@ -120,5 +139,4 @@ class ClienteController
         require_once "Views/perfil_cliente.php";
         require_once "Views/layout/footer.php";
     }
-
 }

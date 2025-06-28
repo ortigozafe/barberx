@@ -46,6 +46,11 @@
                     Nenhum dado de dono encontrado.
                 </div>
             <?php endif; ?>
+            <?php if (!empty($erro)): ?>
+                <div class="my-4 text-center alert alert-danger animate__animated animate__shakeX">
+                    <?= $erro ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

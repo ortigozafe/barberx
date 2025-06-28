@@ -5,7 +5,7 @@
         </div>
         <div class="card-body rounded bg-white p-4">
             <?php if (!empty($erro)): ?>
-                <div class="alert alert-danger animate__animated animate__shakeX">
+                <div class="alert text-danger text-center fw-bold alert-danger animate__animated animate__shakeX">
                     <?= $erro ?>
                 </div>
             <?php endif; ?>

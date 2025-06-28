@@ -15,7 +15,7 @@ class agendamentoController
             exit;
         }
 
-        $msg = "";
+        $erro = "";
 
         $barbearia_id = $_GET['id'] ?? $_POST['barbearia_id'] ?? null;
         $barbeariaDAO = new BarbeariaDAO($this->param);
@@ -93,16 +93,16 @@ class agendamentoController
         $servicoDAO = new ServicoDAO($this->param);
         $retornoServico = $servicoDAO->buscar_servicos_por_barbearia($barbearia_id);
 
-        $msg = "";
+        $erro = "";
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (empty($_POST["profissional_id"])) {
-                $msg = "Selecione um profissional.";
+                $erro = "Selecione um profissional.";
             } elseif (empty($_POST["servico_id"])) {
-                $msg = "Selecione um serviço.";
+                $erro = "Selecione um serviço.";
             } elseif (empty($_POST["data_hora"])) {
-                $msg = "Informe a data e hora do agendamento.";
+                $erro = "Informe a data e hora do agendamento.";
             } else {
                 $cliente = $agendamento->getCliente();
                 $profissional = new Profissional($_POST['profissional_id']);

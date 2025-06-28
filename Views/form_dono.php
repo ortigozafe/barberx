@@ -10,8 +10,7 @@
                 id="nome"
                 name="nome"
                 required
-                value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>"
-            >
+                value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>">
         </div>
 
         <div class="mb-3">
@@ -21,8 +20,7 @@
                 class="form-control"
                 id="telefone"
                 name="telefone"
-                value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>"
-            >
+                value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>">
         </div>
 
         <div class="mb-3">
@@ -33,8 +31,7 @@
                 id="email"
                 name="email"
                 required
-                value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"
-            >
+                value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>">
         </div>
 
         <div class="mb-4">
@@ -44,8 +41,7 @@
                 class="form-control"
                 id="senha"
                 name="senha"
-                required
-            >
+                required>
         </div>
 
         <div class="d-grid">
@@ -53,7 +49,7 @@
         </div>
 
         <?php if (!empty($erro)): ?>
-            <div class="my-4 text-center alert alert-danger animate__animated animate__shakeX">
+            <div class="alert text-danger text-center fw-bold alert-danger animate__animated animate__shakeX">
                 <?= $erro ?>
             </div>
         <?php endif; ?>
