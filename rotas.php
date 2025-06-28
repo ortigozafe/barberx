@@ -50,7 +50,9 @@ $route->post("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
 
 // dashboard
 $route->get("/dashboard", [donoController::class, "dashboard"]);
-// --- NOVAS ROTAS PARA OS DADOS DOS GRÁFICOS ---
+$route->get("/apiAgendamentosDia", [donoController::class, "apiAgendamentosDia"]);
+$route->get("/apiClientesMes", [donoController::class, "apiClientesMes"]);
+$route->get("/apiServicosRealizados", [donoController::class, "apiServicosRealizados"]);
 
 // Rota para os dados do gráfico de barras
 $route->get("/dadosgraficobarras", [donoController::class, "dadosgraficobarras"]);

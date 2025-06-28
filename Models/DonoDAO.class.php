@@ -118,6 +118,54 @@ class DonoDAO
         }
     }
 
+    public function listarAgendamentosDia($barbearia_id)
+    {
+        $sql = "SELECT a.id, c.nome as cliente, a.data_hora, a.status, b.nome as barbearia
+            FROM agendamento a
+            JOIN cliente c ON c.id = a.cliente_id
+            JOIN barbearia b ON b.id = a.barbearia_id
+            WHERE DATE(a.data_hora) = CURDATE()
+            AND a.barbearia_id = ?
+            ORDER BY a.data_hora";
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $barbearia_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
+    public function listarClientesMes($barbearia_id)
+    {
+        $sql = "SELECT DISTINCT c.id, c.nome, c.telefone, c.email, b.nome as barbearia
+            FROM agendamento a
+            JOIN cliente c ON c.id = a.cliente_id
+            JOIN barbearia b ON b.id = a.barbearia_id
+            WHERE MONTH(a.data_hora) = MONTH(CURRENT_DATE())
+            AND a.barbearia_id = ?";
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $barbearia_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
+    public function listarServicosRealizados($barbearia_id)
+    {
+        $sql = "SELECT a.id, c.nome as cliente, a.data_hora, s.nome as servico, b.nome as barbearia
+            FROM agendamento a
+            JOIN cliente c ON c.id = a.cliente_id
+            JOIN servico s ON s.id = a.servico_id
+            JOIN barbearia b ON b.id = a.barbearia_id
+            WHERE a.status = 'concluido'
+            AND a.barbearia_id = ?
+            ORDER BY a.data_hora DESC";
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $barbearia_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
 
     public function buscarDadosGraficoBarras($barbearia_id)
     {

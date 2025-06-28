@@ -149,6 +149,54 @@ class DonoController
         require_once "Views/layout/footer.php";
     }
 
+    public function apiAgendamentosDia()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $barbearia_id = $_GET['barbearia_id'] ?? null;
+
+        $dao = new DonoDAO($this->param);
+        $agendamentos = $dao->listarAgendamentosDia($barbearia_id);
+
+        header("Content-Type: application/json");
+        echo json_encode($agendamentos);
+    }
+
+    public function apiClientesMes()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+        
+        $barbearia_id = $_GET['barbearia_id'] ?? null;
+
+        $dao = new DonoDAO($this->param);
+        $clientes = $dao->listarClientesMes($barbearia_id);
+
+        header("Content-Type: application/json");
+        echo json_encode($clientes);
+    }
+
+    public function apiServicosRealizados()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $barbearia_id = $_GET['barbearia_id'] ?? null;
+
+        $dao = new DonoDAO($this->param);
+        $servicos = $dao->listarServicosRealizados($barbearia_id);
+
+        header("Content-Type: application/json");
+        echo json_encode($servicos);
+    }
+
 
     public function dadosgraficobarras()
     {

@@ -2,40 +2,42 @@
     <h2 class="text-center mb-4 fw-bold text-dark-blue fs-1 animate__animated animate__fadeInDown">Dashboard da Barbearia</h2>
 
     <div class="row mt-3">
-        <!-- Card: Agendamentos do dia -->
         <div class="col-md-3 mb-3">
             <div class="bg-white rounded shadow p-4 text-center h-100 animate__animated animate__fadeInUp d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="text-dark-blue mb-3">Agendamentos do dia</h5>
                     <h2 class="text-primary fw-bolder" id="agendamentos_dia"><?= $dadosDashboard->agendamentos_dia ?? 0 ?></h2>
                 </div>
-                <a href="/barberx/agendamentos?filtro=hoje" class="btn btn-outline-primary mt-3 w-100 fw-bold"><i class="fa fa-info-circle me-2"></i>Ver mais</a>
+                <btn data-bs-toggle="modal" data-bs-target="#modalAgendamentosDia" class="btn btn-outline-primary mt-3 w-100 fw-bold">
+                    <i class="fa fa-info-circle me-2"></i>Ver mais
+                </btn>
             </div>
         </div>
 
-        <!-- Card: Total de clientes no mês -->
         <div class="col-md-3 mb-3">
             <div class="bg-white rounded shadow p-4 text-center h-100 animate__animated animate__fadeInUp d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="text-dark-blue mb-3">Total de clientes no mês</h5>
                     <h2 class="text-primary fw-bolder" id="clientes_mes"><?= $dadosDashboard->clientes_mes ?? 0 ?></h2>
                 </div>
-                <button class="btn btn-outline-primary mt-3 w-100 fw-bold" data-bs-toggle="modal" data-bs-target="#modalClientesMes"><i class="fa fa-info-circle me-2"></i>Ver mais</button>
+                <btn data-bs-toggle="modal" data-bs-target="#modalClientesMes" class="btn btn-outline-primary mt-3 w-100 fw-bold">
+                    <i class="fa fa-info-circle me-2"></i>Ver mais
+                </btn>
             </div>
         </div>
 
-        <!-- Card: Serviços realizados -->
         <div class="col-md-3 mb-3">
             <div class="bg-white rounded shadow p-4 text-center h-100 animate__animated animate__fadeInUp d-flex flex-column justify-content-between">
                 <div>
                     <h5 class="text-dark-blue mb-3">Serviços realizados</h5>
                     <h2 class="text-primary fw-bolder" id="servicos_realizados"><?= $dadosDashboard->servicos_realizados ?? 0 ?></h2>
                 </div>
-                <button class="btn btn-outline-primary mt-3 w-100 fw-bold" data-bs-toggle="modal" data-bs-target="#modalServicosRealizados"><i class="fa fa-info-circle me-2"></i>Ver mais</button>
+                <btn data-bs-toggle="modal" data-bs-target="#modalServicosRealizados" class="btn btn-outline-primary mt-3 w-100 fw-bold">
+                    <i class="fa fa-info-circle me-2"></i>Ver mais
+                </btn>
             </div>
         </div>
 
-        <!-- Card: PDF -->
         <div class="col-md-3 mb-3">
             <div class="bg-white rounded shadow p-4 text-center h-100 d-flex flex-column justify-content-between align-items-center animate__animated animate__fadeInUp">
                 <h5 class="mb-3 text-dark-blue">Gerar PDF do Dia</h5>
@@ -52,7 +54,6 @@
         </div>
     </div>
 
-    <!-- Seleção barbearia para gráficos -->
     <div class="row mt-5 bg-white rounded shadow p-3 animate__animated animate__fadeInLeft">
         <div class="col-12 mb-5 mt-4">
             <div class="text-center">
@@ -77,7 +78,53 @@
     </div>
 </div>
 
-<!-- Scripts para gráficos ApexCharts -->
+<!-- Modal Agendamentos do Dia -->
+<div class="modal fade" id="modalAgendamentosDia" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Agendamentos do Dia</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="conteudoAgendamentosDia">
+                Carregando...
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Clientes do Mês -->
+<div class="modal fade" id="modalClientesMes" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Clientes do Mês</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="conteudoClientesMes">
+                Carregando...
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Serviços Realizados -->
+<div class="modal fade" id="modalServicosRealizados" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Serviços Realizados</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="conteudoServicosRealizados">
+                Carregando...
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const selectBarbearia = document.getElementById("barbearia_graficos");
@@ -243,4 +290,74 @@
         const chartPizza = new ApexCharts(document.querySelector("#grafico_pizza"), optionsPizza);
         chartPizza.render();
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const barbeariaId = <?= $barbearia_id ?>;
+
+        const modalAgendamentosDia = document.getElementById("modalAgendamentosDia");
+        modalAgendamentosDia.addEventListener("show.bs.modal", function() {
+            fetch(`/barberx/apiAgendamentosDia?barbearia_id=${barbeariaId}`)
+                .then(r => r.json())
+                .then(data => {
+                    let html = "";
+                    if (data.length) {
+                        html += "<ul class='list-group'>";
+                        data.forEach(a => {
+                            html += `<li class="list-group-item">
+                                <strong>${a.cliente}</strong> - ${new Date(a.data_hora).toLocaleTimeString()}, ${a.status} 
+                                <small class="text-muted">(${a.barbearia})</small>
+                            </li>`;
+                        });
+                        html += "</ul>";
+                    } else {
+                        html = "Nenhum agendamento hoje.";
+                    }
+                    document.getElementById("conteudoAgendamentosDia").innerHTML = html;
+                });
+        });
+
+        const modalClientesMes = document.getElementById("modalClientesMes");
+        modalClientesMes.addEventListener("show.bs.modal", function() {
+            fetch(`/barberx/apiClientesMes?barbearia_id=${barbeariaId}`)
+                .then(r => r.json())
+                .then(data => {
+                    let html = "";
+                    if (data.length) {
+                        html += "<ul class='list-group'>";
+                        data.forEach(c => {
+                            html += `<li class="list-group-item">
+                                <strong>${c.nome}</strong> - Celular: ${c.telefone} / Email: ${c.email} 
+                                <small class="text-muted">(${c.barbearia})</small>
+                            </li>`;
+                        });
+                        html += "</ul>";
+                    } else {
+                        html = "Nenhum cliente este mês.";
+                    }
+                    document.getElementById("conteudoClientesMes").innerHTML = html;
+                });
+        });
+
+        const modalServicosRealizados = document.getElementById("modalServicosRealizados");
+        modalServicosRealizados.addEventListener("show.bs.modal", function() {
+            fetch(`/barberx/apiServicosRealizados?barbearia_id=${barbeariaId}`)
+                .then(r => r.json())
+                .then(data => {
+                    let html = "";
+                    if (data.length) {
+                        html += "<ul class='list-group'>";
+                       data.forEach(s => {
+                            html += `<li class="list-group-item">
+                                <strong>${s.cliente}</strong> - ${s.servico} em ${new Date(s.data_hora).toLocaleString()} 
+                                <small class="text-muted">(${s.barbearia})</small>
+                            </li>`;
+                        });
+                        html += "</ul>";
+                    } else {
+                        html = "Nenhum serviço concluído.";
+                    }
+                    document.getElementById("conteudoServicosRealizados").innerHTML = html;
+                });
+        });
+    });
 </script>
