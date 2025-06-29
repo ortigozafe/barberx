@@ -31,14 +31,14 @@ class barbeariaController
         $barbeariaDAO = new BarbeariaDAO($this->param);
         $retornoBarbearia = $barbeariaDAO->buscar_uma_barbearia($barbearia_id);
 
-        /*var_dump($retornoBarbearia);
-        die();*/
-
         $servicoDAO = new ServicoDAO($this->param);
         $retornoServico = $servicoDAO->buscar_servicos_por_barbearia($barbearia_id);
 
         $profissionalDAO = new ProfissionalDAO($this->param);
         $retornoProfissional = $profissionalDAO->buscar_profissionais_por_barbearia($barbearia_id);
+
+        $horarioDAO = new HorarioFuncionamentoDAO($this->param);
+        $retornoHorario = $horarioDAO->listarPorBarbearia($barbearia_id);
 
         $titulo = "BarberX - {$retornoBarbearia->nome}";
 

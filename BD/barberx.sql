@@ -42,7 +42,6 @@ CREATE TABLE profissional (
     nome VARCHAR(100) NOT NULL,
     telefone VARCHAR(20) UNIQUE,
     email VARCHAR(100) UNIQUE,
-    especialidade VARCHAR(100),
     barbearia_id INT NOT NULL,
     FOREIGN KEY (barbearia_id) REFERENCES barbearia(id) ON DELETE CASCADE
 );
@@ -83,35 +82,3 @@ CREATE TABLE agendamento (
     FOREIGN KEY (servico_id) REFERENCES servico(id),
     FOREIGN KEY (barbearia_id) REFERENCES barbearia(id)
 );
-
--- ======================
--- Dados de exemplo
--- ======================
-
--- Inserir dono
-INSERT INTO dono (nome, telefone, email, senha)
-VALUES ('Lucas Nogueira', '(11) 91111-2222', 'lucas@donos.com', '$2y$10$DIBnxkjmBrk9YAv9Coc9w.oah8RIGJ6Oq9bDs457QTqIx2WjChmJO');
-
--- Inserir barbearia associada
-INSERT INTO barbearia (nome, cnpj, telefone, email, endereco, dono_id)
-VALUES ('Barbearia Central', '33.333.333/0001-33', '(11) 92222-3333', 'central@barber.com', 'Rua Principal, 789', 1);
-
--- Inserir serviços
-INSERT INTO servico (nome, descricao, preco, duracao_minutos, barbearia_id)
-VALUES 
-('Corte Masculino', 'Corte com tesoura ou máquina.', 30.00, 30, 1),
-('Barba Completa', 'Modelagem e hidratação da barba.', 25.00, 25, 1);
-
--- Inserir profissionais
-INSERT INTO profissional (nome, telefone, email, especialidade, barbearia_id)
-VALUES 
-('Bruno Cortez', '(11) 90000-1111', 'bruno@barber.com', 'Corte masculino', 1),
-('Rafael Silva', '(11) 90000-2222', 'rafael@barber.com', 'Barba e corte', 1);
-
--- Inserir cliente
-INSERT INTO cliente (nome, telefone, email)
-VALUES ('Carlos Silva', '(11) 97777-1234', 'carlos@email.com');
-
--- Inserir agendamento
-INSERT INTO agendamento (cliente_id, profissional_id, servico_id, data_hora, observacoes)
-VALUES (1, 1, 1, '2025-06-10 14:00:00', 'Prefere corte com tesoura');

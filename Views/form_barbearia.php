@@ -114,7 +114,7 @@
       <h4>Profissionais</h4>
       <div id="profissionais" class="animate__animated animate__fadeInUp">
         <div class="row mb-2 g-2 align-items-end profissional-row">
-          <div class="col-3">
+          <div class="col-4">
             <input
               type="text"
               name="profissionais[0][nome]"
@@ -122,7 +122,7 @@
               placeholder="Nome"
             />
           </div>
-          <div class="col-3">
+          <div class="col-4">
             <input
               type="text"
               name="profissionais[0][telefone]"
@@ -136,14 +136,6 @@
               name="profissionais[0][email]"
               class="form-control shadow-sm"
               placeholder="Email"
-            />
-          </div>
-          <div class="col-2">
-            <input
-              type="text"
-              name="profissionais[0][especialidade]"
-              class="form-control shadow-sm"
-              placeholder="Especialidade"
             />
           </div>
           <div class="col-1">
@@ -253,9 +245,6 @@
           </div>
           <div class="col-3">
               <input type="email" name="profissionais[${indiceProf}][email]" class="form-control shadow-sm" placeholder="Email">
-          </div>
-          <div class="col-2">
-              <input type="text" name="profissionais[${indiceProf}][especialidade]" class="form-control shadow-sm" placeholder="Especialidade">
           </div>
           <div class="col-1">
               <button type="button" class="btn btn-danger btn-sm" onclick="removerCampo(this)">&times;</button>

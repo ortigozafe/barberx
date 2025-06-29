@@ -5,14 +5,13 @@ class ProfissionalDAO
 
     public function inserirProfissional($profissional)
     {
-        $sql = "INSERT INTO profissional (nome, telefone, email, especialidade, barbearia_id) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO profissional (nome, telefone, email, barbearia_id) VALUES (?, ?, ?, ?)";
         try {
             $stm = $this->db->prepare($sql);
             return $stm->execute([
                 $profissional->getNome(),
                 $profissional->getTelefone(),
                 $profissional->getEmail(),
-                $profissional->getEspecialidade(),
                 $profissional->getBarbearia()->getId()
             ]);
         } catch (PDOException $e) {
@@ -20,12 +19,12 @@ class ProfissionalDAO
         }
     }
 
-    public function buscar_um_profissional($profissional)
+    public function buscar_um_profissional($profissional_id)
     {
-        $sql = "SELECT * FROM profissionais WHERE id = ?";
+        $sql = "SELECT * FROM profissional WHERE id = ?";
         try {
             $stm = $this->db->prepare($sql);
-            $stm->bindValue(1, $profissional->getId());
+            $stm->bindValue(1, $profissional_id);
             $stm->execute();
             return $stm->fetch(PDO::FETCH_OBJ);
         } catch (PDOException $e) {

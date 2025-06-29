@@ -60,4 +60,18 @@ class HorarioFuncionamentoDAO
             die("Erro ao excluir horários: " . $e->getMessage());
         }
     }
+
+    public function buscarPorDia($barbearia_id, $diaSemana)
+    {
+        $sql = "SELECT * FROM horario_funcionamento WHERE barbearia_id = ? AND dia_semana = ?";
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->bindValue(1, $barbearia_id);
+            $stm->bindValue(2, strtolower($diaSemana));
+            $stm->execute();
+            return $stm->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            die("Erro ao buscar horário de funcionamento do dia: " . $e->getMessage());
+        }
+    }
 }

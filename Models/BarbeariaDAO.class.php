@@ -46,7 +46,7 @@ class BarbeariaDAO
         $barbearias = $stm->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($barbearias as $bar) {
-            $sqlProf = "SELECT nome, telefone, email, especialidade FROM profissional WHERE barbearia_id = ?";
+            $sqlProf = "SELECT nome, telefone, email FROM profissional WHERE barbearia_id = ?";
             $stmProf = $this->db->prepare($sqlProf);
             $stmProf->bindValue(1, $bar->id);
             $stmProf->execute();

@@ -34,4 +34,18 @@ class ServicoDAO
             die("Erro ao buscar servico: " . $e->getMessage());
         }
     }
+
+    public function buscar_um_servico($servico_id)
+    {
+        $sql = "SELECT * FROM servico WHERE id = ?";
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->bindValue(1, $servico_id);
+            $stm->execute();
+            return $stm->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            $this->db = null;
+            die("Erro ao buscar servico: " . $e->getMessage());
+        }
+    }
 }

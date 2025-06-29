@@ -1,70 +1,74 @@
-<div class="container mt-5">
-    <h2 class="text-center mb-5 text-primary fw-bold animate__animated animate__fadeInDown">Agendar um Serviço</h2>
+<form method="post" action="/barberx/agendar?id=<?= $barbeariaData   ->id ?>">
+    <div class="mb-3">
+        <label>Data</label>
+        <input type="date" name="data" id="data" class="form-control" required min="<?= date('Y-m-d') ?>">
+    </div>
 
-    <form action="/barberx/agendar" method="post" class="mx-auto p-4 rounded-3 shadow-lg bg-white animate__animated animate__fadeInUp" style="max-width: 600px;">
+    <div class="mb-3">
+        <label>Horário</label>
+        <select name="hora" id="hora" class="form-select" required>
+            <option value="">Selecione o horário</option>
+        </select>
+    </div>
 
-        <input type="hidden" name="id" value="<?= $id_agendamento ?>">
+    <div class="mb-3">
+        <label>Profissional</label>
+        <select name="profissional_id" id="profissional_id" class="form-select" required>
+            <option value="">Selecione o profissional</option>
+        </select>
+    </div>
 
-        <input type="hidden" name="barbearia_id" value="<?= $barbearia_id ?>">
+    <div class="mb-3">
+        <label>Serviço</label>
+        <select name="servico_id" class="form-select" required>
+            <?php foreach ($retornoServico as $rs): ?>
+                <option value="<?= $rs->id ?>">
+                    <?= htmlspecialchars($rs->nome) ?> - R$<?= number_format($rs->preco, 2, ',', '.') ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
 
-        <div class="mb-3">
-            <label for="profissional_id" class="form-label text-dark-gray">Profissional</label>
-            <select class="form-select border border-secondary" name="profissional_id" id="profissional_id" required>
-                <option value="">Selecione um profissional</option>
-                <?php
-                if (!empty($retornoProfissional)): ?>
-                    <?php foreach ($retornoProfissional as $rp): ?>
-                        <option value="<?= $rp->id ?>">
-                            <?= $rp->nome ?>
-                        </option>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <option value="" disabled>Nenhum profissional disponível</option>
-                <?php endif; ?>
-            </select>
-        </div>
+    <div class="mb-3">
+        <label>Observações</label>
+        <textarea name="observacoes" class="form-control"></textarea>
+    </div>
 
-        <div class="mb-3">
-            <label for="servico_id" class="form-label text-dark-gray">Serviço</label>
-            <select class="form-select border border-secondary" name="servico_id" id="servico_id" required>
-                <option value="">Selecione um serviço</option>
-                <?php
-                if (!empty($retornoServico)): ?>
-                    <?php foreach ($retornoServico as $rs): ?>
-                        <option value="<?= $rs->id ?>">
-                            <?= $rs->nome ?> - R$<?= number_format($rs->preco, 2, ',', '.') ?>
-                        </option>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <option value="" disabled>Nenhum serviço disponível</option>
-                <?php endif; ?>
-            </select>
-        </div>
+    <button type="submit" class="btn btn-primary">Agendar</button>
+</form>
 
-        <div class="mb-3">
-            <label for="data_hora" class="form-label text-dark-gray">Data e Hora</label>
-            <input type="datetime-local" class="form-control border border-secondary" name="data_hora" id="data_hora" required>
-            <small class="form-text text-muted">Selecione a data e hora desejadas para o agendamento.</small>
-        </div>
+<script>
+    $(document).ready(function() {
+        $("#data").on("change", function() {
+            let data = $(this).val();
+            if (data) {
+                $.post("/barberx/buscar_horarios", {
+                    data: data,
+                    barbearia_id: <?= $barbearia_id ?>
+                }, function(res) {
+                    $("#hora").html('<option value="">Selecione o horário</option>');
+                    res.forEach(function(h) {
+                        $("#hora").append(`<option value="${h.full}">${h.horario}</option>`);
+                    });
+                }, "json");
+            }
+        });
 
-        <div class="mb-3">
-            <label for="observacoes" class="form-label text-dark-gray">Observações (Opcional)</label>
-            <textarea class="form-control border border-secondary" name="observacoes" id="observacoes" rows="3" placeholder="Ex: 'Cortar apenas as pontas', 'Chegar 10 minutos antes'"></textarea>
-            <small class="form-text text-muted">Alguma observação adicional para o profissional?</small>
-        </div>
-
-        <div class="d-grid gap-2 mt-4">
-            <button type="submit" class="btn btn-primary btn-lg fw-bold shadow">
-                Agendar serviço
-            </button>
-            <a href="/barberx/agenda" class="btn btn-outline-secondary btn-lg fw-bold">Cancelar</a>
-        </div>
-
-        <?php if (!empty($erro)): ?>
-            <div class="alert text-danger text-center fw-bold alert-danger animate__animated animate__shakeX">
-                <?= $erro ?>
-            </div>
-        <?php endif; ?>
-    </form>
-</div>
-</div>
+        $("#hora").on("change", function() {
+            let hora = $(this).val();
+            let data = $("#data").val();
+            if (data && hora) {
+                $.post("/barberx/buscar_profissionais", {
+                    data: data,
+                    hora: hora,
+                    barbearia_id: <?= $barbearia_id ?>
+                }, function(res) {
+                    $("#profissional_id").html('<option value="">Selecione o profissional</option>');
+                    res.forEach(function(p) {
+                        $("#profissional_id").append(`<option value="${p.id}">${p.nome}</option>`);
+                    });
+                }, "json");
+            }
+        });
+    });
+</script>
