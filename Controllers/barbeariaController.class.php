@@ -20,38 +20,6 @@ class barbeariaController
         require_once "Views/layout/footer.php";
     }
 
-    public function cadastrar()
-    {
-        $titulo = "BarberX - Cadastro de barbearia";
-        $msg = "";
-
-        // instanciar o dono
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dono = new Dono($_POST['dono_id']);
-
-            $barbearia = new Barbearia(
-                0,
-                $_POST["nome"],
-                $_POST["cnpj"],
-                $_POST["telefone"],
-                $_POST["email"],
-                $_POST["endereco"],
-                $dono
-            );
-
-            $barbeariaDAO = new BarbeariaDAO($this->param);
-            $barbeariaDAO->inserir_barbearia($barbearia);
-
-            header("Location: /barberx/barbearias");
-            exit;
-        }
-
-        require_once "Views/layout/header.php";
-        require_once "Views/form_barbearia.php";
-        require_once "Views/layout/footer.php";
-    }
-
     public function detalhar()
     {
         if (!isset($_GET['id'])) {

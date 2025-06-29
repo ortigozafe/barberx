@@ -32,7 +32,7 @@
 
                     <div class="d-flex gap-4">
                         <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/dashboard' ? 'fw-bold' : '' ?>" href="/barberx/dashboard">Dashboard</a>
-                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/agenda_dono' ? 'fw-bold' : '' ?>" href="/barberx/agenda_dono">Agendamentos</a>
+                        <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/agenda_dono' ? 'fw-bold' : '' ?>" href="/barberx/agenda_dono">Agenda</a>
                         <a class="nav-link text-white <?= $_SERVER['REQUEST_URI'] === '/barberx/barbearias_dono' ? 'fw-bold' : '' ?>" href="/barberx/barbearias_dono">Minhas Barbearias</a>
                     </div>
 

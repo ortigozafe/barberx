@@ -33,7 +33,7 @@
                             placeholder="Deixe em branco para manter a senha atual">
                     </div>
                     <div class="d-flex justify-content-end mt-4">
-                        <a href="/barberx" class="btn btn-outline-secondary">
+                        <a href="/barberx/dashboard" class="btn btn-outline-secondary">
                             <i class="fas fa-arrow-left me-1"></i> Voltar
                         </a>
                         <button type="submit" class="btn btn-primary ms-2">

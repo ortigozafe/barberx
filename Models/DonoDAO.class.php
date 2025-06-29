@@ -75,14 +75,67 @@ class DonoDAO
         }
     }
 
-    public function buscarBarbeariasPorDono($dono_id)
+    // terminar essa funcao 
+    // nao esta buscando corretamente profissionais e servicos
+
+    public function buscar_barbearias_por_dono($dono_id)
     {
-        $sql = "SELECT * FROM barbearia WHERE dono_id = ?";
-        $stm = $this->db->prepare($sql);
-        $stm->bindValue(1, $dono_id);
-        $stm->execute();
-        return $stm->fetchAll(PDO::FETCH_OBJ);
+        try {
+            // buscar todas as barbearias do dono
+            $sql = "SELECT * FROM barbearia WHERE dono_id = ?";
+            $stm = $this->db->prepare($sql);
+            $stm->bindValue(1, $dono_id);
+            $stm->execute();
+            $barbearias = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            $retorno = [];
+
+            foreach ($barbearias as $b) {
+                // profissionais
+                $sql = "SELECT nome FROM profissional WHERE barbearia_id = ?";
+                $stm = $this->db->prepare($sql);
+                $stm->bindValue(1, $b['id']);
+                $stm->execute();
+                $profissionais = $stm->fetchAll(PDO::FETCH_COLUMN);
+
+                // serviços
+                $sql = "SELECT nome FROM servico WHERE barbearia_id = ?";
+                $stm = $this->db->prepare($sql);
+                $stm->bindValue(1, $b['id']);
+                $stm->execute();
+                $servicos = $stm->fetchAll(PDO::FETCH_COLUMN);
+
+                // dono
+                $sql = "SELECT nome FROM dono WHERE id = ?";
+                $stm = $this->db->prepare($sql);
+                $stm->bindValue(1, $dono_id);
+                $stm->execute();
+                $nome_dono = $stm->fetchColumn();
+
+                $obj = (object) [
+                    'id' => $b['id'],
+                    'nome' => $b['nome'],
+                    'cnpj' => $b['cnpj'],
+                    'telefone' => $b['telefone'],
+                    'email' => $b['email'],
+                    'endereco' => $b['endereco'],
+                    'data_cadastro' => $b['data_cadastro'],
+                    'imagem' => $b['imagem'],
+                    'nome_dono' => $nome_dono,
+                    'profissionais' => $profissionais,
+                    'servicos' => $servicos
+                ];
+
+                $retorno[] = $obj;
+            }
+
+            return $retorno;
+        } catch (PDOException $e) {
+            die("Erro ao buscar barbearias: " . $e->getMessage());
+        }
     }
+
+
 
     public function dadosDashboard($barbearia_id)
     {

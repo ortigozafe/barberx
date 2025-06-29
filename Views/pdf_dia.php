@@ -50,7 +50,7 @@ if (empty($dadosPDF)) {
 		$status = ucfirst($dado->status);
 		$corStatus = match (strtolower($dado->status)) {
 			'concluido' => '#198754',
-			'agendado'  => '#ffc107', 
+			'agendado'  => '#0D6EFD', 
 			'cancelado' => '#dc3545',
 			default     => '#212529'
 		};

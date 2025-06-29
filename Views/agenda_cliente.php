@@ -4,7 +4,7 @@
     <?php if (empty($futuros)): ?>
         <p class="text-center text-black">Nenhum agendamento futuro encontrado.</p>
     <?php else: ?>
-        <?php foreach ($futuros as $a): /* $a é um objeto Agendamento completo */ ?>
+        <?php foreach ($futuros as $a): ?>
             <div class="bg-dark p-3 mb-3 rounded">
                 <strong><?= $a->getProfissional()->getBarbearia()->getNome() ?> - <?= $a->getServico()->getNome() ?></strong><br>
                 Profissional: <?= $a->getProfissional()->getNome() ?><br>
@@ -41,7 +41,7 @@
     <?php if (empty($passados)): ?>
         <p class="text-center text-black">Nenhum agendamento anterior.</p>
     <?php else: ?>
-        <?php foreach ($passados as $a): /* $a também é um objeto Agendamento completo */ ?>
+        <?php foreach ($passados as $a):  ?>
             <div class="bg-secondary p-3 mb-3 rounded">
                 <strong><?= $a->getProfissional()->getBarbearia()->getNome() ?> - <?= $a->getServico()->getNome() ?></strong><br>
                 Profissional: <?= $a->getProfissional()->getNome() ?><br>

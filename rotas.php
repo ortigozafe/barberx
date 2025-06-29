@@ -31,6 +31,7 @@ $route = new Rotas();
 
 $route->get("/", [homeController::class, "home"]); 
 $route->get("/empresas", [empresaController::class, "index"]);
+$route->get("/barbearias", [barbeariaController::class, "listar"]);
 $route->get("/contato", [contatoController::class, "formulario"]);
 $route->post("/contato", [contatoController::class, "formulario"]);
 
@@ -48,9 +49,13 @@ $route->get("/perfil_dono", [donoController::class, "perfil"]);
 $route->post("/perfil_dono", [donoController::class, "perfil"]);
 
 // barbearias
-$route->get("/barbearias", [barbeariaController::class, "listar"]);
-$route->get("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
-$route->post("/cadastrar_barbearia", [barbeariaController::class, "cadastrar"]);
+$route->get("/barbearias_dono", [donoController::class, "minhasBarbearias"]);
+$route->get("/cadastrar_barbearia", [donoController::class, "cadastrarBarbearia"]);
+$route->post("/cadastrar_barbearia", [donoController::class, "cadastrarBarbearia"]);
+
+// agendamentos
+$route->get("/agenda_dono", [donoController::class, "agendaDono"]);
+$route->get("/apiAgendamentosBarbearia", [donoController::class, "apiAgendamentosBarbearia"]);
 
 // dashboard
 $route->get("/dashboard", [donoController::class, "dashboard"]);

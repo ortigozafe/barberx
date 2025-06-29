@@ -14,6 +14,16 @@ class BarbeariaDAO
         return $stm->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function buscar_barbearias_por_dono($dono_id)
+    {
+        $sql = "SELECT * FROM barbearia b WHERE dono_id = ?";
+
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $dono_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
 
     public function inserir_barbearia($barbearia)
     {

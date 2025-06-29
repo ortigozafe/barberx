@@ -8,6 +8,37 @@ class agendamentoController
         $this->param = Conexao::getInstancia();
     }
 
+    public function agenda()
+    {
+        if (!isset($_SESSION["cliente_id"])) {
+            header("Location: /barberx/logar_cliente");
+            exit;
+        }
+
+        $cliente_id = $_SESSION["cliente_id"];
+        $agendamentoDAO = new AgendamentoDAO($this->param);
+        $todos = $agendamentoDAO->buscar_agendamentos_cliente($cliente_id);
+
+        $futuros = [];
+        $passados = [];
+        $agora = date("Y-m-d H:i:s");
+
+        foreach ($todos as $a) {
+            if ($a["data_hora"] > $agora && $a["status"] === "agendado") {
+                $futuros[] = $a;
+            } else {
+                $passados[] = $a;
+            }
+        }
+
+        $titulo = "Minha Agenda";
+
+        require_once "Views/layout/header.php";
+        require_once "Views/agenda_cliente.php";
+        require_once "Views/layout/footer.php";
+    }
+
+
     public function agendar()
     {
         if (!isset($_SESSION["cliente_id"])) {
@@ -22,7 +53,7 @@ class agendamentoController
         $retornoBarbearia = $barbeariaDAO->buscar_uma_barbearia($barbearia_id);
 
         //var_dump($barbearia_id);
-  
+
 
         $servicoDAO = new ServicoDAO($this->param);
         $retornoServico = $servicoDAO->buscar_servicos_por_barbearia($barbearia_id);
@@ -136,39 +167,6 @@ class agendamentoController
         require_once "Views/layout/footer.php";
     }
 
-
-
-    public function agenda()
-    {
-        if (!isset($_SESSION["cliente_id"])) {
-            header("Location: /barberx/logar_cliente");
-            exit;
-        }
-
-        $cliente_id = $_SESSION["cliente_id"];
-        $agendamentoDAO = new AgendamentoDAO($this->param);
-        $todos = $agendamentoDAO->buscar_agendamentos_cliente($cliente_id);
-
-        $futuros = [];
-        $passados = [];
-        $agora = date("Y-m-d H:i:s");
-
-        foreach ($todos as $a) {
-            if ($a["data_hora"] > $agora && $a["status"] === "agendado") {
-                $futuros[] = $a;
-            } else {
-                $passados[] = $a;
-            }
-        }
-
-        $titulo = "Minha Agenda";
-
-        require_once "Views/layout/header.php";
-        require_once "Views/agenda_cliente.php";
-        require_once "Views/layout/footer.php";
-    }
-
-
     public function cancelar()
     {
         if (!isset($_GET["id"])) {
@@ -184,4 +182,6 @@ class agendamentoController
         header("Location: /barberx/agenda");
         exit;
     }
+
+
 }

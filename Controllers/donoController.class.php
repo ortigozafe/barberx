@@ -140,6 +140,53 @@ class DonoController
         require_once "Views/layout/footer.php";
     }
 
+    public function minhasBarbearias()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $dono_id = $_SESSION["dono_id"];
+        $barbeariaDAO = new BarbeariaDAO($this->param);
+        $barbearias = $barbeariaDAO->buscar_barbearias_por_dono($dono_id);
+
+        require_once "Views/layout/header.php";
+        require_once "Views/barbearias_dono.php";
+        require_once "Views/layout/footer.php";
+    }
+
+    public function cadastrarBarbearia()
+    {
+        $titulo = "BarberX - Cadastro de barbearia";
+        $msg = "";
+
+        // instanciar o dono
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $dono = new Dono($_POST['dono_id']);
+
+            $barbearia = new Barbearia(
+                0,
+                $_POST["nome"],
+                $_POST["cnpj"],
+                $_POST["telefone"],
+                $_POST["email"],
+                $_POST["endereco"],
+                $dono
+            );
+
+            $barbeariaDAO = new BarbeariaDAO($this->param);
+            $barbeariaDAO->inserir_barbearia($barbearia);
+
+            header("Location: /barberx/barbearias");
+            exit;
+        }
+
+        require_once "Views/layout/header.php";
+        require_once "Views/form_barbearia.php";
+        require_once "Views/layout/footer.php";
+    }
 
     public function dashboard()
     {
@@ -153,17 +200,38 @@ class DonoController
         $dono_id = $_SESSION["dono_id"];
         $dao = new DonoDAO($this->param);
 
-        $barbearias = $dao->buscarBarbeariasPorDono($dono_id);
+        $barbearias = $dao->buscar_barbearias_por_dono($dono_id);
 
         if (empty($barbearias)) {
             die("Nenhuma barbearia cadastrada.");
         }
 
         require_once "Views/layout/header.php";
-        require "Views/dashboard.php";  
+        require_once "Views/dashboard.php";
         require_once "Views/layout/footer.php";
     }
 
+    public function agendaDono()
+    {
+        $dono_id = $_SESSION['dono_id'];
+
+        $barbeariaDAO = new BarbeariaDAO($this->param);
+        $barbearias = $barbeariaDAO->buscar_barbearias_por_dono($dono_id);
+
+        require_once "Views/layout/header.php";
+        require_once "Views/agenda_dono.php";
+        require_once "Views/layout/footer.php";
+    }
+
+    public function apiAgendamentosBarbearia()
+    {
+        $barbearia_id = $_GET['barbearia_id'] ?? null;
+
+        $agendamentoDAO = new AgendamentoDAO($this->param);
+        $dados = $agendamentoDAO->buscar_agendamentos_por_barbearia($barbearia_id);
+
+        echo json_encode($dados);
+    }
 
     public function apiDadosDashboard()
     {
