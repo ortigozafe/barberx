@@ -100,9 +100,9 @@
                     <a href="../views/empresa.php" class="btn btn-light btn-lg fw-bold px-5 py-3 shadow-sm animate__animated animate__tada">Cadastre Sua Barbearia</a>
                 </div>
                 <div class="promo-image-content animate__animated animate__fadeInRight">
-                    <a href="../views/empresa.php">
+                    <!--<a href="../views/empresa.php">
                         <img src="https://images.pexels.com/photos/3472719/pexels-photo-3472719.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Barbeiro trabalhando" class="img-fluid rounded-3 shadow-lg hover-scale">
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </section>
