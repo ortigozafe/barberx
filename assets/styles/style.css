@@ -15,30 +15,23 @@ body {
   display: flex;
   flex-direction: column;
   min-height: auto;
-  background-color: #f0f2f5; /* Um cinza bem claro para o fundo */
-  color: #343a40; /* Cor de texto padrão, um cinza escuro */
+  background-color: #f0f2f5;  
+  color: #343a40; 
 }
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f2f5; /* Um cinza bem claro para o fundo geral */
-  color: #212529; /* Cor de texto padrão, um cinza bem escuro para alto contraste */
+  background-color: #f0f2f5; 
+  color: #212529; 
 }
-
-/* Cores e Fundos */
-/* Paleta de Azuis Otimizada para Contraste: */
-/* Azul principal (primary) - mais escuro e vibrante */
-/* Azul claro para gradientes/seções claras */
-/* Azul muito escuro para textos sobre fundos claros */
-/* Azul para estrelas de avaliação (info) */
 
 .bg-primary-light {
   background: linear-gradient(
     135deg,
     #e0f7fa,
     #a7e0f0
-  ); /* Gradiente de azul claro suave */
+  );
 }
 
 .bg-primary-dark {
@@ -46,12 +39,12 @@ body {
     135deg,
     #0056b3,
     #003a70
-  ); /* Azul mais profundo e sóbrio para contraste */
+  );
 }
 
 .bg-light-section {
-  background-color: #ffffff; /* Fundo branco puro para as seções de conteúdo */
-  border-top: 1px solid #e9ecef; /* Borda sutil entre seções para definição */
+  background-color: #ffffff; 
+  border-top: 1px solid #e9ecef; 
   border-bottom: 1px solid #e9ecef;
 }
 
@@ -61,10 +54,9 @@ body {
     30,
     60,
     0.8
-  ); /* Azul muito escuro e mais opaco para captions, garantindo texto branco visível */
+  ); 
 }
 
-/* Hero Section */
 .hero-section {
   padding-top: 100px;
   padding-bottom: 100px;
@@ -76,21 +68,20 @@ body {
 }
 
 .hero-section h2 {
-  color: #001a33; /* Título principal em azul bem escuro para forte contraste com o fundo claro do hero */
+  color: #001a33; 
   font-weight: 700;
 }
 
 .hero-section p.lead {
-  color: #343a40; /* Texto principal em cinza escuro para melhor legibilidade */
+  color: #343a40; 
 }
 
-/* Carrossel de Imagens */
 #heroCarousel .carousel-item img {
   height: 550px;
   object-fit: cover;
   filter: brightness(
     0.85
-  ); /* Levemente mais escuro para o caption se destacar */
+  ); 
   transition: transform 0.5s ease-in-out;
 }
 
@@ -100,20 +91,19 @@ body {
 
 .carousel-caption h5,
 .carousel-caption p {
-  color: #ffffff; /* Texto branco puro para garantir visibilidade no fundo escuro transparente */
+  color: #ffffff; 
 }
 
-/* Botões */
 .btn-primary {
-  background-color: #007bff; /* Azul primário padrão Bootstrap */
+  background-color: #007bff; 
   border-color: #007bff;
-  color: #ffffff; /* Texto branco */
+  color: #ffffff;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: #0056b3; /* Azul mais escuro no hover */
+  background-color: #0056b3;
   border-color: #0056b3;
   color: #ffffff;
   transform: translateY(-3px);
@@ -121,44 +111,43 @@ body {
 }
 
 .btn-outline-primary {
-  color: #007bff; /* Texto azul */
+  color: #007bff;
   border-color: #007bff;
   transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
   background-color: #007bff;
-  color: #ffffff; /* Texto branco no hover */
+  color: #ffffff;
 }
 
 .btn-light {
   background-color: #ffffff;
-  color: #0056b3; /* Texto azul mais escuro no botão claro */
+  color: #0056b3;
   border-color: #ffffff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .btn-light:hover {
-  background-color: #e9ecef; /* Um cinza claro no hover */
+  background-color: #e9ecef; 
   border-color: #e9ecef;
-  color: #003a70; /* Texto azul ainda mais escuro no hover */
+  color: #003a70;
 }
 
-/* Seção de Unidades */
 .unidades-section {
   padding-top: 80px;
   padding-bottom: 80px;
 }
 
 .unidades-section h2 {
-  color: #0056b3; /* Título da seção em azul vibrante */
+  color: #0056b3; 
   font-weight: 700;
 }
 
 .unidades-section .card {
-  background-color: #ffffff; /* Fundo do card branco */
-  border: 1px solid #f8f9fa; /* Borda bem clara para um visual limpo */
+  background-color: #ffffff; 
+  border: 1px solid #f8f9fa; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -174,31 +163,30 @@ body {
 }
 
 .unidades-section .card-title {
-  color: #003a70; /* Título do card em azul escuro para contraste */
+  color: #003a70; 
 }
 
 .unidades-section .card-text {
-  color: #495057; /* Texto dos cards em cinza escuro para leitura clara */
+  color: #495057; 
 }
 
-/* Promo Section */
 .promo-section {
   padding-top: 100px;
   padding-bottom: 100px;
   min-height: 450px;
   display: flex;
   align-items: center;
-  color: #ffffff; /* Texto branco nesta seção para alto contraste com o fundo azul escuro */
+  color: #ffffff; 
   box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .promo-section h2 {
   font-weight: 700;
-  color: #ffffff; /* Garante que o H2 seja branco */
+  color: #ffffff;
 }
 
 .promo-section p.lead {
-  color: #e9ecef; /* Um tom de branco mais suave para o texto de lead */
+  color: #e9ecef; 
 }
 
 .promo-image-content img {
@@ -213,14 +201,13 @@ body {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.4);
 }
 
-/* Reviews Section */
 .reviews-section {
   padding-top: 80px;
   padding-bottom: 80px;
 }
 
 .reviews-section h2 {
-  color: #0056b3; /* Título da seção de avaliações em azul vibrante */
+  color: #0056b3;
   font-weight: 700;
 }
 
@@ -228,27 +215,27 @@ body {
   min-width: 320px;
   max-width: 550px;
   margin: 0 auto;
-  background-color: #ffffff; /* Fundo branco para cards de avaliação */
-  border: 1px solid #e9ecef; /* Borda bem clara */
-  border-top: 5px solid #007bff; /* Borda superior azul forte */
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-top: 5px solid #007bff; 
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .review-card .card-title {
-  color: #003a70; /* Título do avaliador em azul escuro */
+  color: #003a70; 
 }
 
 .review-card .card-subtitle {
-  color: #6c757d; /* Data em cinza médio */
+  color: #6c757d; 
 }
 
 .review-card .card-text {
   font-style: italic;
-  color: #343a40; /* Texto da avaliação em cinza escuro para melhor leitura */
+  color: #343a40; 
 }
 
 .review-card .text-info {
-  color: #17a2b8 !important; /* Azul turquesa para as estrelas, com `!important` para garantir prioridade */
+  color: #17a2b8 !important;
 }
 .pdf-icon-button {
     height: 70px;
@@ -261,7 +248,6 @@ body {
     cursor: pointer; 
 }
 
-/* Botões de navegação do carrossel de avaliações */
 #reviewsCarousel .carousel-control-prev-icon,
 #reviewsCarousel .carousel-control-next-icon {
   background-color: rgba(0, 123, 255, 0.7);
@@ -269,7 +255,6 @@ body {
   padding: 15px;
 }
 
-/* Responsividade geral */
 @media (max-width: 768px) {
   .hero-section h2 {
     font-size: 2.5rem;

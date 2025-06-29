@@ -19,18 +19,6 @@ class agendamentoController
         $agendamentoDAO = new AgendamentoDAO($this->param);
         $todos = $agendamentoDAO->buscar_agendamentos_cliente($cliente_id);
 
-        $futuros = [];
-        $passados = [];
-        $agora = date("Y-m-d H:i:s");
-
-        foreach ($todos as $a) {
-            if ($a["data_hora"] > $agora && $a["status"] === "agendado") {
-                $futuros[] = $a;
-            } else {
-                $passados[] = $a;
-            }
-        }
-
         $titulo = "Minha Agenda";
 
         require_once "Views/layout/header.php";

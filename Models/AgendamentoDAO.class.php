@@ -22,18 +22,30 @@ class AgendamentoDAO
 
     public function buscar_agendamentos_cliente($cliente_id)
     {
-        $sql = "SELECT a.*, s.nome AS servico_nome, p.nome AS profissional_nome, b.nome AS barbearia_nome
-                    FROM agendamento a
-                    JOIN servico s ON a.servico_id = s.id
-                    JOIN profissional p ON a.profissional_id = p.id
-                    JOIN barbearia b ON p.barbearia_id = b.id
-                    WHERE a.cliente_id = ?
-                    ORDER BY a.data_hora DESC";
+        $sql = "SELECT 
+                a.id AS agendamento_id,
+                a.data_hora,
+                a.status,
+                a.observacoes,
+                s.nome AS servico_nome,
+                s.preco AS servico_preco,
+                p.nome AS profissional_nome,
+                p.email AS profissional_email,
+                b.nome AS barbearia_nome,
+                b.imagem AS barbearia_imagem
+            FROM agendamento a
+            JOIN servico s ON a.servico_id = s.id
+            JOIN profissional p ON a.profissional_id = p.id
+            JOIN barbearia b ON a.barbearia_id = b.id
+            WHERE a.cliente_id = ?
+            ORDER BY a.data_hora DESC";
 
         $stm = $this->db->prepare($sql);
-        $stm->execute([$cliente_id]);
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
+        $stm->bindValue(1, $cliente_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
     }
+
 
     public function cancelar_agendamento($id)
     {
