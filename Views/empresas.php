@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-md-6 text-center">
-            <img src="assets/img/barbearia_ilustracao.svg" alt="Ilustração barbearia" class="img-fluid rounded-4 shadow" style="max-height: 280px;">
+            <img src="assets/img/ilustraçãoBarber.jpg" alt="Ilustração barbearia" class="img-fluid rounded-4 shadow" style="max-height: 280px;">
         </div>
     </div>
 
