@@ -142,19 +142,25 @@ class DonoController
 
     public function minhasBarbearias()
     {
-        if (!isset($_SESSION["dono_id"])) {
-            header("Location: /barberx/logar_dono");
+        if (!isset($_SESSION['dono_id'])) {
+            header("Location: /barberx/login_dono"); // ou onde for o login do dono
             exit;
         }
 
-        $dono_id = $_SESSION["dono_id"];
+        $dono_id = $_SESSION['dono_id'];
         $barbeariaDAO = new BarbeariaDAO($this->param);
-        $barbearias = $barbeariaDAO->buscar_barbearias_por_dono($dono_id);
+
+        // Busca as barbearias completas do dono logado
+        $retorno = $barbeariaDAO->buscar_barbearias_completas_por_dono($dono_id);
+
+        $titulo = "BarberX - Minhas Barbearias";
 
         require_once "Views/layout/header.php";
-        require_once "Views/barbearias_dono.php";
+        require_once "Views/barbearias_dono.php"; // sua view para listar todas do dono
         require_once "Views/layout/footer.php";
     }
+
+
 
     public function cadastrarBarbearia()
     {

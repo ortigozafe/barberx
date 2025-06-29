@@ -24,6 +24,43 @@ class BarbeariaDAO
         return $stm->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function buscar_barbearias_completas_por_dono($dono_id)
+    {
+        $sql = "SELECT 
+                b.id,
+                b.nome,
+                b.cnpj,
+                b.telefone,
+                b.email,
+                b.endereco,
+                b.data_cadastro,
+                b.imagem,
+                d.nome AS nome_dono
+            FROM barbearia b
+            JOIN dono d ON d.id = b.dono_id
+            WHERE b.dono_id = ?
+            ORDER BY b.nome";
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $dono_id);
+        $stm->execute();
+        $barbearias = $stm->fetchAll(PDO::FETCH_OBJ);
+
+        foreach ($barbearias as $bar) {
+            $sqlProf = "SELECT nome, telefone, email, especialidade FROM profissional WHERE barbearia_id = ?";
+            $stmProf = $this->db->prepare($sqlProf);
+            $stmProf->bindValue(1, $bar->id);
+            $stmProf->execute();
+            $bar->profissionais = $stmProf->fetchAll(PDO::FETCH_OBJ);
+
+            $sqlServ = "SELECT nome, descricao, preco, duracao_minutos FROM servico WHERE barbearia_id = ?";
+            $stmServ = $this->db->prepare($sqlServ);
+            $stmServ->bindValue(1, $bar->id);
+            $stmServ->execute();
+            $bar->servicos = $stmServ->fetchAll(PDO::FETCH_OBJ);
+        }
+
+        return $barbearias;
+    }
 
     public function inserir_barbearia($barbearia)
     {

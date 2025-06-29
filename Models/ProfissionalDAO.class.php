@@ -90,7 +90,7 @@ class ProfissionalDAO
 
     public function buscar_profissionais_por_barbearia($barbearia_id)
     {
-        $sql = "SELECT *FROM profissional p WHERE p.barbearia_id = ?";
+        $sql = "SELECT * FROM profissional p WHERE p.barbearia_id = ?";
 
         try {
             $stm = $this->db->prepare($sql);
