@@ -77,6 +77,8 @@ class BarbeariaDAO
                 $barbearia->getDono()->getId(),
                 $barbearia->getImagem()
             ]);
+
+            return $this->db->lastInsertId();
         } catch (PDOException $e) {
             die("Erro ao inserir barbearia: " . $e->getMessage());
         }

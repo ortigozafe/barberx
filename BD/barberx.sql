@@ -26,6 +26,16 @@ CREATE TABLE barbearia (
     FOREIGN KEY (dono_id) REFERENCES dono(id) ON DELETE CASCADE
 );
 
+-- Tabela de horários
+CREATE TABLE horario_funcionamento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    barbearia_id INT NOT NULL,
+    dia_semana ENUM('domingo','segunda','terca','quarta','quinta','sexta','sabado') NOT NULL,
+    horario_abertura TIME NOT NULL,
+    horario_fechamento TIME NOT NULL,
+    FOREIGN KEY (barbearia_id) REFERENCES barbearia(id) ON DELETE CASCADE
+);
+
 -- Tabela de profissionais
 CREATE TABLE profissional (
     id INT AUTO_INCREMENT PRIMARY KEY,

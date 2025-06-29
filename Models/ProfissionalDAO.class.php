@@ -3,7 +3,7 @@ class ProfissionalDAO
 {
     public function __construct(private $db = null) {}
 
-    public function salvar($profissional)
+    public function inserirProfissional($profissional)
     {
         $sql = "INSERT INTO profissional (nome, telefone, email, especialidade, barbearia_id) VALUES (?, ?, ?, ?, ?)";
         try {

@@ -2,8 +2,9 @@
     <h2 class="text-center mb-4 display-5 fw-bold text-primary animate__animated animate__fadeInRight">Minhas Barbearias</h2>
 
     <div class="d-flex justify-content-center mb-4 animate__animated animate__fadeInUp">
-        <button class="btn btn-outline-primary btn-lg"> <i class="fas fa-plus me-2"></i> Adicionar Barbearia
-        </button>
+        <a href="/barberx/cadastrar_barbearia" class="btn btn-outline-primary btn-lg"> 
+            <i class="fas fa-plus me-2"></i> Adicionar Barbearia
+        </a>
     </div>
 
     <div class="row justify-content-center g-4 animate__animated animate__fadeInLeft">
@@ -57,7 +58,7 @@
                             <a href="/barberx/excluir_barbearia/<?= htmlspecialchars($bar->id) ?>" class="btn btn-sm btn-danger">
                                 <i class="fas fa-trash me-1"></i> Excluir
                             </a>
-                            </div>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>

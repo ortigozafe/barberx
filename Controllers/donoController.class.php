@@ -143,31 +143,26 @@ class DonoController
     public function minhasBarbearias()
     {
         if (!isset($_SESSION['dono_id'])) {
-            header("Location: /barberx/login_dono"); // ou onde for o login do dono
+            header("Location: /barberx/login_dono");
             exit;
         }
 
         $dono_id = $_SESSION['dono_id'];
         $barbeariaDAO = new BarbeariaDAO($this->param);
 
-        // Busca as barbearias completas do dono logado
         $retorno = $barbeariaDAO->buscar_barbearias_completas_por_dono($dono_id);
 
         $titulo = "BarberX - Minhas Barbearias";
 
         require_once "Views/layout/header.php";
-        require_once "Views/barbearias_dono.php"; // sua view para listar todas do dono
+        require_once "Views/barbearias_dono.php";
         require_once "Views/layout/footer.php";
     }
-
-
 
     public function cadastrarBarbearia()
     {
         $titulo = "BarberX - Cadastro de barbearia";
         $msg = "";
-
-        // instanciar o dono
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $dono = new Dono($_POST['dono_id']);
@@ -183,9 +178,60 @@ class DonoController
             );
 
             $barbeariaDAO = new BarbeariaDAO($this->param);
-            $barbeariaDAO->inserir_barbearia($barbearia);
+            $barbearia_id = $barbeariaDAO->inserir_barbearia($barbearia);
+            $barbearia->setId($barbearia_id);
 
-            header("Location: /barberx/barbearias");
+            // inserir horarios
+            if (!empty($_POST['dias_abertos'])) {
+                $horarioDAO = new HorarioFuncionamentoDAO($this->param);
+
+                foreach ($_POST['dias_abertos'] as $dia => $dados) {
+                    if (isset($dados['ativo'])) {
+                        $horario = new HorarioFuncionamento(
+                            0,
+                            $barbearia,
+                            $dia,
+                            $dados['abertura'],
+                            $dados['fechamento']
+                        );
+                        $horarioDAO->inserirHorario($horario);
+                    }
+                }
+            }
+
+            // inserir profissionais
+            if (!empty($_POST['profissionais'])) {
+                $profissionalDAO = new ProfissionalDAO($this->param);
+                foreach ($_POST['profissionais'] as $prof) {
+                    $profissional = new Profissional(
+                        0,
+                        $prof['nome'],
+                        $prof['telefone'],
+                        $prof['email'],
+                        $prof['especialidade'],
+                        $barbearia
+                    );
+                    $profissionalDAO->inserirProfissional($profissional);
+                }
+            }
+
+            // inserir servicos
+            if (!empty($_POST['servicos'])) {
+                $servicoDAO = new ServicoDAO($this->param);
+                foreach ($_POST['servicos'] as $serv) {
+                    $servico = new Servico(
+                        0,
+                        $serv['nome'],
+                        $serv['descricao'],
+                        $serv['preco'],
+                        $serv['duracao_minutos'],
+                        $barbearia
+                    );
+                    $servicoDAO->inserirServico($servico);
+                }
+            }
+
+            header("Location: /barberx/barbearias_dono");
             exit;
         }
 
