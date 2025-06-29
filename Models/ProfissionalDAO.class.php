@@ -5,14 +5,13 @@ class ProfissionalDAO
 
     public function inserirProfissional($profissional)
     {
-        $sql = "INSERT INTO profissional (nome, telefone, email, especialidade, barbearia_id) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO profissional (nome, telefone, email, barbearia_id) VALUES (?, ?, ?, ?, ?)";
         try {
             $stm = $this->db->prepare($sql);
             return $stm->execute([
                 $profissional->getNome(),
                 $profissional->getTelefone(),
                 $profissional->getEmail(),
-                $profissional->getEspecialidade(),
                 $profissional->getBarbearia()->getId()
             ]);
         } catch (PDOException $e) {

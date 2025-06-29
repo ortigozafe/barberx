@@ -6,7 +6,6 @@ class Profissional
         private string $nome = "",
         private string $telefone = "",
         private string $email = "",
-        private string $especialidade = "",
         private $barbearia = null
     ) {}
 
@@ -25,10 +24,6 @@ class Profissional
     public function getEmail()
     {
         return $this->email;
-    }
-    public function getEspecialidade()
-    {
-        return $this->especialidade;
     }
     public function getBarbearia()
     {

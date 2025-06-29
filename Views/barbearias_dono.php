@@ -29,7 +29,7 @@
                                     <?php foreach ($bar->profissionais as $prof): ?>
                                         <li>
                                             <i class="fas fa-user me-1"></i>
-                                            <?= htmlspecialchars($prof->nome) ?> — <?= htmlspecialchars($prof->especialidade ?? 'Não informada') ?>
+                                            <?= htmlspecialchars($prof->nome) ?>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>

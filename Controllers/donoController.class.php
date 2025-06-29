@@ -254,10 +254,6 @@ class DonoController
 
         $barbearias = $dao->buscar_barbearias_por_dono($dono_id);
 
-        if (empty($barbearias)) {
-            die("Nenhuma barbearia cadastrada.");
-        }
-
         require_once "Views/layout/header.php";
         require_once "Views/dashboard.php";
         require_once "Views/layout/footer.php";
