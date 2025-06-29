@@ -1,6 +1,5 @@
 <body>
 
-
     <main class="bg-light text-dark-emphasis">
         <section class="hero-section py-5 bg-primary-light">
             <div class="container text-center">
@@ -10,21 +9,21 @@
                 <div id="heroCarousel" class="carousel slide carousel-fade mb-5 shadow-lg rounded-3 animate__animated animate__zoomIn" data-bs-ride="carousel">
                     <div class="carousel-inner rounded-3">
                         <div class="carousel-item active">
-                            <img src="https://images.pexels.com/photos/18069698/pexels-photo-18069698/free-photo-of-homem-barbearia-cliente-atendimento.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100 img-fluid rounded-3" alt="Corte de cabelo moderno">
+                            <img src="assets/img/banner3.jpg" class="d-block w-100 img-fluid rounded-3" alt="Corte de cabelo moderno">
                             <div class="carousel-caption d-none d-md-block bg-dark-transparent-light rounded p-2">
                                 <h5 class="text-white">Descubra Novas Barbearias</h5>
                                 <p class="text-white-50">Explore um catálogo completo de estabelecimentos próximos a você.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://images.pexels.com/photos/10189427/pexels-photo-10189427.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100 img-fluid rounded-3" alt="Barba bem feita">
+                            <img src="assets/img/banner1.jpeg" class="d-block w-100 img-fluid rounded-3" alt="Barba bem feita">
                             <div class="carousel-caption d-none d-md-block bg-dark-transparent-light rounded p-2">
                                 <h5 class="text-white">Agende Facilmente</h5>
                                 <p class="text-white-50">Escolha o serviço, barbeiro e horário ideais para você.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://images.pexels.com/photos/10189436/pexels-photo-10189436.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100 img-fluid rounded-3" alt="Ambiente da barbearia">
+                            <img src="assets/img/bannerr2.jpg" class="d-block w-100 img-fluid rounded-3" alt="Ambiente da barbearia">
                             <div class="carousel-caption d-none d-md-block bg-dark-transparent-light rounded p-2">
                                 <h5 class="text-white">Atendimento Premium Garantido</h5>
                                 <p class="text-white-50">Encontre profissionais qualificados e ambientes confortáveis.</p>
@@ -50,7 +49,8 @@
                 <h2 class="display-5 fw-bold mb-5 text-primary">Barbearias em Destaque</h2>
                 <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
                     <div class="col">
-                        <div class="card h-100 bg-white shadow-lg border rounded-3 animate__animated animate__fadeInLeft"> <img src="https://images.pexels.com/photos/159223/barber-barbershop-shop-man-159223.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top rounded-top" alt="Barbearia Estilo & Fio">
+                        <div class="card h-100 bg-white shadow-lg border rounded-3 animate__animated animate__fadeInLeft">
+                            <img src="assets/img/EstiloeCortes.png" class="card-img-top rounded-top" alt="Barbearia Estilo & Fio">
                             <div class="card-body">
                                 <h3 class="card-title text-dark-blue mb-3">Estilo & Fio Barbearia</h3>
                                 <p class="card-text text-dark-gray"><i class="fas fa-map-marker-alt me-2"></i>Rua das Flores, 123 - Centro</p>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="col">
                         <div class="card h-100 bg-white shadow-lg border rounded-3 animate__animated animate__fadeInUp">
-                            <img src="https://images.pexels.com/photos/159224/barber-barbershop-shop-man-159224.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top rounded-top" alt="Barbearia Navalha de Ouro">
+                            <img src="assets/img/navalhadeOuro.png" class="card-img-top rounded-top" alt="Barbearia Navalha de Ouro">
                             <div class="card-body">
                                 <h3 class="card-title text-dark-blue mb-3">Navalha de Ouro</h3>
                                 <p class="card-text text-dark-gray"><i class="fas fa-map-marker-alt me-2"></i>Av. Brasil, 456 - Bairro Norte</p>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="col">
                         <div class="card h-100 bg-white shadow-lg border rounded-3 animate__animated animate__fadeInRight">
-                            <img src="https://images.pexels.com/photos/10708687/pexels-photo-10708687.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top rounded-top" alt="Barbearia Urban Cut">
+                            <img src="assets/img/urbcorte.jpg" class="card-img-top rounded-top" alt="Barbearia Urban Cut">
                             <div class="card-body">
                                 <h3 class="card-title text-dark-blue mb-3">Urban Cut Barbearia</h3>
                                 <p class="card-text text-dark-gray"><i class="fas fa-map-marker-alt me-2"></i>Shopping Sul, Loja 789</p>
