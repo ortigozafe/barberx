@@ -91,14 +91,14 @@ class DonoController
         $retornoDono = $donoDAO->buscar_dono_por_id($dono_id);
 
         if (!$retornoDono) {
-            $erro = "Dono não encontrado"; 
+            $erro = "Dono não encontrado";
         }
 
         if ($_POST) {
             $donoAtual = $donoDAO->buscar_dono_por_id($dono_id);
 
             if (!$donoAtual) {
-                $erro = "Dono não encontrado."; 
+                $erro = "Dono não encontrado.";
             } else {
                 $nome = $_POST["nome"];
                 $email = $_POST["email"];
@@ -155,19 +155,31 @@ class DonoController
 
         $barbearias = $dao->buscarBarbeariasPorDono($dono_id);
 
-        $barbearia_id = $barbearias[0]->id ?? null;
-
-        if (!$barbearia_id) {
+        if (empty($barbearias)) {
             die("Nenhuma barbearia cadastrada.");
         }
 
-        $dadosDashboard = $dao->dadosDashboard($barbearia_id);
-        $dadosDashboard->barbearias = $barbearias;
-
         require_once "Views/layout/header.php";
-        require_once "Views/dashboard.php";
+        require "Views/dashboard.php";  
         require_once "Views/layout/footer.php";
     }
+
+
+    public function apiDadosDashboard()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+        $barbearia_id = $_GET["barbearia_id"] ?? null;
+
+        $dao = new DonoDAO($this->param);
+        $dados = $dao->dadosDashboard($barbearia_id);
+
+        header("Content-Type: application/json");
+        echo json_encode($dados);
+    }
+
 
     public function apiAgendamentosDia()
     {

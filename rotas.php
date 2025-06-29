@@ -57,6 +57,7 @@ $route->get("/dashboard", [donoController::class, "dashboard"]);
 $route->get("/apiAgendamentosDia", [donoController::class, "apiAgendamentosDia"]);
 $route->get("/apiClientesMes", [donoController::class, "apiClientesMes"]);
 $route->get("/apiServicosRealizados", [donoController::class, "apiServicosRealizados"]);
+$route->get("/apiDadosDashboard", [donoController::class, "apiDadosDashboard"]);
 
 // Rota para os dados do gráfico de barras
 $route->get("/dadosgraficobarras", [donoController::class, "dadosgraficobarras"]);

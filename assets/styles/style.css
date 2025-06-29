@@ -250,6 +250,16 @@ body {
 .review-card .text-info {
   color: #17a2b8 !important; /* Azul turquesa para as estrelas, com `!important` para garantir prioridade */
 }
+.pdf-icon-button {
+    height: 70px;
+    color: #dc3545;
+    transition: all 0.3s ease; 
+}
+.pdf-icon-button:hover {
+    font-size: 1.1rem; 
+    color: #f3021a; 
+    cursor: pointer; 
+}
 
 /* Botões de navegação do carrossel de avaliações */
 #reviewsCarousel .carousel-control-prev-icon,
