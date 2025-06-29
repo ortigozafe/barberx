@@ -102,4 +102,33 @@ class BarbeariaDAO
         $stm->execute();
         return $stm->fetch(PDO::FETCH_OBJ);
     }
+
+    public function atualizar_barbearia(Barbearia $barbearia)
+    {
+        $sql = "UPDATE barbearia SET nome = ?, cnpj = ?, telefone = ?, email = ?, endereco = ? WHERE id = ?";
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                $barbearia->getNome(),
+                $barbearia->getCnpj(),
+                $barbearia->getTelefone(),
+                $barbearia->getEmail(),
+                $barbearia->getEndereco(),
+                $barbearia->getId()
+            ]);
+        } catch (PDOException $e) {
+            die("Erro ao atualizar barbearia: " . $e->getMessage());
+        }
+    }
+
+    public function excluir_barbearia($id)
+    {
+        $sql = "DELETE FROM barbearia WHERE id = ?";
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            die("Erro ao excluir barbearia: " . $e->getMessage());
+        }
+    }
 }

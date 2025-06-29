@@ -52,10 +52,13 @@
                             <?php endif; ?>
                         </div>
                         <div class="card-footer bg-transparent border-top d-flex justify-content-around align-items-center p-3">
-                            <a href="/barberx/editar_barbearia/<?= htmlspecialchars($bar->id) ?>" class="btn btn-sm btn-success text-white me-2">
+                            <a href="/barberx/editar_barbearia?id=<?= htmlspecialchars($bar->id) ?>" class="btn btn-sm btn-success text-white me-2">
                                 <i class="fas fa-edit me-1"></i> Editar
                             </a>
-                            <a href="/barberx/excluir_barbearia/<?= htmlspecialchars($bar->id) ?>" class="btn btn-sm btn-danger">
+
+                            <a href="/barberx/excluir_barbearia?id=<?= htmlspecialchars($bar->id) ?>" 
+                            class="btn btn-sm btn-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir esta barbearia?');">
                                 <i class="fas fa-trash me-1"></i> Excluir
                             </a>
                         </div>

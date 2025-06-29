@@ -254,10 +254,6 @@ class DonoController
 
         $barbearias = $dao->buscar_barbearias_por_dono($dono_id);
 
-        if (empty($barbearias)) {
-            die("Nenhuma barbearia cadastrada.");
-        }
-
         require_once "Views/layout/header.php";
         require_once "Views/dashboard.php";
         require_once "Views/layout/footer.php";
@@ -416,5 +412,70 @@ class DonoController
         } else {
             echo "<script>alert('Nenhum serviço hoje.'); location.href='/barberx/dashboard';</script>";
         }
+    }
+
+    public function editarBarbearia()
+    {
+        $titulo = "Editar Barbearia";
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $barbearia_id = $_GET["id"] ?? null;
+
+        $barbeariaDAO = new BarbeariaDAO($this->param);
+        $barbeariaAtual = $barbeariaDAO->buscar_uma_barbearia($barbearia_id);
+
+        if (!$barbeariaAtual) {
+            echo "<script>alert('Barbearia não encontrada.'); location.href='/barberx/barbearias_dono';</script>";
+            exit;
+        }
+
+        if ($_POST) {
+            $nome = $_POST["nome"];
+            $cnpj = $_POST["cnpj"];
+            $telefone = $_POST["telefone"];
+            $email = $_POST["email"];
+            $endereco = $_POST["endereco"];
+
+            $barbeariaAtual->setNome($nome);
+            $barbeariaAtual->setCnpj($cnpj);
+            $barbeariaAtual->setTelefone($telefone);
+            $barbeariaAtual->setEmail($email);
+            $barbeariaAtual->setEndereco($endereco);
+
+            $barbeariaDAO->atualizar_barbearia($barbeariaAtual);
+
+            header("Location: /barberx/barbearias_dono");
+            exit;
+        }
+
+        require_once "Views/layout/header.php";
+        require_once "Views/editar_barbearia.php";
+        require_once "Views/layout/footer.php";
+    }
+
+    public function excluirBarbearia()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $id = $_GET["id"] ?? null;
+
+        if ($id) {
+            $barbeariaDAO = new BarbeariaDAO($this->param);
+            $barbeariaDAO->excluir_barbearia($id);
+        }
+
+        header("Location: /barberx/barbearias_dono");
+        exit;
     }
 }
