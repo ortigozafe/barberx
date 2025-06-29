@@ -208,7 +208,6 @@ class DonoController
                         $prof['nome'],
                         $prof['telefone'],
                         $prof['email'],
-                        $prof['especialidade'],
                         $barbearia
                     );
                     $profissionalDAO->inserirProfissional($profissional);

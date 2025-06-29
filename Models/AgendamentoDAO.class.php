@@ -75,10 +75,36 @@ class AgendamentoDAO
         $stm->bindValue(1, $barbearia_id);
         $stm->execute();
         return $stm->fetchAll(PDO::FETCH_OBJ);
-
     }
 
-    public function atualizar_agendamento(Agendamento $ag)
+    public function listarPorBarbearia($barbearia_id)
+    {
+        $sql = "SELECT * FROM agendamento WHERE barbearia_id = ?";
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->bindValue(1, $barbearia_id);
+            $stm->execute();
+            return $stm->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            die("Erro ao buscar agendamentos da barbearia: " . $e->getMessage());
+        }
+    }
+
+    public function listarPorDia($barbearia_id, $data)
+    {
+        $sql = "SELECT * FROM agendamento WHERE barbearia_id = ? AND DATE(data_hora) = ?";
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->bindValue(1, $barbearia_id);
+            $stm->bindValue(2, $data);
+            $stm->execute();
+            return $stm->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            die("Erro ao buscar agendamentos do dia: " . $e->getMessage());
+        }
+    }
+
+    /*public function atualizar_agendamento(Agendamento $ag)
     {
         $sql = "UPDATE agendamento SET 
                         profissional_id = ?, 
@@ -98,7 +124,7 @@ class AgendamentoDAO
             $ag->getId(),
             $ag->getClienteId()
         ]);
-    }
+    }*/
 
     public function buscar_agendamentos_do_dia_por_dono($dono_id)
     {

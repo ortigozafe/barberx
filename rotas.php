@@ -99,6 +99,9 @@ $route->get("/alterarAgendamento", [agendamentoController::class, "alterarAgenda
 $route->post("/alterarAgendamento", [agendamentoController::class, "alterarAgendamento"]);
 $route->get("/cancelar_agendamento", [agendamentoController::class, "cancelar"]);
 
+// rotas para AJAX do agendamento dinâmico
+$route->post("/buscar_horarios", [agendamentoController::class, "buscarHorarios"]);
+$route->post("/buscar_profissionais", [agendamentoController::class, "buscarProfissionais"]);
 
 
 // logout
