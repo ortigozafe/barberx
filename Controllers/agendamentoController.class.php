@@ -44,12 +44,17 @@ class agendamentoController
         $horaInicio = strtotime($data . ' ' . $horarioDia->horario_abertura);
         $horaFim    = strtotime($data . ' ' . $horarioDia->horario_fechamento);
 
-        // var_dump($horarioDia);
-        //  exit;
+        $hoje = date('Y-m-d');
+        $agora = time();
 
         $horarios = [];
 
         while ($horaInicio + ($intervalo * 60) <= $horaFim) {
+            if ($data === $hoje && $horaInicio <= $agora) {
+                $horaInicio += ($intervalo * 60);
+                continue;
+            }
+
             $profissionaisLivres = [];
 
             foreach ($profissionais as $prof) {
@@ -88,6 +93,7 @@ class agendamentoController
 
         return $horarios;
     }
+
 
     private function filtrarProfissionaisDisponiveis($profissionais, $agendamentosDia, $horaEscolhida, $servicos)
     {

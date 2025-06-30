@@ -285,7 +285,7 @@ class DonoController
     public function agendaDono()
     {
         if (!isset($_SESSION['dono_id'])) {
-            header("Location: /barberx/logar_dono"); 
+            header("Location: /barberx/logar_dono");
             exit;
         }
 
@@ -460,6 +460,27 @@ class DonoController
         }
     }
 
+    public function excluirBarbearia()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $id = $_GET["id"] ?? null;
+
+        if (!$id) {
+            echo "<script>alert('ID inválido'); history.back();</script>";
+            return;
+        }
+
+        $dao = new BarbeariaDAO($this->param);
+        $dao->excluirTudoRelacionado($id);
+
+        header("Location: /barberx/barbearias_dono");
+        exit;
+    }
+
     public function editarBarbearia()
     {
         $titulo = "Editar Barbearia";
@@ -469,13 +490,9 @@ class DonoController
             session_start();
         }
 
-        $id = $_GET['id'];
-        $dao = new BarbeariaDAO($this->param);
-        $barbearia = $dao->buscarPorIdCompleto($id);
-
-        if (!$barbearia) {
-            echo "Barbearia não encontrada.";
-            return;
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
         }
 
         $barbearia_id = $_GET["id"] ?? null;
@@ -510,7 +527,7 @@ class DonoController
                 $telefone,
                 $email,
                 $endereco,
-                null,
+                null, 
                 $barbeariaAtual->data_cadastro ?? '',
                 $imagem_nome
             );
@@ -523,68 +540,5 @@ class DonoController
         require_once "Views/layout/header.php";
         require_once "Views/editar_barbearia.php";
         require_once "Views/layout/footer.php";
-    }
-
-    public function excluirBarbearia()
-    {
-        if (!isset($_SESSION["dono_id"])) {
-            header("Location: /barberx/logar_dono");
-            exit;
-        }
-
-        $id = $_GET["id"] ?? null;
-
-        if (!$id) {
-            echo "<script>alert('ID inválido'); history.back();</script>";
-            return;
-        }
-
-        $dao = new BarbeariaDAO($this->param);
-        $dao->excluirTudoRelacionado($id);
-
-        header("Location: /barberx/barbearias_dono");
-        exit;
-    }
-
-    public function atualizarBarbearia()
-    {
-        if (!isset($_SESSION["dono_id"])) {
-            header("Location: /barberx/logar_dono");
-            exit;
-        }
-
-        if (!$_POST || empty($_POST["id"])) {
-            echo "<script>alert('Dados inválidos.'); history.back();</script>";
-            return;
-        }
-
-        $dono_id = $_SESSION["dono_id"];
-        $dao = new BarbeariaDAO($this->param);
-        $barbearia_id = $_POST["id"];
-
-        $barbeariaAtual = $dao->buscar_uma_barbearia($barbearia_id);
-
-        if (!$barbeariaAtual) {
-            echo "<script>alert('Barbearia não encontrada.'); history.back();</script>";
-            return;
-        }
-
-        $barbearia = new Barbearia(
-            id: $barbearia_id,
-            nome: $_POST['nome'],
-            cnpj: $_POST['cnpj'],
-            telefone: $_POST['telefone'],
-            email: $_POST['email'],
-            endereco: $_POST['endereco'],
-            dono: $dono_id
-        );
-
-        $dao->atualizar_barbearia($barbearia);
-        $dao->atualizarProfissionais($barbearia_id, $_POST['profissionais'] ?? []);
-        $dao->atualizarServicos($barbearia_id, $_POST['servicos'] ?? []);
-        $dao->atualizarHorarios($barbearia_id, $_POST['dias_abertos'] ?? []);
-
-        header("Location: /barberx/barbearias_dono");
-        exit;
     }
 }

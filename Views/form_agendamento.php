@@ -7,7 +7,7 @@
             <form method="post" action="/barberx/agendar?id=<?= $barbeariaData->id ?>" class="needs-validation" novalidate>
                 <div class="mb-3">
                     <label for="data" class="form-label fw-bold text-dark-blue">Data</label>
-                    <input type="date" name="data" id="data" class="form-control" required min="<?= date('Y-m-d') ?>">
+                    <input type="date" name="data" id="data" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
@@ -54,6 +54,16 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dataInput = document.getElementById('data');
+        const hoje = new Date();
+        const yyyy = hoje.getFullYear();
+        const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+        const dd = String(hoje.getDate()).padStart(2, '0');
+        const hojeFormatado = `${yyyy}-${mm}-${dd}`;
+        dataInput.setAttribute('min', hojeFormatado);
+    });
+
     $(document).ready(function() {
         $("#data").on("change", function() {
             let data = $(this).val();
@@ -62,11 +72,25 @@
                     data: data,
                     barbearia_id: <?= $barbearia_id ?>
                 }, function(res) {
+                    const hojeStr = new Date().toISOString().split('T')[0];
+                    const agoraTS = new Date().getTime();
+
                     $("#hora").html('<option value="">Selecione o horário</option>');
+
                     res.forEach(function(h) {
-                        $("#hora").append(`<option value="${h.full}">${h.horario}</option>`);
+                        if (data === hojeStr) {
+                            let horarioTS = new Date(h.full).getTime();
+                            if (horarioTS > agoraTS) {
+                                $("#hora").append(`<option value="${h.full}">${h.horario}</option>`);
+                            }
+                        } else {
+                            $("#hora").append(`<option value="${h.full}">${h.horario}</option>`);
+                        }
                     });
                 }, "json");
+            } else {
+                $("#hora").html('<option value="">Selecione o horário</option>');
+                $("#profissional_id").html('<option value="">Selecione o profissional</option>');
             }
         });
 
@@ -84,6 +108,8 @@
                         $("#profissional_id").append(`<option value="${p.id}">${p.nome}</option>`);
                     });
                 }, "json");
+            } else {
+                $("#profissional_id").html('<option value="">Selecione o profissional</option>');
             }
         });
     });
