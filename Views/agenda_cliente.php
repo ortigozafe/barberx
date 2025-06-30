@@ -66,9 +66,6 @@
                             <td class="text-dark-gray"><?= htmlspecialchars($a->observacoes) ?></td>
                             <td class="text-center">
                                 <?php if (strtolower($a->status) === 'agendado'): ?>
-                                    <a href="/barberx/editar_agendamento?id=<?= $a->agendamento_id ?>" class="btn btn-sm btn-warning me-1" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
                                     <a href="/barberx/cancelar_agendamento?id=<?= $a->agendamento_id ?>" class="btn btn-sm btn-danger" title="Cancelar" onclick="return confirm('Tem certeza que deseja cancelar este agendamento?')">
                                         <i class="fas fa-times"></i>
                                     </a>

@@ -46,6 +46,18 @@ class AgendamentoDAO
         return $stm->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function atualizar_status_por_id($id, $novoStatus)
+    {
+        $sql = "UPDATE agendamento SET status = ? WHERE id = ?";
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$novoStatus, $id]);
+        } catch (PDOException $e) {
+            die("Erro ao atualizar status do agendamento: " . $e->getMessage());
+        }
+    }
+
+
     public function buscar_por_id($id)
     {
         $sql = "SELECT * FROM agendamento WHERE id = ?";

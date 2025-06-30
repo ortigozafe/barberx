@@ -260,15 +260,41 @@ class DonoController
 
     public function agendaDono()
     {
+        if (!isset($_SESSION['dono_id'])) {
+            header("Location: /barberx/logar_dono"); // ou onde for a página de login do dono
+            exit;
+        }
+
         $dono_id = $_SESSION['dono_id'];
 
         $barbeariaDAO = new BarbeariaDAO($this->param);
         $barbearias = $barbeariaDAO->buscar_barbearias_por_dono($dono_id);
 
+        $agendamentoDAO = new AgendamentoDAO($this->param);
+
+        $agora = time();
+
+        foreach ($barbearias as $barbearia) {
+            // Pega agendamentos da barbearia
+            $agendamentos = $agendamentoDAO->listarPorBarbearia($barbearia->id);
+
+            foreach ($agendamentos as $ag) {
+                $agDataHora = strtotime($ag->data_hora);
+                if ($agDataHora < $agora && $ag->status != 'cancelado' && $ag->status != 'concluido') {
+                    $agendamentoDAO->atualizar_status_por_id($ag->id, 'concluido');
+                    $ag->status = 'concluido';
+                }
+            }
+
+            // Você pode salvar os agendamentos atualizados para exibir na view se quiser
+            $barbearia->agendamentos = $agendamentos;
+        }
+
         require_once "Views/layout/header.php";
         require_once "Views/agenda_dono.php";
         require_once "Views/layout/footer.php";
     }
+
 
     public function apiAgendamentosBarbearia()
     {

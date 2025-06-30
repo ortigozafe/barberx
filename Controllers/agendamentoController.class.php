@@ -19,12 +19,24 @@ class agendamentoController
         $agendamentoDAO = new AgendamentoDAO($this->param);
         $todos = $agendamentoDAO->buscar_agendamentos_cliente($cliente_id);
 
+        $agora = time();
+
+        foreach ($todos as $ag) {
+            $agDataHora = strtotime($ag->data_hora);
+            if ($agDataHora < $agora && $ag->status != 'cancelado' && $ag->status != 'concluido') {
+                $agendamentoDAO->atualizar_status_por_id($ag->agendamento_id, 'concluido');
+                $ag->status = 'concluido';
+            }
+        }
+
         $titulo = "Minha Agenda";
 
         require_once "Views/layout/header.php";
         require_once "Views/agenda_cliente.php";
         require_once "Views/layout/footer.php";
     }
+
+
 
     private function calcularHorariosProfissionais($horarioDia, $profissionais, $agendamentosDia, $servicos, $data)
     {
@@ -45,6 +57,7 @@ class agendamentoController
                 $ocupado = false;
 
                 foreach ($agendamentosDia as $ag) {
+                    if ($ag->status === 'cancelado') continue;
                     if ($ag->profissional_id != $prof->id) continue;
 
                     $servico = array_filter($servicos, fn($s) => $s->id == $ag->servico_id);
@@ -85,6 +98,7 @@ class agendamentoController
             $ocupado = false;
 
             foreach ($agendamentosDia as $ag) {
+                if ($ag->status === 'cancelado') continue;
                 if ($ag->profissional_id != $prof->id) continue;
 
                 $servico = array_filter($servicos, fn($s) => $s->id == $ag->servico_id);
@@ -267,12 +281,16 @@ class agendamentoController
                 $servico,
                 $barbearia,
                 $dataHora,
-                "pendente",
+                "agendado",
                 $observacoes
             );
 
             // Insere no banco
             $agendamentoDAO = new AgendamentoDAO($this->param);
+
+            //var_dump($agendamento->getStatus());
+            //exit;
+
             $agendamentoDAO->inserir_agendamento($agendamento);
 
             // Redireciona com sucesso
@@ -283,89 +301,6 @@ class agendamentoController
         // Inclui views
         require_once "Views/layout/header.php";
         require_once "Views/form_agendamento.php";
-        require_once "Views/layout/footer.php";
-    }
-
-    public function alterarAgendamento()
-    {
-        if (!isset($_SESSION["cliente_id"])) {
-            header("Location: /barberx/logar_cliente");
-            exit;
-        }
-
-        if (!isset($_GET["id"])) {
-            echo "ID do agendamento não informado.";
-            exit;
-        }
-
-        $agendamento_id = intval($_GET["id"]);
-        $agendamentoDAO = new AgendamentoDAO($this->param);
-        $agendamento = $agendamentoDAO->buscar_por_id($agendamento_id);
-
-        if (!$agendamento) {
-            echo "Agendamento não encontrado.";
-            exit;
-        }
-
-        // Objeto Barbearia associado
-        $barbearia = $agendamento->getBarbearia();
-        $barbearia_id = $barbearia->getId();
-
-        // Dados auxiliares para o formulário
-        $profissionalDAO = new ProfissionalDAO($this->param);
-        $retornoProfissional = $profissionalDAO->buscar_profissionais_por_barbearia($barbearia_id);
-
-        $servicoDAO = new ServicoDAO($this->param);
-        $retornoServico = $servicoDAO->buscar_servicos_por_barbearia($barbearia_id);
-
-        $erro = "";
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $data = $_POST['data'] ?? '';
-            $hora = $_POST['hora'] ?? '';
-
-            if (empty($_POST["profissional_id"])) {
-                $erro = "Selecione um profissional.";
-            } elseif (empty($_POST["servico_id"])) {
-                $erro = "Selecione um serviço.";
-            } elseif (empty($data) || empty($hora)) {
-                $erro = "Informe a data e hora do agendamento.";
-            } else {
-                $data_hora = $data . ' ' . $hora;
-
-                $cliente = $agendamento->getCliente();
-                $profissional = new Profissional($_POST['profissional_id']);
-                $servico = new Servico($_POST['servico_id']);
-                $observacoes = $_POST["observacoes"];
-                $status = $agendamento->getStatus();
-
-                $agendamento_atualizado = new Agendamento(
-                    $agendamento_id,
-                    $cliente,
-                    $profissional,
-                    $servico,
-                    $barbearia,
-                    $data_hora,
-                    $status,
-                    $observacoes
-                );
-
-                $resultado = $agendamentoDAO->atualizar_agendamento($agendamento_atualizado);
-
-                if (!$resultado) {
-                    $erro = "Erro ao atualizar o agendamento.";
-                } else {
-                    header("Location: /barberx/agenda");
-                    exit;
-                }
-            }
-        }
-
-        $titulo = "Editar Agendamento";
-
-        require_once "Views/layout/header.php";
-        require_once "Views/form_editar_agendamento.php";
         require_once "Views/layout/footer.php";
     }
 
