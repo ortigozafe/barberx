@@ -34,7 +34,6 @@
         });
         directionsRenderer.setMap(map);
 
-        // debug extra para ver onde o Google geocodifica
         const geocoder = new google.maps.Geocoder();
         geocoder.geocode({ address: enderecoDestino }, (results, status) => {
             if (status === "OK") {
