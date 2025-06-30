@@ -20,8 +20,24 @@
                 class="form-control"
                 id="telefone"
                 name="telefone"
-                value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>">
+                maxlength="15"
+                required
+                value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>"
+                oninput="formatarTelefone(this)" />
         </div>
+
+        <script>
+            function formatarTelefone(input) {
+                let valor = input.value.replace(/\D/g, '');
+
+                if (valor.length > 10) {
+                    valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+                } else {
+                    valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+                }
+                input.value = valor;
+            }
+        </script>
 
         <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>
@@ -49,7 +65,7 @@
         </div>
 
         <?php if (!empty($erro)): ?>
-            <div class="alert text-danger text-center fw-bold alert-danger animate__animated animate__shakeX mt-3">
+            <div class="alert text-danger text-center fw-bold alert-danger animate__animated animate__shakeX">
                 <?= $erro ?>
             </div>
         <?php endif; ?>
