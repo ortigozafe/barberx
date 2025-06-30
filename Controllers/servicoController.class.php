@@ -8,10 +8,10 @@ class servicoController
         $this->param = Conexao::getInstancia();
     }
 
-    public function listar_servicos_por_barbearia()
+    /*public function listar_servicos_por_barbearia()
     {
         $servicoDAO = new ServicoDAO($this->param);
         $retornoServico = $servicoDAO->buscar_servicos_por_barbearia($barbearia_id);
 
-    }
+    }*/
 }

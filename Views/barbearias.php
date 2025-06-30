@@ -43,7 +43,7 @@
 
     let barbeariasComCoords = [];
     let listaFiltrada = [];
-    const maxPorPagina = 10;
+    const maxPorPagina = 6;
     let paginaAtual = 1;
     let filtroAtivo = false;
     let userLocation = null;
