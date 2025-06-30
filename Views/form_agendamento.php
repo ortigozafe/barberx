@@ -1,50 +1,54 @@
-<div class="container py-5 animate__animated animate__fadeInUp">
-    <div class="row justify-content-center">
-        <div class="col-lg-7 col-md-9">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-header bg-primary text-white text-center rounded-top-4">
-                    <h2 class="mb-0 fw-bold">Agendar Horário</h2>
+<div class="container py-5 d-flex rounded justify-content-center">
+    <div class="card shadow-lg animate__animated animate__fadeInUp" style="max-width: 600px; width: 100%;">
+        <div class="card-header bg-primary text-white text-center">
+            <h2 class="mb-0">Agendar Horário</h2>
+        </div>
+        <div class="card-body rounded bg-white p-4">
+            <form method="post" action="/barberx/agendar?id=<?= $barbeariaData->id ?>" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="data" class="form-label fw-bold text-dark-blue">Data</label>
+                    <input type="date" name="data" id="data" class="form-control" required min="<?= date('Y-m-d') ?>">
                 </div>
-                <div class="card-body bg-white p-4">
-                    <form method="post" action="/barberx/agendar?id=<?= $barbeariaData->id ?>" enctype="multipart/form-data">
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" for="data">Data</label>
-                            <input type="date" name="data" id="data" class="form-control form-control-lg shadow-sm" required min="<?= date('Y-m-d') ?>">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" for="hora">Horário</label>
-                            <select name="hora" id="hora" class="form-select form-select-lg shadow-sm" required>
-                                <option value="">Selecione o horário</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" for="profissional_id">Profissional</label>
-                            <select name="profissional_id" id="profissional_id" class="form-select form-select-lg shadow-sm" required>
-                                <option value="">Selecione o profissional</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" for="servico_id">Serviço</label>
-                            <select name="servico_id" id="servico_id" class="form-select form-select-lg shadow-sm" required>
-                                <?php foreach ($retornoServico as $rs): ?>
-                                    <option value="<?= $rs->id ?>">
-                                        <?= htmlspecialchars($rs->nome) ?> - R$<?= number_format($rs->preco, 2, ',', '.') ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold" for="observacoes">Observações</label>
-                            <textarea name="observacoes" id="observacoes" class="form-control form-control-lg shadow-sm" rows="2" placeholder="Alguma observação? (opcional)"></textarea>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
-                                <i class="fas fa-calendar-plus me-2"></i>Agendar
-                            </button>
-                        </div>
-                    </form>
+
+                <div class="mb-3">
+                    <label for="hora" class="form-label fw-bold text-dark-blue">Horário</label>
+                    <select name="hora" id="hora" class="form-select" required>
+                        <option value="">Selecione o horário</option>
+                    </select>
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label for="profissional_id" class="form-label fw-bold text-dark-blue">Profissional</label>
+                    <select name="profissional_id" id="profissional_id" class="form-select" required>
+                        <option value="">Selecione o profissional</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="servico_id" class="form-label fw-bold text-dark-blue">Serviço</label>
+                    <select name="servico_id" id="servico_id" class="form-select" required>
+                        <?php foreach ($retornoServico as $rs): ?>
+                            <option value="<?= $rs->id ?>">
+                                <?= htmlspecialchars($rs->nome) ?> - R$<?= number_format($rs->preco, 2, ',', '.') ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="observacoes" class="form-label fw-bold text-dark-blue">Observações</label>
+                    <textarea name="observacoes" id="observacoes" class="form-control"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="/barberx" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Voltar
+                    </a>
+                    <button type="submit" class="btn btn-primary ms-2">
+                        <i class="fas fa-calendar-check me-1"></i> Agendar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

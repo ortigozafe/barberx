@@ -56,6 +56,7 @@ $route->post("/cadastrar_barbearia", [donoController::class, "cadastrarBarbearia
 $route->get("/editar_barbearia", [donoController::class, "editarBarbearia"]);
 $route->post("/editar_barbearia", [donoController::class, "editarBarbearia"]);
 $route->get("/excluir_barbearia", [donoController::class, "excluirBarbearia"]);
+$route->post("/atualizar_barbearia", [donoController::class, "atualizarBarbearia"]);
 
 // agendamentos
 $route->get("/agenda_dono", [donoController::class, "agendaDono"]);
@@ -99,9 +100,7 @@ $route->get("/barbearia", [barbeariaController::class, "detalhar"]);
 $route->get("/agenda", [agendamentoController::class, "agenda"]);
 $route->get("/agendar", [agendamentoController::class, "agendar"]);
 $route->post("/agendar", [agendamentoController::class, "agendar"]);
-$route->get("/alterarAgendamento", [agendamentoController::class, "alterarAgendamento"]);
-$route->post("/alterarAgendamento", [agendamentoController::class, "alterarAgendamento"]);
-$route->get("/cancelar_agendamento", [agendamentoController::class, "cancelar"]);
+$route->get("/cancelar_agendamento", [agendamentoController::class, "cancelarAgendamento"]);
 
 // rotas para AJAX do agendamento dinâmico
 $route->post("/buscar_horarios", [agendamentoController::class, "buscarHorarios"]);
