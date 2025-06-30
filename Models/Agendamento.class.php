@@ -8,7 +8,7 @@ class Agendamento
         private $servico = null,
         private $barbearia = null,
         private string $data_hora = "",
-        private string $status = "",
+        private string $status = "agendado",
         private string $observacoes = ""
     ) {}
 
@@ -39,6 +39,10 @@ class Agendamento
     public function getStatus()
     {
         return $this->status;
+    }
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
     public function getObservacoes()
     {

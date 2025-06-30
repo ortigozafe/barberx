@@ -22,37 +22,66 @@ class AgendamentoDAO
 
     public function buscar_agendamentos_cliente($cliente_id)
     {
-        $sql = "SELECT a.*, s.nome AS servico_nome, p.nome AS profissional_nome, b.nome AS barbearia_nome
-                    FROM agendamento a
-                    JOIN servico s ON a.servico_id = s.id
-                    JOIN profissional p ON a.profissional_id = p.id
-                    JOIN barbearia b ON p.barbearia_id = b.id
-                    WHERE a.cliente_id = ?
-                    ORDER BY a.data_hora DESC";
+        $sql = "SELECT 
+                a.id AS agendamento_id,
+                a.data_hora,
+                a.status,
+                a.observacoes,
+                s.nome AS servico_nome,
+                s.preco AS servico_preco,
+                p.nome AS profissional_nome,
+                p.email AS profissional_email,
+                b.nome AS barbearia_nome,
+                b.imagem AS barbearia_imagem
+            FROM agendamento a
+            JOIN servico s ON a.servico_id = s.id
+            JOIN profissional p ON a.profissional_id = p.id
+            JOIN barbearia b ON a.barbearia_id = b.id
+            WHERE a.cliente_id = ?
+            ORDER BY a.data_hora DESC";
 
         $stm = $this->db->prepare($sql);
-        $stm->execute([$cliente_id]);
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
+        $stm->bindValue(1, $cliente_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function cancelar_agendamento($id)
+    public function atualizar_status_por_id($id, $novoStatus)
     {
-        $sql = "UPDATE agendamento SET status = 'cancelado' WHERE id = ?";
-        $stm = $this->db->prepare($sql);
-        return $stm->execute([$id]);
+        $sql = "UPDATE agendamento SET status = ? WHERE id = ?";
+        try {
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$novoStatus, $id]);
+        } catch (PDOException $e) {
+            die("Erro ao atualizar status do agendamento: " . $e->getMessage());
+        }
     }
+
 
     public function buscar_por_id($id)
     {
-        $sql = "SELECT a.*, p.barbearia_id
-                    FROM agendamento a
-                    JOIN profissional p ON a.profissional_id = p.id
-                    WHERE a.id = ?";
+        $sql = "SELECT * FROM agendamento WHERE id = ?";
 
         $stm = $this->db->prepare($sql);
         $stm->execute([$id]);
-        return $stm->fetch(PDO::FETCH_ASSOC);
+
+        $row = $stm->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            return new Agendamento(
+                $row['id'],
+                new Cliente($row['cliente_id']),
+                new Profissional($row['profissional_id']),
+                new Servico($row['servico_id']),
+                new Barbearia($row['barbearia_id']),
+                $row['data_hora'],
+                $row['status'],
+                $row['observacoes']
+            );
+        }
+        return null;
     }
+
 
     public function buscar_agendamentos_por_barbearia($barbearia_id)
     {
@@ -75,6 +104,13 @@ class AgendamentoDAO
         $stm->bindValue(1, $barbearia_id);
         $stm->execute();
         return $stm->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function atualizar_status($ag)
+    {
+        $sql = "UPDATE agendamento SET status = ? WHERE id = ?";
+        $stm = $this->db->prepare($sql);
+        return $stm->execute([$ag->getStatus(), $ag->getId()]);
     }
 
     public function listarPorBarbearia($barbearia_id)
@@ -104,27 +140,28 @@ class AgendamentoDAO
         }
     }
 
-    /*public function atualizar_agendamento(Agendamento $ag)
+    public function atualizar_agendamento($ag)
     {
         $sql = "UPDATE agendamento SET 
-                        profissional_id = ?, 
-                        servico_id = ?, 
-                        data_hora = ?, 
-                        status = ?, 
-                        observacoes = ?
-                    WHERE id = ? AND cliente_id = ?";
+                    profissional_id = ?, 
+                    servico_id = ?, 
+                    data_hora = ?, 
+                    status = ?, 
+                    observacoes = ?
+                WHERE id = ? AND cliente_id = ?";
 
         $stm = $this->db->prepare($sql);
         return $stm->execute([
-            $ag->getProfissionalId(),
-            $ag->getServicoId(),
+            $ag->getProfissional()->getId(),
+            $ag->getServico()->getId(),
             $ag->getDataHora(),
             $ag->getStatus(),
             $ag->getObservacoes(),
             $ag->getId(),
-            $ag->getClienteId()
+            $ag->getCliente()->getId()
         ]);
-    }*/
+    }
+
 
     public function buscar_agendamentos_do_dia_por_dono($dono_id)
     {
