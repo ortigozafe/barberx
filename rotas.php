@@ -64,6 +64,8 @@ $route->get("/rota_barbearias", [barbeariaController::class, "rota"]);
 // agendamentos
 $route->get("/agenda_dono", [donoController::class, "agendaDono"]);
 $route->get("/apiAgendamentosBarbearia", [donoController::class, "apiAgendamentosBarbearia"]);
+$route->get("/cancelar_agendamento_dono", [donoController::class, "cancelarAgendamentoDono"]);
+$route->get("/concluir_agendamento_dono", [donoController::class, "concluirAgendamentoDono"]);
 
 // dashboard
 $route->get("/dashboard", [donoController::class, "dashboard"]);

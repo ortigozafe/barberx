@@ -19,16 +19,6 @@ class agendamentoController
         $agendamentoDAO = new AgendamentoDAO($this->param);
         $todos = $agendamentoDAO->buscar_agendamentos_cliente($cliente_id);
 
-        $agora = time();
-
-        foreach ($todos as $ag) {
-            $agDataHora = strtotime($ag->data_hora);
-            if ($agDataHora < $agora && $ag->status != 'cancelado' && $ag->status != 'concluido') {
-                $agendamentoDAO->atualizar_status_por_id($ag->agendamento_id, 'concluido');
-                $ag->status = 'concluido';
-            }
-        }
-
         $titulo = "Minha Agenda";
 
         require_once "Views/layout/header.php";

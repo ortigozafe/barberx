@@ -296,22 +296,6 @@ class DonoController
 
         $agendamentoDAO = new AgendamentoDAO($this->param);
 
-        $agora = time();
-
-        foreach ($barbearias as $barbearia) {
-            $agendamentos = $agendamentoDAO->listarPorBarbearia($barbearia->id);
-
-            foreach ($agendamentos as $ag) {
-                $agDataHora = strtotime($ag->data_hora);
-                if ($agDataHora < $agora && $ag->status != 'cancelado' && $ag->status != 'concluido') {
-                    $agendamentoDAO->atualizar_status_por_id($ag->id, 'concluido');
-                    $ag->status = 'concluido';
-                }
-            }
-
-            $barbearia->agendamentos = $agendamentos;
-        }
-
         require_once "Views/layout/header.php";
         require_once "Views/agenda_dono.php";
         require_once "Views/layout/footer.php";
@@ -527,7 +511,7 @@ class DonoController
                 $telefone,
                 $email,
                 $endereco,
-                null, 
+                null,
                 $barbeariaAtual->data_cadastro ?? '',
                 $imagem_nome
             );
@@ -540,5 +524,63 @@ class DonoController
         require_once "Views/layout/header.php";
         require_once "Views/editar_barbearia.php";
         require_once "Views/layout/footer.php";
+    }
+
+    public function concluirAgendamentoDono()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $id = $_GET["id"] ?? null;
+
+        if (!$id) {
+            echo "ID do agendamento não informado.";
+            exit;
+        }
+
+        $agendamentoDAO = new AgendamentoDAO($this->param);
+        $agendamento = $agendamentoDAO->buscar_por_id($id);
+
+        if (!$agendamento) {
+            echo "Agendamento não encontrado.";
+            exit;
+        }
+
+        $agendamento->setStatus("concluido");
+        $agendamentoDAO->atualizar_status($agendamento);
+
+        header("Location: /barberx/agenda_dono");
+        exit;
+    }
+
+    public function cancelarAgendamentoDono()
+    {
+        if (!isset($_SESSION["dono_id"])) {
+            header("Location: /barberx/logar_dono");
+            exit;
+        }
+
+        $id = $_GET["id"] ?? null;
+
+        if (!$id) {
+            echo "ID do agendamento não informado.";
+            exit;
+        }
+
+        $agendamentoDAO = new AgendamentoDAO($this->param);
+        $agendamento = $agendamentoDAO->buscar_por_id($id);
+
+        if (!$agendamento) {
+            echo "Agendamento não encontrado.";
+            exit;
+        }
+
+        $agendamento->setStatus("cancelado");
+        $agendamentoDAO->atualizar_status($agendamento);
+
+        header("Location: /barberx/agenda_dono");
+        exit;
     }
 }
