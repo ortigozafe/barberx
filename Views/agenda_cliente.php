@@ -32,6 +32,7 @@
                         <th scope="col">Data/Hora</th>
                         <th scope="col">Status</th>
                         <th scope="col">Observações</th>
+                        <th scope="col" class="text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,6 +64,16 @@
                                 <span class="badge <?= $badgeClass ?> text-white py-2 px-3 rounded-pill shadow-sm"><?= ucfirst($status) ?></span>
                             </td>
                             <td class="text-dark-gray"><?= htmlspecialchars($a->observacoes) ?></td>
+                            <td class="text-center">
+                                <?php if (strtolower($a->status) === 'agendado'): ?>
+                                    <a href="/barberx/editar_agendamento?id=<?= $a->agendamento_id ?>" class="btn btn-sm btn-warning me-1" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/barberx/cancelar_agendamento?id=<?= $a->agendamento_id ?>" class="btn btn-sm btn-danger" title="Cancelar" onclick="return confirm('Tem certeza que deseja cancelar este agendamento?')">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

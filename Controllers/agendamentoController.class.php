@@ -286,7 +286,7 @@ class agendamentoController
         require_once "Views/layout/footer.php";
     }
 
-    /*public function alterarAgendamento()
+    public function alterarAgendamento()
     {
         if (!isset($_SESSION["cliente_id"])) {
             header("Location: /barberx/logar_cliente");
@@ -322,17 +322,21 @@ class agendamentoController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+            $data = $_POST['data'] ?? '';
+            $hora = $_POST['hora'] ?? '';
+
             if (empty($_POST["profissional_id"])) {
                 $erro = "Selecione um profissional.";
             } elseif (empty($_POST["servico_id"])) {
                 $erro = "Selecione um serviço.";
-            } elseif (empty($_POST["data_hora"])) {
+            } elseif (empty($data) || empty($hora)) {
                 $erro = "Informe a data e hora do agendamento.";
             } else {
+                $data_hora = $data . ' ' . $hora;
+
                 $cliente = $agendamento->getCliente();
                 $profissional = new Profissional($_POST['profissional_id']);
                 $servico = new Servico($_POST['servico_id']);
-                $data_hora = $_POST["data_hora"];
                 $observacoes = $_POST["observacoes"];
                 $status = $agendamento->getStatus();
 
@@ -347,10 +351,14 @@ class agendamentoController
                     $observacoes
                 );
 
-                $agendamentoDAO->atualizar_agendamento($agendamento_atualizado);
+                $resultado = $agendamentoDAO->atualizar_agendamento($agendamento_atualizado);
 
-                header("Location: /barberx/agenda");
-                exit;
+                if (!$resultado) {
+                    $erro = "Erro ao atualizar o agendamento.";
+                } else {
+                    header("Location: /barberx/agenda");
+                    exit;
+                }
             }
         }
 
@@ -359,19 +367,31 @@ class agendamentoController
         require_once "Views/layout/header.php";
         require_once "Views/form_editar_agendamento.php";
         require_once "Views/layout/footer.php";
-    }*/
+    }
 
-    public function cancelar()
+    public function cancelarAgendamento()
     {
+        if (!isset($_SESSION["cliente_id"])) {
+            header("Location: /barberx/logar_cliente");
+            exit;
+        }
+
         if (!isset($_GET["id"])) {
-            echo "ID inválido.";
-            return;
+            echo "ID do agendamento não informado.";
+            exit;
         }
 
         $id = intval($_GET["id"]);
-
         $agendamentoDAO = new AgendamentoDAO($this->param);
-        $agendamentoDAO->cancelar_agendamento($id);
+
+        $agendamento = $agendamentoDAO->buscar_por_id($id);
+        if (!$agendamento) {
+            echo "Agendamento não encontrado.";
+            exit;
+        }
+
+        $agendamento->setStatus("cancelado");
+        $agendamentoDAO->atualizar_status($agendamento);
 
         header("Location: /barberx/agenda");
         exit;
