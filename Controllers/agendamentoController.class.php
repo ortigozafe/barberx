@@ -47,7 +47,6 @@ class agendamentoController
         // var_dump($horarioDia);
         //  exit;
 
-
         $horarios = [];
 
         while ($horaInicio + ($intervalo * 60) <= $horaFim) {
@@ -153,7 +152,6 @@ class agendamentoController
 
         $horarios = $this->calcularHorariosProfissionais($horarioDia, $profissionais, $agendamentosDia, $servicos, $data);
 
-        // retorna JSON
         $resposta = [];
         foreach ($horarios as $h) {
             $resposta[] = [
@@ -195,7 +193,6 @@ class agendamentoController
 
     public function agendar()
     {
-        // Verifica se o ID da barbearia foi passado
         if (!isset($_GET['id'])) {
             echo "Barbearia não informada.";
             exit;
@@ -203,57 +200,47 @@ class agendamentoController
 
         $barbearia_id = $_GET['id'];
 
-        // Instancia os DAOs
         $barbeariaDAO = new BarbeariaDAO($this->param);
         $servicoDAO = new ServicoDAO($this->param);
         $profissionalDAO = new ProfissionalDAO($this->param);
         $clienteDAO = new ClienteDAO($this->param);
 
-        // Busca dados da barbearia e valida existência
         $barbeariaData = $barbeariaDAO->buscar_uma_barbearia($barbearia_id);
         if (!$barbeariaData) {
             echo "Barbearia não encontrada.";
             exit;
         }
 
-        // Busca os serviços e profissionais da barbearia (para o formulário)
         $retornoServico = $servicoDAO->buscar_servicos_por_barbearia($barbearia_id);
         $retornoProfissional = $profissionalDAO->buscar_profissionais_por_barbearia($barbearia_id);
 
         $titulo = "BarberX - Agendar";
 
-        // Arrays para preencher selects dinamicamente se precisar
         $horariosDisponiveis = [];
         $profissionaisDisponiveis = [];
 
-        // Se for POST, trata o envio do formulário
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data'])) {
 
-            // Captura dados do form
             $dataHora = $_POST['hora'] ?? null;
             $profissional_id = $_POST['profissional_id'] ?? null;
             $servico_id = $_POST['servico_id'] ?? null;
             $observacoes = $_POST['observacoes'] ?? '';
 
-            // Valida dados obrigatórios
             if (!$dataHora || !$profissional_id || !$servico_id) {
                 echo "Por favor, preencha todos os campos obrigatórios.";
                 exit;
             }
 
-            // Verifica cliente logado
             $cliente_id = $_SESSION["cliente_id"] ?? null;
             if (!$cliente_id) {
                 echo "Cliente não logado.";
                 exit;
             }
 
-            // Busca dados no banco
             $clienteData = $clienteDAO->buscar_cliente_por_id($cliente_id);
             $profissionalData = $profissionalDAO->buscar_um_profissional($profissional_id);
             $servicoData = $servicoDAO->buscar_um_servico($servico_id);
 
-            // Valida existência dos dados
             if (!$clienteData) {
                 echo "Cliente não encontrado.";
                 exit;
@@ -267,13 +254,11 @@ class agendamentoController
                 exit;
             }
 
-            // Cria objetos mantendo orientação a objetos
             $cliente = new Cliente($clienteData->id);
             $profissional = new Profissional($profissionalData->id);
             $servico = new Servico($servicoData->id);
             $barbearia = new Barbearia($barbeariaData->id);
 
-            // Cria o objeto agendamento
             $agendamento = new Agendamento(
                 0,
                 $cliente,
@@ -285,7 +270,6 @@ class agendamentoController
                 $observacoes
             );
 
-            // Insere no banco
             $agendamentoDAO = new AgendamentoDAO($this->param);
 
             //var_dump($agendamento->getStatus());
@@ -293,12 +277,10 @@ class agendamentoController
 
             $agendamentoDAO->inserir_agendamento($agendamento);
 
-            // Redireciona com sucesso
             header("Location: /barberx/agenda?sucesso=1");
             exit;
         }
 
-        // Inclui views
         require_once "Views/layout/header.php";
         require_once "Views/form_agendamento.php";
         require_once "Views/layout/footer.php";

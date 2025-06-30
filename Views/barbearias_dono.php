@@ -13,11 +13,9 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 bg-white shadow-lg border rounded-3 overflow-hidden d-flex flex-column">
                         <?php
-                            //var_dump($bar->imagem); // mostra o conteúdo de imagem no seu objeto $bar
 
                             $imageUrl = !empty($bar->imagem) ? "assets/img/" . htmlspecialchars($bar->imagem) : 'assets/img/noimage.png';
 
-                            //$imageUrl = !empty($bar->imagem) ? htmlspecialchars($bar->imagem) : 'assets/img/noimage.png';
                             $altText = 'Imagem da barbearia ' . htmlspecialchars($bar->nome);
                         ?>
 

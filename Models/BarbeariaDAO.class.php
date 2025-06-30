@@ -138,7 +138,6 @@ class BarbeariaDAO
 
             $stm = $this->db->prepare("DELETE FROM barbearia WHERE id = ?");
             $stm->execute([$barbearia_id]);
-
         } catch (PDOException $e) {
             throw $e;
         }
@@ -167,7 +166,7 @@ class BarbeariaDAO
         $barbearia = $stm->fetch(PDO::FETCH_OBJ);
 
         if ($barbearia) {
-          
+
             $sqlProf = "SELECT nome, telefone, email, especialidade FROM profissional WHERE barbearia_id = ?";
             $stmProf = $this->db->prepare($sqlProf);
             $stmProf->bindValue(1, $barbearia->id);
@@ -229,7 +228,6 @@ class BarbeariaDAO
                     }
                 }
             }
-
         } catch (PDOException $e) {
             die("Erro ao atualizar profissionais: " . $e->getMessage());
         }
@@ -279,7 +277,6 @@ class BarbeariaDAO
                     }
                 }
             }
-
         } catch (PDOException $e) {
             die("Erro ao atualizar serviços: " . $e->getMessage());
         }
@@ -305,5 +302,13 @@ class BarbeariaDAO
         } catch (PDOException $e) {
             die("Erro ao atualizar horários: " . $e->getMessage());
         }
+    }
+
+    public function buscarEnderecosBarbearias()
+    {
+        $sql = "SELECT id, nome, endereco FROM barbearia";
+        $stm = $this->db->prepare($sql);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_OBJ);
     }
 }

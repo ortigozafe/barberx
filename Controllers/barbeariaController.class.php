@@ -47,6 +47,30 @@ class barbeariaController
         require_once "Views/layout/footer.php";
     }
 
+    public function rota()
+    {
+        $barbeariaDAO = new BarbeariaDAO($this->param);
 
+        $idBarbearia = $_GET['id'] ?? null;
 
+        if ($idBarbearia) {
+            $barbearia = $barbeariaDAO->buscar_uma_barbearia($idBarbearia);
+            if ($barbearia) {
+                $enderecoDestino = $barbearia->endereco . ', Brasil';
+            } else {
+                $enderecoDestino = 'Endereço padrão, Brasil';
+            }
+        } else {
+            $enderecoDestino = 'Endereço padrão, Brasil';
+        }
+
+        $titulo = "BarberX - Rota até Barbearia";
+        $enderecoDestinoJSON = json_encode($enderecoDestino);
+
+        $nomeBarbearia = $barbearia->nome ?? 'Barbearia';
+
+        require_once "Views/layout/header.php";
+        require_once "Views/mostrar_rota.php";
+        require_once "Views/layout/footer.php";
+    }
 }

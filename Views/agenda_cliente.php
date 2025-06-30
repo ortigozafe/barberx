@@ -106,13 +106,10 @@
 
                 let exibir = true;
 
-                // Filtro por status
                 if (status && rowStatus !== status) {
                     exibir = false;
                 }
-                // Filtro por data (YYYY-MM-DD)
                 if (data) {
-                    // Converter data do filtro para o mesmo formato da rowData
                     const dataFiltro = new Date(data).toISOString().slice(0, 10);
                     if (rowData !== dataFiltro) {
                         exibir = false;

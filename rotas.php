@@ -58,6 +58,9 @@ $route->post("/editar_barbearia", [donoController::class, "editarBarbearia"]);
 $route->get("/excluir_barbearia", [donoController::class, "excluirBarbearia"]);
 $route->post("/atualizar_barbearia", [donoController::class, "atualizarBarbearia"]);
 
+// mapa
+$route->get("/rota_barbearias", [barbeariaController::class, "rota"]);
+
 // agendamentos
 $route->get("/agenda_dono", [donoController::class, "agendaDono"]);
 $route->get("/apiAgendamentosBarbearia", [donoController::class, "apiAgendamentosBarbearia"]);

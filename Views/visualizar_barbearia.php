@@ -1,7 +1,7 @@
 <main class="bg-light text-dark-emphasis py-5">
     <div class="container">
         <!-- SEÇÃO PRINCIPAL -->
-        <section class="barbearia-details card bg-white shadow-lg border rounded-3 p-5 mb-5 animate__animated animate__fadeIn">
+        <section class="barbearia-details card bg-white shadow-lg border rounded-3 p-5 mb-5 animate__animated animate__fadeIn position-relative">
             <div class="row align-items-center">
                 <div class="col-md-4 text-center mb-4 mb-md-0">
                     <?php
@@ -36,6 +36,11 @@
 
                     <a href="/barberx/agendar?id=<?= $retornoBarbearia->id ?>" class="btn btn-primary btn-lg mt-3 fw-bold animate__animated animate__pulse animate__infinite">
                         <i class="fas fa-calendar-check me-2"></i>Agendar Horário
+                    </a>
+                    <a href="/barberx/rota_barbearias?id=<?= $retornoBarbearia->id ?>"
+                        class="btn btn-outline-primary fw-bold animate__animated animate__fadeIn"
+                        style="position: absolute; bottom: 20px; right: 20px;">
+                        <i class="fas fa-route me-2"></i>Ver rota até esta barbearia
                     </a>
                 </div>
             </div>

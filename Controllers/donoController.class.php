@@ -178,7 +178,6 @@ class DonoController
                 }
             }
 
-            // Verificar duplicidade de CNPJ e e-mail antes de inserir
             $barbeariaDAO = new BarbeariaDAO($this->param);
             $cnpjExistente = $this->param->prepare("SELECT id FROM barbearia WHERE cnpj = ?");
             $cnpjExistente->execute([$_POST["cnpj"]]);
@@ -286,7 +285,7 @@ class DonoController
     public function agendaDono()
     {
         if (!isset($_SESSION['dono_id'])) {
-            header("Location: /barberx/logar_dono"); // ou onde for a página de login do dono
+            header("Location: /barberx/logar_dono"); 
             exit;
         }
 
@@ -300,7 +299,6 @@ class DonoController
         $agora = time();
 
         foreach ($barbearias as $barbearia) {
-            // Pega agendamentos da barbearia
             $agendamentos = $agendamentoDAO->listarPorBarbearia($barbearia->id);
 
             foreach ($agendamentos as $ag) {
@@ -311,7 +309,6 @@ class DonoController
                 }
             }
 
-            // Você pode salvar os agendamentos atualizados para exibir na view se quiser
             $barbearia->agendamentos = $agendamentos;
         }
 
@@ -498,7 +495,6 @@ class DonoController
             $email = $_POST["email"];
             $endereco = $_POST["endereco"];
 
-            // Lógica para imagem
             $imagem_nome = $_POST['imagem_atual'] ?? '';
             if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
                 $extensao = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
@@ -514,7 +510,7 @@ class DonoController
                 $telefone,
                 $email,
                 $endereco,
-                null, // dono (opcional)
+                null,
                 $barbeariaAtual->data_cadastro ?? '',
                 $imagem_nome
             );
