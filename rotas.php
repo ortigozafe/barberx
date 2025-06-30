@@ -56,6 +56,7 @@ $route->post("/cadastrar_barbearia", [donoController::class, "cadastrarBarbearia
 $route->get("/editar_barbearia", [donoController::class, "editarBarbearia"]);
 $route->post("/editar_barbearia", [donoController::class, "editarBarbearia"]);
 $route->get("/excluir_barbearia", [donoController::class, "excluirBarbearia"]);
+$route->post("/atualizar_barbearia", [donoController::class, "atualizarBarbearia"]);
 
 // agendamentos
 $route->get("/agenda_dono", [donoController::class, "agendaDono"]);

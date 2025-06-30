@@ -40,8 +40,8 @@ CREATE TABLE horario_funcionamento (
 CREATE TABLE profissional (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    telefone VARCHAR(20) UNIQUE,
-    email VARCHAR(100) UNIQUE,
+    telefone VARCHAR(20),
+    email VARCHAR(100),
     barbearia_id INT NOT NULL,
     FOREIGN KEY (barbearia_id) REFERENCES barbearia(id) ON DELETE CASCADE
 );

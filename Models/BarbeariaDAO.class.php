@@ -107,8 +107,8 @@ class BarbeariaDAO
     {
         $sql = "UPDATE barbearia SET nome = ?, cnpj = ?, telefone = ?, email = ?, endereco = ? WHERE id = ?";
         try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
+            $stm = $this->db->prepare($sql);
+            $stm->execute([
                 $barbearia->getNome(),
                 $barbearia->getCnpj(),
                 $barbearia->getTelefone(),
@@ -121,14 +121,189 @@ class BarbeariaDAO
         }
     }
 
-    public function excluir_barbearia($id)
+    public function excluirTudoRelacionado($barbearia_id)
     {
-        $sql = "DELETE FROM barbearia WHERE id = ?";
         try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([$id]);
+            $stm = $this->db->prepare("DELETE FROM agendamento WHERE barbearia_id = ?");
+            $stm->execute([$barbearia_id]);
+
+            $stm = $this->db->prepare("DELETE FROM profissional WHERE barbearia_id = ?");
+            $stm->execute([$barbearia_id]);
+
+            $stm = $this->db->prepare("DELETE FROM servico WHERE barbearia_id = ?");
+            $stm->execute([$barbearia_id]);
+
+            $stm = $this->db->prepare("DELETE FROM horario_funcionamento WHERE barbearia_id = ?");
+            $stm->execute([$barbearia_id]);
+
+            $stm = $this->db->prepare("DELETE FROM barbearia WHERE id = ?");
+            $stm->execute([$barbearia_id]);
+
         } catch (PDOException $e) {
-            die("Erro ao excluir barbearia: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function buscarPorIdCompleto($id)
+    {
+        $sql = "SELECT 
+                    b.id,
+                    b.nome,
+                    b.cnpj,
+                    b.telefone,
+                    b.email,
+                    b.endereco,
+                    b.data_cadastro,
+                    b.imagem,
+                    d.nome AS nome_dono
+                FROM barbearia b
+                JOIN dono d ON d.id = b.dono_id
+                WHERE b.id = ?
+                LIMIT 1";
+
+        $stm = $this->db->prepare($sql);
+        $stm->bindValue(1, $id);
+        $stm->execute();
+        $barbearia = $stm->fetch(PDO::FETCH_OBJ);
+
+        if ($barbearia) {
+          
+            $sqlProf = "SELECT nome, telefone, email, especialidade FROM profissional WHERE barbearia_id = ?";
+            $stmProf = $this->db->prepare($sqlProf);
+            $stmProf->bindValue(1, $barbearia->id);
+            $stmProf->execute();
+            $barbearia->profissionais = $stmProf->fetchAll(PDO::FETCH_OBJ);
+
+            $sqlServ = "SELECT nome, descricao, preco, duracao_minutos FROM servico WHERE barbearia_id = ?";
+            $stmServ = $this->db->prepare($sqlServ);
+            $stmServ->bindValue(1, $barbearia->id);
+            $stmServ->execute();
+            $barbearia->servicos = $stmServ->fetchAll(PDO::FETCH_OBJ);
+        }
+
+        return $barbearia;
+    }
+
+    public function atualizarProfissionais($barbearia_id, $profissionais)
+    {
+
+        try {
+            $sql = "SELECT id FROM profissional WHERE barbearia_id = ?";
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$barbearia_id]);
+            $idsAtuais = array_column($stm->fetchAll(PDO::FETCH_ASSOC), 'id');
+
+            $idsRecebidos = [];
+
+            foreach ($profissionais as $prof) {
+                $nome = trim($prof["nome"] ?? "");
+                if ($nome !== "") {
+                    $telefone = $prof["telefone"] ?? null;
+                    $email = $prof["email"] ?? null;
+                    $especialidade = $prof["especialidade"] ?? null;
+
+                    if (!empty($prof["id"])) {
+                        $sql = "UPDATE profissional SET nome = ?, telefone = ?, email = ?, especialidade = ? WHERE id = ? AND barbearia_id = ?";
+                        $stm = $this->db->prepare($sql);
+                        $stm->execute([$nome, $telefone, $email, $especialidade, $prof["id"], $barbearia_id]);
+                        $idsRecebidos[] = $prof["id"];
+                    } else {
+                        $sql = "INSERT INTO profissional (barbearia_id, nome, telefone, email, especialidade) VALUES (?, ?, ?, ?, ?)";
+                        $stm = $this->db->prepare($sql);
+                        $stm->execute([$barbearia_id, $nome, $telefone, $email, $especialidade]);
+
+                        $idsRecebidos[] = $this->db->lastInsertId();
+                    }
+                }
+            }
+
+            foreach ($idsAtuais as $id) {
+                if (!in_array($id, $idsRecebidos)) {
+                    $stm = $this->db->prepare("SELECT COUNT(*) FROM agendamento WHERE profissional_id = ?");
+                    $stm->execute([$id]);
+                    $temAgendamento = $stm->fetchColumn();
+
+                    if ($temAgendamento == 0) {
+                        $stm = $this->db->prepare("DELETE FROM profissional WHERE id = ?");
+                        $stm->execute([$id]);
+                    }
+                }
+            }
+
+        } catch (PDOException $e) {
+            die("Erro ao atualizar profissionais: " . $e->getMessage());
+        }
+    }
+
+    public function atualizarServicos($barbearia_id, $servicos)
+    {
+        try {
+            $sql = "SELECT id FROM servico WHERE barbearia_id = ?";
+            $stm = $this->db->prepare($sql);
+            $stm->execute([$barbearia_id]);
+            $idsAtuais = array_column($stm->fetchAll(PDO::FETCH_ASSOC), 'id');
+
+            $idsRecebidos = [];
+
+            foreach ($servicos as $serv) {
+                $nome = trim($serv["nome"] ?? "");
+                if ($nome !== "") {
+                    $descricao = $serv["descricao"] ?? null;
+                    $preco = $serv["preco"] ?? 0;
+                    $duracao = $serv["duracao_minutos"] ?? 0;
+
+                    if (!empty($serv["id"])) {
+                        $sql = "UPDATE servico SET nome = ?, descricao = ?, preco = ?, duracao_minutos = ? WHERE id = ? AND barbearia_id = ?";
+                        $stm = $this->db->prepare($sql);
+                        $stm->execute([$nome, $descricao, $preco, $duracao, $serv["id"], $barbearia_id]);
+                        $idsRecebidos[] = $serv["id"];
+                    } else {
+                        $sql = "INSERT INTO servico (barbearia_id, nome, descricao, preco, duracao_minutos) VALUES (?, ?, ?, ?, ?)";
+                        $stm = $this->db->prepare($sql);
+                        $stm->execute([$barbearia_id, $nome, $descricao, $preco, $duracao]);
+
+                        $idsRecebidos[] = $this->db->lastInsertId();
+                    }
+                }
+            }
+
+            foreach ($idsAtuais as $id) {
+                if (!in_array($id, $idsRecebidos)) {
+                    $stm = $this->db->prepare("SELECT COUNT(*) FROM agendamento WHERE servico_id = ?");
+                    $stm->execute([$id]);
+                    $temAgendamento = $stm->fetchColumn();
+
+                    if ($temAgendamento == 0) {
+                        $stm = $this->db->prepare("DELETE FROM servico WHERE id = ?");
+                        $stm->execute([$id]);
+                    }
+                }
+            }
+
+        } catch (PDOException $e) {
+            die("Erro ao atualizar serviços: " . $e->getMessage());
+        }
+    }
+
+    public function atualizarHorarios($barbearia_id, $dias_abertos)
+    {
+        try {
+            foreach ($dias_abertos as $dia => $dados) {
+                if (isset($dados["ativo"])) {
+                    $sql = "UPDATE horario_funcionamento 
+                            SET horario_abertura = ?, horario_fechamento = ? 
+                            WHERE barbearia_id = ? AND dia_semana = ?";
+                    $stm = $this->db->prepare($sql);
+                    $stm->execute([
+                        $dados["abertura"] ?? "08:00",
+                        $dados["fechamento"] ?? "18:00",
+                        $barbearia_id,
+                        $dia
+                    ]);
+                }
+            }
+        } catch (PDOException $e) {
+            die("Erro ao atualizar horários: " . $e->getMessage());
         }
     }
 }
