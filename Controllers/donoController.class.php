@@ -167,71 +167,96 @@ class DonoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $dono = new Dono($_POST['dono_id']);
 
-            $barbearia = new Barbearia(
-                0,
-                $_POST["nome"],
-                $_POST["cnpj"],
-                $_POST["telefone"],
-                $_POST["email"],
-                $_POST["endereco"],
-                $dono
-            );
+            $imagem_nome = null;
 
+            if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+                $extensao = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
+                $imagem_nome = uniqid('barbearia_', true) . '.' . $extensao;
+                $caminho = dirname(__DIR__) . "/assets/img/" . $imagem_nome;
+                if (!move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho)) {
+                    die('Erro ao mover o arquivo para a pasta de imagens. Caminho: ' . $caminho);
+                }
+            }
+
+            // Verificar duplicidade de CNPJ e e-mail antes de inserir
             $barbeariaDAO = new BarbeariaDAO($this->param);
-            $barbearia_id = $barbeariaDAO->inserir_barbearia($barbearia);
-            $barbearia->setId($barbearia_id);
+            $cnpjExistente = $this->param->prepare("SELECT id FROM barbearia WHERE cnpj = ?");
+            $cnpjExistente->execute([$_POST["cnpj"]]);
+            $emailExistente = $this->param->prepare("SELECT id FROM barbearia WHERE email = ?");
+            $emailExistente->execute([$_POST["email"]]);
 
-            // inserir horarios
-            if (!empty($_POST['dias_abertos'])) {
-                $horarioDAO = new HorarioFuncionamentoDAO($this->param);
+            if ($cnpjExistente->fetch()) {
+                $msg = "Este CNPJ já está cadastrado para outra barbearia.";
+            } elseif ($emailExistente->fetch()) {
+                $msg = "Este e-mail já está cadastrado para outra barbearia.";
+            } else {
+                $barbearia = new Barbearia(
+                    0,
+                    $_POST["nome"],
+                    $_POST["cnpj"],
+                    $_POST["telefone"],
+                    $_POST["email"],
+                    $_POST["endereco"],
+                    $dono,
+                    date("Y-m-d"),
+                    $imagem_nome
+                );
 
-                foreach ($_POST['dias_abertos'] as $dia => $dados) {
-                    if (isset($dados['ativo'])) {
-                        $horario = new HorarioFuncionamento(
-                            0,
-                            $barbearia,
-                            $dia,
-                            $dados['abertura'],
-                            $dados['fechamento']
-                        );
-                        $horarioDAO->inserirHorario($horario);
+                $barbearia_id = $barbeariaDAO->inserir_barbearia($barbearia);
+                $barbearia->setId($barbearia_id);
+
+                // inserir horarios
+                if (!empty($_POST['dias_abertos'])) {
+                    $horarioDAO = new HorarioFuncionamentoDAO($this->param);
+
+                    foreach ($_POST['dias_abertos'] as $dia => $dados) {
+                        if (isset($dados['ativo'])) {
+                            $horario = new HorarioFuncionamento(
+                                0,
+                                $barbearia,
+                                $dia,
+                                $dados['abertura'],
+                                $dados['fechamento']
+                            );
+                            $horarioDAO->inserirHorario($horario);
+                        }
                     }
                 }
-            }
 
-            // inserir profissionais
-            if (!empty($_POST['profissionais'])) {
-                $profissionalDAO = new ProfissionalDAO($this->param);
-                foreach ($_POST['profissionais'] as $prof) {
-                    $profissional = new Profissional(
-                        0,
-                        $prof['nome'],
-                        $prof['telefone'],
-                        $prof['email'],
-                        $barbearia
-                    );
-                    $profissionalDAO->inserirProfissional($profissional);
+                // inserir profissionais
+                if (!empty($_POST['profissionais'])) {
+                    $profissionalDAO = new ProfissionalDAO($this->param);
+                    foreach ($_POST['profissionais'] as $prof) {
+                        $profissional = new Profissional(
+                            0,
+                            $prof['nome'],
+                            $prof['telefone'],
+                            $prof['email'],
+                            $barbearia
+                        );
+                        $profissionalDAO->inserirProfissional($profissional);
+                    }
                 }
-            }
 
-            // inserir servicos
-            if (!empty($_POST['servicos'])) {
-                $servicoDAO = new ServicoDAO($this->param);
-                foreach ($_POST['servicos'] as $serv) {
-                    $servico = new Servico(
-                        0,
-                        $serv['nome'],
-                        $serv['descricao'],
-                        $serv['preco'],
-                        $serv['duracao_minutos'],
-                        $barbearia
-                    );
-                    $servicoDAO->inserirServico($servico);
+                // inserir servicos
+                if (!empty($_POST['servicos'])) {
+                    $servicoDAO = new ServicoDAO($this->param);
+                    foreach ($_POST['servicos'] as $serv) {
+                        $servico = new Servico(
+                            0,
+                            $serv['nome'],
+                            $serv['descricao'],
+                            $serv['preco'],
+                            $serv['duracao_minutos'],
+                            $barbearia
+                        );
+                        $servicoDAO->inserirServico($servico);
+                    }
                 }
-            }
 
-            header("Location: /barberx/barbearias_dono");
-            exit;
+                header("Location: /barberx/barbearias_dono");
+                exit;
+            }
         }
 
         require_once "Views/layout/header.php";
@@ -416,6 +441,7 @@ class DonoController
     public function editarBarbearia()
     {
         $titulo = "Editar Barbearia";
+        $barbearia = null;
 
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -443,18 +469,32 @@ class DonoController
             $email = $_POST["email"];
             $endereco = $_POST["endereco"];
 
-            $barbeariaAtual->setNome($nome);
-            $barbeariaAtual->setCnpj($cnpj);
-            $barbeariaAtual->setTelefone($telefone);
-            $barbeariaAtual->setEmail($email);
-            $barbeariaAtual->setEndereco($endereco);
+            // Lógica para imagem
+            $imagem_nome = $_POST['imagem_atual'] ?? '';
+            if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+                $extensao = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
+                $imagem_nome = uniqid('barbearia_', true) . '.' . $extensao;
+                $caminho = dirname(__DIR__) . "/assets/img/" . $imagem_nome;
+                move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho);
+            }
 
-            $barbeariaDAO->atualizar_barbearia($barbeariaAtual);
-
+            $barbeariaObj = new Barbearia(
+                $barbeariaAtual->id,
+                $nome,
+                $cnpj,
+                $telefone,
+                $email,
+                $endereco,
+                null, // dono (opcional)
+                $barbeariaAtual->data_cadastro ?? '',
+                $imagem_nome
+            );
+            $barbeariaDAO->atualizar_barbearia($barbeariaObj);
             header("Location: /barberx/barbearias_dono");
             exit;
         }
 
+        $barbearia = $barbeariaAtual;
         require_once "Views/layout/header.php";
         require_once "Views/editar_barbearia.php";
         require_once "Views/layout/footer.php";

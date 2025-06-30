@@ -5,13 +5,11 @@
             <div class="row align-items-center">
                 <div class="col-md-4 text-center mb-4 mb-md-0">
                     <?php
-                    $barberImageUrl = isset($retornoBarbearia->imagem) ? $retornoBarbearia->imagem : '';
-                    if (empty($barberImageUrl) || !is_string($barberImageUrl) || (!str_contains($barberImageUrl, '.png') && !str_contains($barberImageUrl, '.jpg') && !str_contains($barberImageUrl, '.jpeg') && !str_contains($barberImageUrl, '.gif') && !str_contains($barberImageUrl, 'assets/'))) {
-                        $barberImageUrl = 'assets/img/noimage.png';
-                    }
+                    $imageUrl = !empty($retornoBarbearia->imagem) ? 'assets/img/' . htmlspecialchars($retornoBarbearia->imagem) : 'assets/img/noimage.png';
+                    $altText = 'Imagem da Barbearia ' . htmlspecialchars($retornoBarbearia->nome);
                     ?>
-                    <img src="<?= htmlspecialchars($barberImageUrl) ?>"
-                        alt="Imagem da Barbearia <?= htmlspecialchars($retornoBarbearia->nome) ?>"
+                    <img src="<?= $imageUrl ?>"
+                        alt="<?= $altText ?>"
                         class="img-fluid rounded-3 me-3"
                         style="max-height: 300px; object-fit: cover; width: 100%;">
                 </div>

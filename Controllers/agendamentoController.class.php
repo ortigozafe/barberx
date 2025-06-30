@@ -267,7 +267,7 @@ class agendamentoController
                 $servico,
                 $barbearia,
                 $dataHora,
-                "pendente",
+                "agendado",
                 $observacoes
             );
 

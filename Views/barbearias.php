@@ -3,15 +3,10 @@
     <div class="row justify-content-center g-4"> <?php foreach ($retorno as $bar): ?>
             <div class="col-12 col-md-6 col-lg-4"> <div class="card h-100 bg-white shadow-lg border rounded-3 overflow-hidden d-flex flex-column animate__animated animate__fadeInUp">
                     <?php
-                    $imageUrl = $bar->imagem;
-                    if (empty($imageUrl)) { 
-                        $imageUrl = 'assets/img/noimage.png';
-                        $altText = 'Imagem não disponível para ' . htmlspecialchars($bar->nome);
-                    } else {
-                        $altText = 'Imagem da Barbearia ' . htmlspecialchars($bar->nome);
-                    }
+                    $imageUrl = !empty($bar->imagem) ? 'assets/img/' . htmlspecialchars($bar->imagem) : 'assets/img/noimage.png';
+                    $altText = 'Imagem da Barbearia ' . htmlspecialchars($bar->nome);
                     ?>
-                    <img src="<?= htmlspecialchars($imageUrl) ?>" class="card-img-top shadow-sm" alt="<?= $altText ?>" style="height: 200px; object-fit: contain;">
+                    <img src="<?= $imageUrl ?>" class="card-img-top shadow-sm" alt="<?= $altText ?>" style="height: 200px; object-fit: contain;">
 
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div>

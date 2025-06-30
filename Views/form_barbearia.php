@@ -4,6 +4,7 @@
     <form
       action="/barberx/cadastrar_barbearia"
       method="post"
+      enctype="multipart/form-data"
       class="row g-4"
     >
       <div class="col-md-6">
@@ -26,8 +27,21 @@
           id="cnpj"
           name="cnpj"
           value="<?= $_POST['cnpj'] ?? '' ?>"
+          maxlength="18"
+          oninput="formatarCNPJ(this)"
         />
       </div>
+
+      <script>
+        function formatarCNPJ(input) {
+          let valor = input.value.replace(/\D/g, '');
+          valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
+          valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+          valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
+          valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+          input.value = valor;
+        }
+      </script>
 
       <div class="col-md-6">
         <label for="telefone" class="form-label fw-bold">Telefone</label>
@@ -36,9 +50,24 @@
           class="form-control shadow-sm"
           id="telefone"
           name="telefone"
+          maxlength="15"
           value="<?= $_POST['telefone'] ?? '' ?>"
+          oninput="formatarTelefone(this)"
         />
       </div>
+
+      <script>
+        function formatarTelefone(input) {
+          let valor = input.value.replace(/\D/g, '');
+
+          if (valor.length > 10) {
+            valor = valor.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+          } else {
+            valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+          }
+          input.value = valor;
+        }
+      </script>
 
       <div class="col-md-6">
         <label for="email" class="form-label fw-bold">Email</label>
@@ -128,6 +157,8 @@
               name="profissionais[0][telefone]"
               class="form-control shadow-sm"
               placeholder="Telefone"
+              maxlength="15"
+              oninput="formatarTelefone(this)"
             />
           </div>
           <div class="col-3">
@@ -211,6 +242,17 @@
       >
         + Adicionar Serviço
       </button>
+
+      <div class="col-md-6">
+        <label for="imagem" class="form-label fw-bold">Imagem da Barbearia</label>
+        <input
+          type="file"
+          class="form-control shadow-sm"
+          id="imagem"
+          name="imagem"
+          accept="image/*"
+        />
+      </div>
 
       <?php if (!empty($erro)): ?>
         <div

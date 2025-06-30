@@ -46,4 +46,7 @@ class barbeariaController
         require_once "Views/visualizar_barbearia.php";
         require_once "Views/layout/footer.php";
     }
+
+
+
 }

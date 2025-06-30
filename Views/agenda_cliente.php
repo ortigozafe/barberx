@@ -38,29 +38,28 @@
                     <?php foreach ($todos as $a) : ?>
                         <tr data-status="<?= strtolower($a->status) ?>" data-data="<?= date('Y-m-d', strtotime($a->data_hora)) ?>">
                             <td>
-                                <?php if (!empty($a->barbearia_imagem)) : ?>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img src="/<?= $a->barbearia_imagem ?>" alt="Barbearia" class="rounded shadow-sm" style="width:50px; height:50px; object-fit:cover;">
-                                        <span class="fw-bold text-dark-blue"><?= htmlspecialchars($a->barbearia_nome) ?></span>
-                                    </div>
-                                <?php else : ?>
+                                <?php
+                                $imageUrl = !empty($a->barbearia_imagem) ? 'assets/img/' . htmlspecialchars($a->barbearia_imagem) : 'assets/img/noimage.png';
+                                ?>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="<?= $imageUrl ?>" alt="Barbearia" class="rounded shadow-sm" style="width:50px; height:50px; object-fit:cover;">
                                     <span class="fw-bold text-dark-blue"><?= htmlspecialchars($a->barbearia_nome) ?></span>
-                                <?php endif; ?>
+                                </div>
                             </td>
                             <td class="text-dark-gray"><?= htmlspecialchars($a->servico_nome) ?></td>
                             <td class="text-dark-gray"><?= htmlspecialchars($a->profissional_nome) ?></td>
                             <td class="text-dark-gray"><?= date('d/m/Y H:i', strtotime($a->data_hora)) ?></td>
                             <td>
                                 <?php
-                                $status = strtolower($a->status);
+                                $status = strtolower(trim($a->status));
                                 $badgeClass = match ($status) {
                                     'agendado'  => 'bg-success',
                                     'concluido' => 'bg-primary',
                                     'cancelado' => 'bg-danger',
                                     default     => 'bg-secondary',
                                 };
+                                echo '<span class="badge ' . $badgeClass . ' text-white py-2 px-3 rounded-pill shadow-sm">' . ucfirst($status) . '</span>';
                                 ?>
-                                <span class="badge <?= $badgeClass ?> text-white py-2 px-3 rounded-pill shadow-sm"><?= ucfirst($status) ?></span>
                             </td>
                             <td class="text-dark-gray"><?= htmlspecialchars($a->observacoes) ?></td>
                         </tr>
@@ -90,20 +89,26 @@
         });
 
         function filtrarTabela() {
-            const status = filtroStatus.value;
+            const status = filtroStatus.value.trim().toLowerCase();
             const data = filtroData.value;
 
             document.querySelectorAll("#agenda-table tbody tr").forEach(function(row) {
-                const rowStatus = row.dataset.status;
+                const rowStatus = (row.dataset.status || '').trim().toLowerCase();
                 const rowData = row.dataset.data;
 
                 let exibir = true;
 
+                // Filtro por status
                 if (status && rowStatus !== status) {
                     exibir = false;
                 }
-                if (data && rowData !== data) {
-                    exibir = false;
+                // Filtro por data (YYYY-MM-DD)
+                if (data) {
+                    // Converter data do filtro para o mesmo formato da rowData
+                    const dataFiltro = new Date(data).toISOString().slice(0, 10);
+                    if (rowData !== dataFiltro) {
+                        exibir = false;
+                    }
                 }
 
                 row.style.display = exibir ? "" : "none";

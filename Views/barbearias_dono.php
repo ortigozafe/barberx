@@ -13,9 +13,17 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 bg-white shadow-lg border rounded-3 overflow-hidden d-flex flex-column">
                         <?php
-                        $imageUrl = !empty($bar->imagem) ? htmlspecialchars($bar->imagem) : 'assets/img/noimage.png';
-                        $altText = 'Imagem da barbearia ' . htmlspecialchars($bar->nome);
+                            //var_dump($bar->imagem); // mostra o conteúdo de imagem no seu objeto $bar
+
+                            $imageUrl = !empty($bar->imagem) ? "assets/img/" . htmlspecialchars($bar->imagem) : 'assets/img/noimage.png';
+
+                            //$imageUrl = !empty($bar->imagem) ? htmlspecialchars($bar->imagem) : 'assets/img/noimage.png';
+                            $altText = 'Imagem da barbearia ' . htmlspecialchars($bar->nome);
                         ?>
+
+                        <!--<img src="assets/img/<?= htmlspecialchars($bar->imagem) ?>" alt="Imagem da barbearia" />-->
+
+
                         <img src="<?= $imageUrl ?>" class="card-img-top img-fluid" alt="<?= $altText ?>" style="height: 200px; object-fit: contain;">
                         <div class="card-body d-flex flex-column">
                             <h3 class="card-title text-dark-blue mb-2"><?= htmlspecialchars($bar->nome) ?></h3>
