@@ -1,7 +1,6 @@
 <div class="container py-5">
     <h2 class="display-5 fw-bold mb-5 text-primary animate__animated animate__fadeInDown">Minha Agenda</h2>
 
-    <!-- filtros -->
     <div class="row mb-4 animate__animated animate__fadeIn">
         <div class="col-md-4 mb-2">
             <select id="filtro-status" class="form-select shadow rounded">

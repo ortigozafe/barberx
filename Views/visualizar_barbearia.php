@@ -1,6 +1,5 @@
 <main class="bg-light text-dark-emphasis py-5">
     <div class="container">
-        <!-- SEÇÃO PRINCIPAL -->
         <section class="barbearia-details card bg-white shadow-lg border rounded-3 p-5 mb-5 animate__animated animate__fadeIn position-relative">
             <div class="row align-items-center">
                 <div class="col-md-4 text-center mb-4 mb-md-0">
@@ -45,8 +44,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- SERVIÇOS -->
         <section class="servicos-section py-5">
             <h3 class="text-center display-6 fw-bold mb-5 text-primary">Nossos Serviços</h3>
             <div class="row justify-content-center g-4">
@@ -65,8 +62,6 @@
                 <?php endif; ?>
             </div>
         </section>
-
-        <!-- PROFISSIONAIS -->
         <section class="profissionais-section py-5">
             <h3 class="text-center display-6 fw-bold mb-5 text-primary">Nossos Profissionais</h3>
             <div class="row justify-content-center g-4">
