@@ -72,8 +72,9 @@
                     data: data,
                     barbearia_id: <?= $barbearia_id ?>
                 }, function(res) {
-                    const hojeStr = new Date().toISOString().split('T')[0];
-                    const agoraTS = new Date().getTime();
+                    const hoje = new Date();
+                    const hojeStr = hoje.toISOString().split('T')[0];
+                    const agoraTS = hoje.getTime();
 
                     $("#hora").html('<option value="">Selecione o horário</option>');
 

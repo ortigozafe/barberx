@@ -116,9 +116,10 @@ class agendamentoController
         }
         return $profDisponiveis;
     }
-
     public function buscarHorarios()
     {
+        date_default_timezone_set("America/Sao_Paulo");
+
         $data = $_POST['data'];
         $barbearia_id = $_POST['barbearia_id'];
 
@@ -152,12 +153,13 @@ class agendamentoController
         foreach ($horarios as $h) {
             $resposta[] = [
                 'horario' => $h['horario'],
-                'full' => $data . ' ' . $h['horario']
+                'full' => $data . 'T' . $h['horario'] . ':00'
             ];
         }
         header("Content-Type: application/json");
         echo json_encode($resposta);
     }
+
 
     public function buscarProfissionais()
     {
